@@ -1,15 +1,10 @@
-public class Level {
-    private int _levelNo;
-    private string _levelName;
+using UnityEngine;
 
-    public int levelNo {
-        get {
-            return _levelNo;
-        }
-    }
-    public string levelName {
-        get {
-            return levelName;
-        }
-    }
+[CreateAssetMenu(fileName ="Level Data", menuName = "Level/LevelData", order = 1)]
+public class Level: ScriptableObject {
+    public int levelNo;
+    private string levelName;
+    public GameObject levelPrefab;
+
+    public int numberOfBalls = 5;
 }

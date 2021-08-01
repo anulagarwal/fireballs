@@ -11,25 +11,25 @@ public class SoundHandler : MonoBehaviour{
     AudioClip musicClip;
 
     private void Start() {
-        MessageBroker.Default.Receive<Messages.Audio>()
-        .Where(x => x.commandType == Messages.Audio.COMMAND.PLAY_SOUND)
+        MessageBroker.Default.Receive<AudioMessage>()
+        .Where(x => x.commandType == AudioMessage.COMMAND.PAUSE_MUSIC)
         .Subscribe(x => PlaySound(x.clip));
 
-        MessageBroker.Default.Receive<Messages.Audio>()
-        .Where(x => x.commandType == Messages.Audio.COMMAND.STOP_SOUND)
+        MessageBroker.Default.Receive<AudioMessage>()
+        .Where(x => x.commandType == AudioMessage.COMMAND.PLAY_SOUND)
         .Subscribe(x => PlaySound(x.clip));
 
 
-        MessageBroker.Default.Receive<Messages.Audio>()
-        .Where(x => x.commandType == Messages.Audio.COMMAND.PLAY_MUSIC)
+        MessageBroker.Default.Receive<AudioMessage>()
+        .Where(x => x.commandType == AudioMessage.COMMAND.PLAY_MUSIC)
         .Subscribe(x => PlayMusic());
 
-        MessageBroker.Default.Receive<Messages.Audio>()
-        .Where(x => x.commandType == Messages.Audio.COMMAND.PAUSE_MUSIC)
+        MessageBroker.Default.Receive<AudioMessage>()
+        .Where(x => x.commandType == AudioMessage.COMMAND.PAUSE_MUSIC)
         .Subscribe(x => PauseMusic());
 
-        MessageBroker.Default.Receive<Messages.Audio>()
-        .Where(x => x.commandType == Messages.Audio.COMMAND.STOP_MUSIC)
+        MessageBroker.Default.Receive<AudioMessage>()
+        .Where(x => x.commandType == AudioMessage.COMMAND.STOP_MUSIC)
         .Subscribe(x => StopMusic());
     }
     public void PlaySound(AudioClip clip) {

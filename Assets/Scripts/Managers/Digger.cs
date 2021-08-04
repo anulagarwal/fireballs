@@ -5,7 +5,7 @@ using UnityEngine;
 public class Digger : MonoBehaviour
 {
     [SerializeField]
-    float radius = 4, power = 1;
+    float radius = 0.3f, power = 1;
     private Vector3 offset;
     private MeshFilter mesh;
     private MeshCollider meshCollider;
@@ -21,16 +21,19 @@ public class Digger : MonoBehaviour
     }
     public void DeformMesh(Vector3 positionHit) {
         positionHit = transform.InverseTransformPoint(positionHit);
-
+        bool changed = false;
         for (int i = 0; i < vertices.Length; i++)
         {
             float distance = (vertices[i] - positionHit).sqrMagnitude;
 
             if (distance < radius) {
                 vertices[i] -= (Vector3.up * power); 
+                changed = true;
             }
         }
-        planeMesh.vertices = vertices;
-        meshCollider.sharedMesh = planeMesh;
+        if (changed) {
+            planeMesh.vertices = vertices;
+            meshCollider.sharedMesh = planeMesh;
+        }
     }
 }

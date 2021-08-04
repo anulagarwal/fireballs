@@ -700,7 +700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1df7691be13e83a4fa736bd9c0f78ecf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ringPrefab: {fileID: 3276466691957875898, guid: 28bb740b6ac5a3048b7861d3bd4c2250, type: 3}
+  ringPrefab: {fileID: 8624807739028563061, guid: 10d490b8765864b4d8433efb478411f9, type: 3}
 --- !u!1 &516579886
 GameObject:
   m_ObjectHideFlags: 0
@@ -2358,11 +2358,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3271009967831890289, guid: 0fc77aae63e200e45b380ac64e364d08, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -88.6
+      value: -88.5
       objectReference: {fileID: 0}
     - target: {fileID: 3271009967831890289, guid: 0fc77aae63e200e45b380ac64e364d08, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -92.3
+      value: -92.25
       objectReference: {fileID: 0}
     - target: {fileID: 3271009967831890289, guid: 0fc77aae63e200e45b380ac64e364d08, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

@@ -19,7 +19,6 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     GameObject lostView;
 
-
     [Header("WIN UI")]
     [SerializeField]
     GameObject winView;

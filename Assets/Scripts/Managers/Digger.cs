@@ -27,7 +27,6 @@ public class Digger : MonoBehaviour
             float distance = (vertices[i] - positionHit).sqrMagnitude;
 
             if (distance < radius) {
-                Debug.Log("Deform");
                 vertices[i] -= (Vector3.up * power); 
             }
         }

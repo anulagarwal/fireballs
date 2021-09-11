@@ -9,22 +9,25 @@ public class BucketController : MonoBehaviour
 
     [SerializeField]
     GameObject bucket, ballContainer;
+    Animator bucketAnimator;
     void Start()
     {
         position = transform.position;
+        bucketAnimator = bucket.GetComponent<Animator>();
         bucket.AddComponent<ObservableTriggerTrigger>().OnTriggerExitAsObservable()
         .Subscribe(x => {
             if (x.CompareTag("Ball")) {
                 x.transform.SetParent(ballContainer.transform);
-            }           
+            }
         });
     }
 
     private void OnMouseDown() {
         position = Input.mousePosition;
+        bucketAnimator.enabled = true;
+        bucketAnimator.Play("RotateBucket");
     }
     private void OnMouseDrag() {
-        Debug.LogError("Mouse drag" + new Vector3(position.x - Input.mousePosition.x, position.y - Input.mousePosition.y, 0));
         transform.position -= new Vector3( (position.x - Input.mousePosition.x) * dragMultiplier, 0, 0);
         position = Input.mousePosition;
     }

@@ -12,24 +12,27 @@ public class Ball : MonoBehaviour
 
     private MeshRenderer meshRenderer; 
 
-    // private Rigidbody rigidbody;
+    private Rigidbody rigidbody;
     private void Start() {
         meshRenderer = GetComponent<MeshRenderer>();
-        // rigidbody = GetComponent<Rigidbody>();
+        rigidbody = GetComponent<Rigidbody>();
         if (!activated) {
             // rigidbody.useGravity = false;
             // rigidbody.isKinematic = true;
         }
     }
     private void OnCollisionEnter(Collision other) {
-        if (!activated && other.gameObject.CompareTag("Ball")) {
+        if (!activated && (other.gameObject.CompareTag("Ball")) ) {
             if (other.gameObject.GetComponent<Ball>().activated) {
                 activated = true;
                 meshRenderer.material = activatedMaterial;
                 // rigidbody.useGravity = true;
                 // rigidbody.isKinematic = false;
             }
+        } else if (other.gameObject.CompareTag("Head") && activated){
+            rigidbody.useGravity = false;
+            rigidbody.isKinematic = true;
+            other.gameObject.GetComponent<MeshRenderer>().material = activatedMaterial;
         }
-        Debug.Log(other.collider.name);
     }
 }

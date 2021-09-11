@@ -11,6 +11,7 @@ public class Digger : MonoBehaviour
     private MeshCollider meshCollider;
     private Vector3[] vertices;
 
+    private Vector3[] originalVertices;
     Mesh planeMesh;
 
     private void Start() {
@@ -18,6 +19,7 @@ public class Digger : MonoBehaviour
         planeMesh = mesh.mesh;
         vertices = planeMesh.vertices;
         meshCollider = GetComponent<MeshCollider>();
+        originalVertices = vertices;
     }
     public void DeformMesh(Vector3 positionHit) {
         positionHit = transform.InverseTransformPoint(positionHit);
@@ -35,5 +37,9 @@ public class Digger : MonoBehaviour
             planeMesh.vertices = vertices;
             meshCollider.sharedMesh = planeMesh;
         }
+    }
+
+    private void OnDestroy() {
+        planeMesh.vertices = originalVertices;
     }
 }

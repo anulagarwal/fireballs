@@ -31,16 +31,16 @@ public class CameraFollow : MonoBehaviour
         followCamera.Follow = farthestBall;
     }
 
-    private void Update() {
-        foreach (var ball in balls)
-        {
-            if (!ball.activated) {
-                continue;
-            }
-            if (farthestBall.transform.position.y - ball.transform.position.y > minimumDistance) {
-                farthestBall = ball.transform;
-                followCamera.Follow = farthestBall;
-            }
-        }
-    }
+    // private void Update() {
+    //     foreach (var ball in balls)
+    //     {
+    //         if (!ball.activated) {
+    //             continue;
+    //         }
+    //         if (farthestBall.transform.position.y - ball.transform.position.y > minimumDistance) {
+    //             farthestBall = ball.transform;
+    //             followCamera.Follow = farthestBall;
+    //         }
+    //     }
+    // }
 }

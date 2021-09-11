@@ -21,6 +21,7 @@ public class Ball : MonoBehaviour
             // rigidbody.isKinematic = true;
         }
     }
+
     private void OnCollisionEnter(Collision other) {
         if (!activated && (other.gameObject.CompareTag("Ball")) ) {
             if (other.gameObject.GetComponent<Ball>().activated) {

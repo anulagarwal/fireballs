@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class BallModifier : MonoBehaviour
@@ -30,7 +32,7 @@ public class BallModifier : MonoBehaviour
         currentValLbl.text = currentModifier == MODIFIER_TYPE.ADDER ? "+" + value : "*" + value;
     }
 
-    private void OnTriggerEnter(Collider other) {
+    async private void OnTriggerEnter(Collider other) {
         if (other.transform.CompareTag("Ball") && !other.GetComponent<Ball>().activated && value > 0) {
             if (currentModifier == MODIFIER_TYPE.ADDER) {
                 value -= 1;
@@ -39,10 +41,10 @@ public class BallModifier : MonoBehaviour
             } else {
                 for (int i = 0; i < value; i++)
                 {
-                    SpawnBall(other);                    
+                    await Task.Delay(TimeSpan.FromSeconds(1));
+                    SpawnBall(other);
                 }
             }
-
         }
     }
 

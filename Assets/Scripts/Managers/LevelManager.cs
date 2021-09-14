@@ -12,7 +12,7 @@ public class LevelManager: MonoBehaviour
 
     [SerializeField]
     List<Level> levels;
-    private int currentLevelIndex = 1;
+    private int currentLevelIndex = 0;
     private Level currentLevelData;
     private GameObject levelPrefab;
     private void Start() {
@@ -33,7 +33,7 @@ public class LevelManager: MonoBehaviour
     }
 
     private void UpdateLevelInfo() {
-        levelLbl.text = "Level:" + currentLevelData.levelNo.ToString();
+        levelLbl.text = "Level:" + (currentLevelData.levelNo + 1).ToString();
     }
 
     private void Update() {

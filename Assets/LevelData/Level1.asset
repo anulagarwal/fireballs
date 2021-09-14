@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fa6d9059afb9e041a7059923d48f49e, type: 3}
   m_Name: Level1
   m_EditorClassIdentifier: 
-  levelPrefab: {fileID: 6259334053094020689, guid: 049d5d266b5935048ae33849cf0081fa, type: 3}
+  levelNo: 0
+  levelPrefab: {fileID: 2635256059850416436, guid: af1c4081130f9974683ae17a33e6cb53, type: 3}
+  numberOfBalls: 5

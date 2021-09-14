@@ -19,7 +19,7 @@ public class Ball : MonoBehaviour
     }
 
     public void Shrink() {
-        transform.localScale -= transform.localScale * 0.25f;
+        transform.localScale -= transform.localScale * 0.1f;
         if (transform.localScale.x <= 0) {
             Destroy(gameObject);
         }

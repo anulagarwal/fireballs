@@ -54,6 +54,5 @@ public class BallModifier : MonoBehaviour
         colliderPos.GetComponent<Ball>().activated = true;
         ball.activated = true;
         ball.transform.SetParent(ballContainer.transform);
-
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Digger : MonoBehaviour
 {
     [SerializeField]
-    float radius = 0.3f, power = 1;
+    float radius = 0f, power = 1;
     private Vector3 offset;
     private MeshFilter mesh;
     private MeshCollider meshCollider;
@@ -14,6 +14,8 @@ public class Digger : MonoBehaviour
     private Vector3[] originalVertices;
     Mesh planeMesh;
 
+    public float diggingDelay = 0.25f;
+
     private void Start() {
         mesh = GetComponent<MeshFilter>();
         planeMesh = mesh.mesh;
@@ -21,14 +23,30 @@ public class Digger : MonoBehaviour
         meshCollider = GetComponent<MeshCollider>();
         originalVertices = vertices;
     }
-    public void DeformMesh(Vector3 positionHit) {
+
+    private void OnCollisionStay(Collision other) {
+        foreach (ContactPoint contact in other.contacts)
+        {
+            if (contact.otherCollider.gameObject.CompareTag("Ball")) {
+                // if (radius == 0) {
+                    // radius = contact.otherCollider.GetComponent<SphereCollider>().transform.localScale.x;
+                // }
+                other.gameObject.GetComponent<Ball>().Shrink();
+                DeformMesh(new Vector3(contact.point.x, contact.point.y, 0), contact.otherCollider.GetComponent<SphereCollider>().transform.localScale.x);
+                break;
+            }
+        }
+    }
+
+    public void DeformMesh(Vector3 positionHit, float _radius = 0) {
+        // Debug.LogError(positionHit);
         positionHit = transform.InverseTransformPoint(positionHit);
         bool changed = false;
         for (int i = 0; i < vertices.Length; i++)
         {
             float distance = (vertices[i] - positionHit).sqrMagnitude;
 
-            if (distance < radius) {
+            if (distance < _radius) {
                 vertices[i] -= (Vector3.up * power); 
                 changed = true;
             }

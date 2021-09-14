@@ -16,10 +16,15 @@ public class Ball : MonoBehaviour
     private void Start() {
         meshRenderer = GetComponent<MeshRenderer>();
         rigidbody = GetComponent<Rigidbody>();
-        if (!activated) {
-            // rigidbody.useGravity = false;
-            // rigidbody.isKinematic = true;
+    }
+
+    public void Shrink() {
+        transform.localScale -= transform.localScale * 0.25f;
+        if (transform.localScale.x <= 0) {
+            Destroy(gameObject);
         }
+
+        // Vector3.Lerp(transform.localScale, transform.localScale - transform.localScale * 0.5f, Time.deltaTime * 10);
     }
 
     private void OnCollisionEnter(Collision other) {
@@ -27,8 +32,6 @@ public class Ball : MonoBehaviour
             if (other.gameObject.GetComponent<Ball>().activated) {
                 activated = true;
                 meshRenderer.material = activatedMaterial;
-                // rigidbody.useGravity = true;
-                // rigidbody.isKinematic = false;
             }
         } else if (other.gameObject.CompareTag("Head") && activated){
             rigidbody.useGravity = false;

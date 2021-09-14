@@ -37,11 +37,12 @@ public class BallModifier : MonoBehaviour
             if (currentModifier == MODIFIER_TYPE.ADDER) {
                 value -= 1;
                 currentValLbl.text = "+" + value;
+                await Task.Delay(TimeSpan.FromSeconds(0.25f));
                 SpawnBall(other);
             } else {
                 for (int i = 0; i < value; i++)
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(1));
+                    await Task.Delay(TimeSpan.FromSeconds(0.25f));
                     SpawnBall(other);
                 }
             }

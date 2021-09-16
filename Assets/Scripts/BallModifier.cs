@@ -37,9 +37,6 @@ public class BallModifier : MonoBehaviour
     }
 
     async private void OnTriggerEnter(Collider other) {
-        if (other.transform.CompareTag("Ball")) {
-            Debug.LogError("Trigger");
-        }
         if (other.transform.CompareTag("Ball") && !spawnedBalls.Contains(other.GetComponent<Ball>()) && value > 0) {
             if (scaleUpTween == null || (scaleUpTween != null && !scaleUpTween.IsPlaying())) {
                 scaleUpTween = currentValLbl.transform.DOScale(currentValLbl.transform.localScale.x + 0.2f, 0.15f).SetEase(Ease.InOutCubic).OnComplete(() => {
@@ -48,6 +45,10 @@ public class BallModifier : MonoBehaviour
             }
             if (currentModifier == MODIFIER_TYPE.ADDER) {
                 value -= 1;
+
+                if (value <= 0) {
+                    Destroy(currentValLbl.gameObject);
+                }
                 currentValLbl.text = "+" + value;
                 await Task.Delay(TimeSpan.FromSeconds(0.25f));
                 SpawnBall(other);
@@ -66,7 +67,7 @@ public class BallModifier : MonoBehaviour
             Ball ball = Instantiate<Ball>(ballPrefab, colliderPos.transform.position, Quaternion.identity);
 
             spawnedBalls.Add(ball);
-            // colliderPos.GetComponent<Ball>().activated = true;
+            colliderPos.GetComponent<Ball>().activated = true;
             // ball.activated = true;
             ball.transform.SetParent(ballContainer.transform);
         }

@@ -28,9 +28,6 @@ public class Digger : MonoBehaviour
         foreach (ContactPoint contact in other.contacts)
         {
             if (contact.otherCollider.gameObject.CompareTag("Ball")) {
-                // if (radius == 0) {
-                    // radius = contact.otherCollider.GetComponent<SphereCollider>().transform.localScale.x;
-                // }
                 other.gameObject.GetComponent<Ball>().Shrink();
                 DeformMesh(new Vector3(contact.point.x, contact.point.y, 0), contact.otherCollider.GetComponent<SphereCollider>().transform.localScale.x);
                 break;

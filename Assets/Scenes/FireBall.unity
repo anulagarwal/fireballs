@@ -333,7 +333,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 80
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -359,7 +359,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 504201567}
   m_LocalRotation: {x: 0.007189955, y: 0.0110966135, z: 0.000079698264, w: -0.9999126}
-  m_LocalPosition: {x: -2.5, y: 6.17, z: -11.67}
+  m_LocalPosition: {x: -3.0639222, y: 6.5621185, z: -9.995624}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1132,18 +1132,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1859065656, guid: af1c4081130f9974683ae17a33e6cb53, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -3.0645473
-      objectReference: {fileID: 0}
-    - target: {fileID: 1859065656, guid: af1c4081130f9974683ae17a33e6cb53, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 4.602777
-      objectReference: {fileID: 0}
-    - target: {fileID: 1859065656, guid: af1c4081130f9974683ae17a33e6cb53, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -9.967452
-      objectReference: {fileID: 0}
     - target: {fileID: 1859065658, guid: af1c4081130f9974683ae17a33e6cb53, type: 3}
       propertyPath: m_Follow
       value: 
@@ -1210,7 +1198,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2635256059850416436, guid: af1c4081130f9974683ae17a33e6cb53, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3613109700141459730, guid: af1c4081130f9974683ae17a33e6cb53, type: 3}
       propertyPath: m_Mesh
@@ -1220,6 +1208,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1476547710}
+    - target: {fileID: 5543225327413448528, guid: af1c4081130f9974683ae17a33e6cb53, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6303910400231901981, guid: af1c4081130f9974683ae17a33e6cb53, type: 3}
       propertyPath: m_Mesh
       value: 

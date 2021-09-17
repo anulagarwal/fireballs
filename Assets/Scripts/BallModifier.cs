@@ -64,12 +64,17 @@ public class BallModifier : MonoBehaviour
 
     void SpawnBall(Collider colliderPos) {
         if (colliderPos != null) {
-            Ball ball = Instantiate<Ball>(ballPrefab, colliderPos.transform.position, Quaternion.identity);
+            Ball ballObj = ObjectPool.Instance.GetPooledObject(); 
 
-            spawnedBalls.Add(ball);
             colliderPos.GetComponent<Ball>().activated = true;
-            // ball.activated = true;
-            ball.transform.SetParent(ballContainer.transform);
+            if (ballObj == null) {
+                ballObj = Instantiate<Ball>(ballPrefab, colliderPos.transform.position, Quaternion.identity);
+            } else {
+                ballObj.transform.position = colliderPos.transform.position;
+            }
+            spawnedBalls.Add(ballObj);
+            ballObj.transform.SetParent(ballContainer.transform);
+            ballObj.gameObject.SetActive(true);
         }
     }
 }

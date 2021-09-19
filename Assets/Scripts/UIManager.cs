@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
+        Application.targetFrameRate = 60;
         playButton.OnClickAsObservable().Subscribe(_ => {
             MessageBroker.Default.Publish<GamePlayMessage>(new GamePlayMessage(GamePlayMessage.COMMAND.PLAYING));
             menuView.SetActive(false);

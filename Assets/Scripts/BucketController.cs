@@ -7,6 +7,8 @@ public class BucketController : MonoBehaviour
     Vector2 position = Vector2.zero;
     public float dragMultiplier = 0.1f;
 
+    float bounds = 3f;
+
     [SerializeField]
     GameObject bucket, ballContainer;
     Animator bucketAnimator;
@@ -28,7 +30,11 @@ public class BucketController : MonoBehaviour
         bucketAnimator.Play("RotateBucket");
     }
     private void OnMouseDrag() {
-        transform.position -= new Vector3( (position.x - Input.mousePosition.x) * dragMultiplier, 0, 0);
-        position = Input.mousePosition;
+
+        if ( (transform.position.x <= bounds && Input.mousePosition.x > position.x) || (transform.position.x > bounds && Input.mousePosition.x < position.x) || transform.position.x >= -bounds && transform.position.x <= 3) {
+            transform.position -= new Vector3( (position.x - Input.mousePosition.x) * dragMultiplier, 0, 0);
+            position = Input.mousePosition;
+        }
+
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Digger : MonoBehaviour
 {
     [SerializeField]
-    float radius = 0f, power = 1;
+    float power = 1;
     private Vector3 offset;
     private MeshFilter mesh;
     private MeshCollider meshCollider;

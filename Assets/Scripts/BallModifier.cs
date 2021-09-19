@@ -29,33 +29,34 @@ public class BallModifier : MonoBehaviour
     [SerializeField]
     public MODIFIER_TYPE currentModifier = MODIFIER_TYPE.ADDER;
 
-    List<Ball> spawnedBalls;
+    List<int> spawnedBalls;
     private void Start() {
-        spawnedBalls = new List<Ball>();
+        spawnedBalls = new List<int>();
         currentValLbl.text = currentModifier == MODIFIER_TYPE.ADDER ? "+" + value : "*" + value;
         DOTween.defaultAutoKill = false;
     }
 
     async private void OnTriggerEnter(Collider other) {
-        if (other.transform.CompareTag("Ball") && !spawnedBalls.Contains(other.GetComponent<Ball>()) && value > 0) {
-            if (scaleUpTween == null || (scaleUpTween != null && !scaleUpTween.IsPlaying())) {
+        if (other.CompareTag("Ball") && !spawnedBalls.Contains(other.gameObject.GetInstanceID()) && value > 0) {
+            if (scaleUpTween == null) {
                 scaleUpTween = currentValLbl.transform.DOScale(currentValLbl.transform.localScale.x + 0.2f, 0.15f).SetEase(Ease.InOutCubic).OnComplete(() => {
                     currentValLbl.transform.DOScale(currentValLbl.transform.localScale.x - 0.2f, 0.15f).SetEase(Ease.InOutCubic);
                 });
+            } else if (scaleUpTween != null && !scaleUpTween.IsPlaying()) {
+                scaleUpTween.Play();
             }
             if (currentModifier == MODIFIER_TYPE.ADDER) {
                 value -= 1;
-
                 if (value <= 0) {
                     Destroy(currentValLbl.gameObject);
                 }
                 currentValLbl.text = "+" + value;
-                await Task.Delay(TimeSpan.FromSeconds(0.25f));
+                await Task.Delay(TimeSpan.FromSeconds(0.1f));
                 SpawnBall(other);
             } else {
                 for (int i = 0; i < value; i++)
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(0.25f));
+                    await Task.Delay(TimeSpan.FromSeconds(0.1f));
                     SpawnBall(other);
                 }
             }
@@ -66,14 +67,14 @@ public class BallModifier : MonoBehaviour
         if (colliderPos != null) {
             Ball ballObj = ObjectPool.Instance.GetPooledObject(); 
 
-            colliderPos.GetComponent<Ball>().activated = true;
             if (ballObj == null) {
                 ballObj = Instantiate<Ball>(ballPrefab, colliderPos.transform.position, Quaternion.identity);
             } else {
                 ballObj.transform.position = colliderPos.transform.position;
             }
-            spawnedBalls.Add(ballObj);
             ballObj.transform.SetParent(ballContainer.transform);
+            spawnedBalls.Add(ballObj.gameObject.GetInstanceID());
+            spawnedBalls.Add(colliderPos.gameObject.GetInstanceID());
             ballObj.gameObject.SetActive(true);
         }
     }

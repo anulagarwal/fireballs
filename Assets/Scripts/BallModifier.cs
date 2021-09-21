@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 using UnityEngine;
 using DG.Tweening;
 using System.Collections.Generic;
-
+using TMPro;
 public class BallModifier : MonoBehaviour
 {
     [SerializeField]
-    TextMesh currentValLbl;
+    TextMeshPro currentValLbl;
 
     [SerializeField]
     GameObject ballContainer;

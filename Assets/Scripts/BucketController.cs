@@ -19,6 +19,9 @@ public class BucketController : MonoBehaviour
         bucket.AddComponent<ObservableTriggerTrigger>().OnTriggerExitAsObservable()
         .Subscribe(x => {
             if (x.CompareTag("Ball")) {
+                if (ballContainer.transform.childCount == 0) {
+                    GetComponent<BoxCollider2D>().enabled = false;
+                }
                 x.transform.SetParent(ballContainer.transform);
             }
         });

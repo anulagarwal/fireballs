@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelNo: 0
   levelPrefab: {fileID: 2635256059850416436, guid: af1c4081130f9974683ae17a33e6cb53, type: 3}
-  numberOfBalls: 5
+  numberOfBalls: 1

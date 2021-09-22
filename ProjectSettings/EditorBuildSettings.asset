@@ -6,12 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/FireBall_Anul.unity
+    guid: fd648ddb505cf4d15b8dd31583bc24be
+  - enabled: 0
     path: Assets/Scenes/Splash.unity
     guid: 4637828604ce6db42bc445e8b9e28d7b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Gameplay.unity
     guid: bda33620cdde5a442b1739dbbb1bb85b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Menu.unity
     guid: bbdb65b2bee05d245891430ece8b0962
   m_configObjects: {}

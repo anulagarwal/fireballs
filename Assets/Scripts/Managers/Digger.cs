@@ -16,6 +16,11 @@ public class Digger : MonoBehaviour
 
     public float diggingDelay = 0.25f;
 
+    enum SURFACE_TYPE
+    {
+        PAPER,
+        WOODEN
+    }
     private void Start() {
         mesh = GetComponent<MeshFilter>();
         planeMesh = mesh.mesh;

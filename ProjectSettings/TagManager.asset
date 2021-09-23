@@ -9,6 +9,7 @@ TagManager:
   - Head
   - Modifier
   - Collector
+  - Destructible
   layers:
   - Default
   - TransparentFX

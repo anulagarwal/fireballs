@@ -17,12 +17,7 @@ public class Ball : MonoBehaviour, IClip
     private MeshRenderer meshRenderer; 
 
     private float radius = 0.5f;
-    
-    private Vector2 clipPosition {
-        get {
-            return (Vector2) transform.position - terrain.GetPositionOffset();
-        }
-    }
+    private Vector2 clipPosition;
 
     private int segmentCount = 20;
     private Rigidbody rigidbody;
@@ -75,20 +70,15 @@ public class Ball : MonoBehaviour, IClip
         return dx < 0f && dy < 0f;      
     }
 
-    // private void OnCollisionStay2D(Collision2D other) {
-    //     Debug.LogError(other.gameObject.tag);
-    //    if (other.gameObject.CompareTag("Respawn")) {
-    //         Debug.LogError("Respawn");
-    //         terrain.ExecuteClip(this);
-    //     } 
-    // }
+    private void OnCollisionStay2D(Collision2D other) {
+        if (other.gameObject.CompareTag("Destructible")) {
+            Vector2 positionWorldSpace = transform.position;
+            clipPosition = positionWorldSpace - terrain.GetPositionOffset();
 
-    // private void OnCollisionEnter(Collision other) {
-    //     if (other.gameObject.CompareTag("Respawn")) {
-    //         Debug.LogError("Respawn");
-    //         terrain.ExecuteClip(this);
-    //     }
-    // }
+            terrain.ExecuteClip(this);
+        }
+    }
+
 
     // private void OnCollisionEnter(Collision other) {
     //     if (!activated && (other.gameObject.CompareTag("Ball")) ) {

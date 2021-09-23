@@ -10,6 +10,9 @@ public class BucketCollector : MonoBehaviour
 {
 
     [SerializeField]
+    List<BoxCollider2D> collectorCollider2D;
+
+    [SerializeField]
     List<BoxCollider> collectorCollider;
 
     [SerializeField]
@@ -18,6 +21,18 @@ public class BucketCollector : MonoBehaviour
     private int ballsCollected = 0;
     void Start()
     {
+        foreach (var collector in collectorCollider2D)
+        {
+            collector.gameObject.AddComponent<ObservableCollisionTrigger>().OnCollisionEnter2DAsObservable()
+            .Subscribe(x => {
+                if (x.gameObject.CompareTag("Ball")) {
+                    ballsCollected++;
+                    ballsCollectedLabel.text = ballsCollected.ToString(); 
+                    Destroy(x.gameObject);
+                }
+            });
+        }
+
         foreach (var collector in collectorCollider)
         {
             collector.gameObject.AddComponent<ObservableCollisionTrigger>().OnCollisionEnterAsObservable()

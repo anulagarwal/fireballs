@@ -31,6 +31,9 @@ public class DestructibleTerrain : MonoBehaviour
 
     private DestructibleBlock[] blocks;
 
+    [SerializeField]
+    string tagName = "Destructible";
+
     private void Awake()
     {
         BlockSimplification.epsilon = (int64)(simplifyEpsilonPercent / 100f * blockSize * VectorEx.float2int64);
@@ -83,7 +86,7 @@ public class DestructibleTerrain : MonoBehaviour
         childObject.name = "DestructableBlock";
         childObject.transform.SetParent(transform);
         childObject.transform.localPosition = Vector3.zero;
-
+        childObject.tag = tagName;
         DestructibleBlock blockComp = childObject.AddComponent<DestructibleBlock>();
         blockComp.SetMaterial(material);
 

@@ -13,7 +13,7 @@ public class BucketController : MonoBehaviour
 
     public float delay;
     [SerializeField]
-    GameObject ballPrefab;
+    Ball ballPrefab;
 
     [SerializeField]
     Transform dropPos;
@@ -32,11 +32,17 @@ public class BucketController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            position = Input.mousePosition;
-            GameObject g = Instantiate(ballPrefab, dropPos.position, Quaternion.identity);
-            g.GetComponent<Rigidbody>().useGravity = false;
-            g.transform.SetParent(transform);
+            Ball ballObj = ObjectPool.Instance.GetPooledObject(); 
 
+            position = Input.mousePosition;
+            if (ballObj == null) {
+                ballObj = Instantiate<Ball>(ballPrefab, dropPos.position, Quaternion.identity);
+            } else {
+                ballObj.transform.position = dropPos.position;
+            }
+            ballObj.GetComponent<Rigidbody>().useGravity = false;
+            ballObj.transform.SetParent(transform);
+            ballObj.gameObject.SetActive(true);
         }
         if (Input.GetMouseButton(0))
         {

@@ -33,6 +33,13 @@ public class BucketCollector : MonoBehaviour
             });
         }
 
+        MessageBroker.Default.Receive<GamePlayMessage>()
+        .Where(x => x.commandType == GamePlayMessage.COMMAND.RESTART || x.commandType == GamePlayMessage.COMMAND.PLAYING)
+        .Subscribe(x => {
+            ballsCollected = 0;
+            ballsCollectedLabel.text = ballsCollected.ToString(); 
+        });
+
         foreach (var collector in collectorCollider)
         {
             collector.gameObject.AddComponent<ObservableCollisionTrigger>().OnCollisionEnterAsObservable()

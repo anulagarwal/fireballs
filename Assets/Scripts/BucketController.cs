@@ -1,6 +1,8 @@
 
 using UnityEngine;
 using TMPro;
+using UniRx;
+
 public class BucketController : MonoBehaviour
 {
     Vector2 position = Vector2.zero;
@@ -20,12 +22,20 @@ public class BucketController : MonoBehaviour
 
     [SerializeField]
     TextMeshPro leftText;
-        
-    
+
     void Start()
     {
         position = transform.position;      
         ballsRemaining = numberofBalls;
+
+        MessageBroker.Default.Receive<GamePlayMessage>()
+        .Where(x => x.commandType == GamePlayMessage.COMMAND.RESTART || x.commandType == GamePlayMessage.COMMAND.PLAYING)
+        .Subscribe(x => ResetLevel());
+    }
+
+    void ResetLevel() {
+        ballsRemaining = numberofBalls;
+        leftText.text = ballsRemaining.ToString();
     }
 
     private void Update()
@@ -62,7 +72,6 @@ public class BucketController : MonoBehaviour
                 leftText.text = ballsRemaining + "";
                 ballsRemaining--;
             }
-
         }
     }
        

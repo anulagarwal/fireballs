@@ -11,34 +11,21 @@ public class BucketController : MonoBehaviour
 
     float bounds = 3f;
 
-    [SerializeField]
-    GameObject bucket, ballContainer, bucketSource;
     public int numberofBalls = 5;
     private int ballsRemaining = 0;
+
+    public float delay;
     [SerializeField]
     GameObject ballPrefab;
-    Animator bucketAnimator;
+
+    [SerializeField]
+    Transform dropPos;
+        
+    
     void Start()
     {
-        position = transform.position;
-        bucketAnimator = bucket.GetComponent<Animator>();
-        bucket.AddComponent<ObservableTrigger2DTrigger>().OnTriggerExit2DAsObservable()
-        .Subscribe(x => {
-            if (x.CompareTag("Ball")) {
-                if (ballContainer.transform.childCount == 0) {
-                    GetComponent<BoxCollider2D>().enabled = false;
-                }
-                x.transform.SetParent(ballContainer.transform);
-            }
-        });
+        position = transform.position;      
         ballsRemaining = numberofBalls;
-
-        bucket.AddComponent<ObservableTriggerTrigger>().OnTriggerExitAsObservable()
-        .Subscribe(x => {
-            if (x.CompareTag("Ball")) {
-                x.transform.SetParent(ballContainer.transform);
-            }
-        });
     }
 
     async private void OnMouseDown() {
@@ -46,15 +33,11 @@ public class BucketController : MonoBehaviour
         if (ballsRemaining <= 0) {
             return;
         }
-        // bucketAnimator.enabled = true;
-        // bucketAnimator.Play("RotateBucket");
 
         for (int i = 0; i < numberofBalls; i++)
         {
-            GameObject ball = Instantiate(ballPrefab);
-            ball.transform.SetParent(bucketSource.transform);
-            ball.transform.localPosition = new Vector3(-0.16f, 0.2f, 0);
-            await Task.Delay(TimeSpan.FromSeconds(0.5f));
+            Instantiate(ballPrefab, dropPos.position, Quaternion.identity);           
+            await Task.Delay(TimeSpan.FromSeconds(delay));
             ballsRemaining --;
         }
         GetComponent<BoxCollider2D>().enabled = false;

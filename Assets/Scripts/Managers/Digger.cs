@@ -15,6 +15,7 @@ public class Digger : MonoBehaviour
     Mesh planeMesh;
 
     public float diggingDelay = 0.25f;
+    public float digRadius;
 
     enum SURFACE_TYPE
     {
@@ -34,7 +35,7 @@ public class Digger : MonoBehaviour
         {
             if (contact.otherCollider.gameObject.CompareTag("Ball")) {
                 other.gameObject.GetComponent<Ball>().Shrink();
-                DeformMesh(new Vector3(contact.point.x, contact.point.y, 0), contact.otherCollider.GetComponent<SphereCollider>().transform.localScale.x);
+                DeformMesh(new Vector3(contact.point.x, contact.point.y, 0), digRadius);
                 break;
             }
         }
@@ -59,6 +60,8 @@ public class Digger : MonoBehaviour
         }
     }
 
+
+ 
     private void OnDestroy() {
         planeMesh.vertices = originalVertices;
     }

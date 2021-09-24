@@ -72,7 +72,7 @@ public class BallModifier : MonoBehaviour
             } else {
                 ballObj.transform.position = colliderPos.transform.position;
             }
-            ballObj.transform.SetParent(ballContainer.transform);
+//            ballObj.transform.SetParent(ballContainer.transform);
             spawnedBalls.Add(ballObj.gameObject.GetInstanceID());
             spawnedBalls.Add(colliderPos.gameObject.GetInstanceID());
             ballObj.gameObject.SetActive(true);

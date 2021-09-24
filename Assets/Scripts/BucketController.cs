@@ -1,9 +1,6 @@
-using System;
-using System.Threading.Tasks;
-using UniRx;
-using UniRx.Triggers;
-using UnityEngine;
 
+using UnityEngine;
+using TMPro;
 public class BucketController : MonoBehaviour
 {
     Vector2 position = Vector2.zero;
@@ -20,6 +17,9 @@ public class BucketController : MonoBehaviour
 
     [SerializeField]
     Transform dropPos;
+
+    [SerializeField]
+    TextMeshPro leftText;
         
     
     void Start()
@@ -28,24 +28,36 @@ public class BucketController : MonoBehaviour
         ballsRemaining = numberofBalls;
     }
 
-    async private void OnMouseDown() {
-        position = Input.mousePosition;
-        if (ballsRemaining <= 0) {
-            return;
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            position = Input.mousePosition;
+            GameObject g = Instantiate(ballPrefab, dropPos.position, Quaternion.identity);
+            g.GetComponent<Rigidbody>().useGravity = false;
+            g.transform.SetParent(transform);
+
+        }
+        if (Input.GetMouseButton(0))
+        {
+            if (ballsRemaining > 0 && (transform.position.x <= bounds && Input.mousePosition.x > position.x) || (transform.position.x > bounds && Input.mousePosition.x < position.x) || transform.position.x >= -bounds && transform.position.x <= 3)
+            {
+                transform.position -= new Vector3((position.x - Input.mousePosition.x) * dragMultiplier, 0, 0);
+                position = Input.mousePosition;
+            }
         }
 
-        for (int i = 0; i < numberofBalls; i++)
+        if (Input.GetMouseButtonUp(0))
         {
-            Instantiate(ballPrefab, dropPos.position, Quaternion.identity);           
-            await Task.Delay(TimeSpan.FromSeconds(delay));
-            ballsRemaining --;
-        }
-        GetComponent<BoxCollider2D>().enabled = false;
-    }
-    private void OnMouseDrag() {
-        if ( ballsRemaining > 0 && (transform.position.x <= bounds && Input.mousePosition.x > position.x) || (transform.position.x > bounds && Input.mousePosition.x < position.x) || transform.position.x >= -bounds && transform.position.x <= 3) {
-            transform.position -= new Vector3( (position.x - Input.mousePosition.x) * dragMultiplier, 0, 0);
-            position = Input.mousePosition;
+            GetComponentInChildren<Rigidbody>().useGravity = true;
+            GetComponentInChildren<Rigidbody>().transform.parent = null;
+            if (ballsRemaining > 0)
+            {
+                leftText.text = ballsRemaining + "";
+                ballsRemaining--;
+            }
+
         }
     }
+       
 }

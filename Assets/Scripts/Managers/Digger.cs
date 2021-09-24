@@ -57,6 +57,7 @@ public class Digger : MonoBehaviour
         if (changed) {
             planeMesh.vertices = vertices;
             meshCollider.sharedMesh = planeMesh;
+            
         }
     }
 

@@ -10,39 +10,21 @@ public class BucketCollector : MonoBehaviour
 {
 
     [SerializeField]
-    List<BoxCollider2D> collectorCollider2D;
-
-    [SerializeField]
-    List<BoxCollider> collectorCollider;
-
-    [SerializeField]
     TextMesh ballsCollectedLabel;
 
     private int ballsCollected = 0;
     void Start()
     {
-        foreach (var collector in collectorCollider2D)
-        {
-            collector.gameObject.AddComponent<ObservableCollisionTrigger>().OnCollisionEnter2DAsObservable()
-            .Subscribe(x => {
-                if (x.gameObject.CompareTag("Ball")) {
-                    ballsCollected++;
-                    ballsCollectedLabel.text = ballsCollected.ToString(); 
-                    Destroy(x.gameObject);
-                }
-            });
-        }
+      
+    }
 
-        foreach (var collector in collectorCollider)
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ball"))
         {
-            collector.gameObject.AddComponent<ObservableCollisionTrigger>().OnCollisionEnterAsObservable()
-            .Subscribe(x => {
-                if (x.gameObject.CompareTag("Ball")) {
-                    ballsCollected++;
-                    ballsCollectedLabel.text = ballsCollected.ToString(); 
-                    Destroy(x.gameObject);
-                }
-            });
+            ballsCollected++;
+            ballsCollectedLabel.text = ballsCollected.ToString();
+            Destroy(collision.gameObject);
         }
     }
 

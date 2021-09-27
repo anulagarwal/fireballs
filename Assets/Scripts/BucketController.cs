@@ -26,11 +26,13 @@ public class BucketController : MonoBehaviour
     {
         position = transform.position;      
         ballsRemaining = numberofBalls;
+        GameManager.Instance.SetRemainingBalls(ballsRemaining);
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+
+        if (Input.GetMouseButtonDown(0) && ballsRemaining > 0)
         {
             Ball ballObj = ObjectPool.Instance.GetPooledObject(); 
 
@@ -53,16 +55,12 @@ public class BucketController : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && ballsRemaining > 0)
         {
-            GetComponentInChildren<Rigidbody>().useGravity = true;
-            GetComponentInChildren<Rigidbody>().transform.parent = null;
-            if (ballsRemaining > 0)
-            {
-                leftText.text = ballsRemaining + "";
+                GetComponentInChildren<Rigidbody>().useGravity = true;
+                GetComponentInChildren<Rigidbody>().transform.parent = null;           
                 ballsRemaining--;
-            }
-
+                leftText.text = ballsRemaining + "";
         }
     }
        

@@ -25,6 +25,7 @@ public class BucketCollector : MonoBehaviour
             ballsCollected++;
             ballsCollectedLabel.text = ballsCollected.ToString();
             Destroy(collision.gameObject);
+            GameManager.Instance.AddBallToBasket(collision.gameObject);
         }
     }
 

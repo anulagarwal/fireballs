@@ -12,8 +12,10 @@ public class GameManager : MonoBehaviour {
 
 
     [Header ("Attributes")]
-    List<GameObject> collectedBalls = new List<GameObject>();
     public int ballsRemaining;
+    public bool isGameOn;
+    int currentLevel;
+    List<GameObject> collectedBalls = new List<GameObject>();
 
     #endregion
 
@@ -25,18 +27,36 @@ public class GameManager : MonoBehaviour {
             Destroy(gameObject);
         }
         Instance = this;
+
+    }
+
+    private void Start()
+    {
+        currentLevel = PlayerPrefs.GetInt("level", 1);
     }
     #endregion
 
 
+
+
+    public void StartLevel()
+    {
+        isGameOn = true;
+        UIManager.Instance.SwitchUIPanel(UIPanelState.Gameplay);
+    }
+
     public void Lose()
     {
-        print("Lostt");
+        isGameOn = false;
+        UIManager.Instance.SwitchUIPanel(UIPanelState.Lose);
+
     }
 
     public void Win()
     {
-        print("Win");
+        isGameOn = false;
+        UIManager.Instance.SwitchUIPanel(UIPanelState.Victory);
+
     }
 
     public void ChangeScene(string s)

@@ -1,41 +1,73 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
+
 using UniRx;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField]
-    Button playButton, restartButton, continueButton;
 
-    [Header("MENU UI")]
-    [SerializeField]
-    GameObject menuView;
+    #region Properties
+    public static UIManager Instance = null;
+    #endregion
 
-    [Header("GAMEPLAY UI")]
-    [SerializeField]
-    GameObject gameplayView;
+    #region MonoBehaviour Functions
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        Instance = this;
+    }
+    #endregion
 
-    [Header("LOST UI")]
-    [SerializeField]
-    GameObject lostView;
+    [Header("UI Panels")]
+    [SerializeField] private GameObject mainMenuUIObj = null;
+    [SerializeField] private GameObject gameplayUIObj = null;
+    [SerializeField] private GameObject gameOverVictoryUIObj = null;
+    [SerializeField] private GameObject gameOverDefeatUIObj = null;
 
-    [Header("WIN UI")]
-    [SerializeField]
-    GameObject winView;
+    [Header("Level text")]
+    [SerializeField] List<Text> levelTexts;
+
 
     void Start()
     {
-        Application.targetFrameRate = 60;
-        playButton.OnClickAsObservable().Subscribe(_ => {
-            MessageBroker.Default.Publish<GamePlayMessage>(new GamePlayMessage(GamePlayMessage.COMMAND.PLAYING));
-            menuView.SetActive(false);
-            gameplayView.SetActive(true);
-        });
-        restartButton.OnClickAsObservable().Subscribe(_ => {
-            MessageBroker.Default.Publish<GamePlayMessage>(new GamePlayMessage(GamePlayMessage.COMMAND.RESTART));
-        });
-        continueButton.OnClickAsObservable().Subscribe(_ => {
-            MessageBroker.Default.Publish<GamePlayMessage>(new GamePlayMessage(GamePlayMessage.COMMAND.CONTINUE));
-        });
+        Application.targetFrameRate = 60;       
     }
+
+
+    #region Public Core Functions
+    public void SwitchUIPanel(UIPanelState state, GameOverState gameOverState = GameOverState.None)
+    {
+        switch (state)
+        {
+            case UIPanelState.MainMenu:
+                mainMenuUIObj.SetActive(true);
+                gameplayUIObj.SetActive(false);
+                gameOverVictoryUIObj.SetActive(false);
+                gameOverDefeatUIObj.SetActive(false);
+                break;
+            case UIPanelState.Gameplay:
+                mainMenuUIObj.SetActive(false);
+                gameplayUIObj.SetActive(true);
+                gameOverVictoryUIObj.SetActive(false);
+                gameOverDefeatUIObj.SetActive(false);
+                break;
+            case UIPanelState.Victory:
+                mainMenuUIObj.SetActive(false);
+                gameplayUIObj.SetActive(false);
+                gameOverVictoryUIObj.SetActive(true);
+                gameOverDefeatUIObj.SetActive(false);               
+                break;
+            case UIPanelState.Lose:
+                mainMenuUIObj.SetActive(false);
+                gameplayUIObj.SetActive(false);
+                gameOverVictoryUIObj.SetActive(false);
+                gameOverDefeatUIObj.SetActive(true);
+                break;
+        }
+    }
+    #endregion
 }

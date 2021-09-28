@@ -10,6 +10,7 @@ TagManager:
   - Modifier
   - Collector
   - Destructible
+  - Wall
   layers:
   - Default
   - TransparentFX

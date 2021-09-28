@@ -32,14 +32,23 @@ public class Digger : MonoBehaviour
         originalVertices = vertices;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+    }
     private void OnCollisionStay(Collision other) {
         foreach (ContactPoint contact in other.contacts)
         {
-            if (contact.otherCollider.gameObject.CompareTag("Ball")) {
+            if (contact.otherCollider.gameObject.CompareTag("Ball") ) {
                 other.gameObject.GetComponent<Ball>().Shrink();
                 DeformMesh(new Vector3(contact.point.x, contact.point.y, 0), digRadius);
                 break;
             }
+
+        
         }
     }
 

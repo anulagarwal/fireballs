@@ -32,7 +32,7 @@ public class BallModifier : MonoBehaviour
     List<int> spawnedBalls;
     private void Start() {
         spawnedBalls = new List<int>();
-        currentValLbl.text = currentModifier == MODIFIER_TYPE.ADDER ? "+" + value : "*" + value;
+        currentValLbl.text = currentModifier == MODIFIER_TYPE.ADDER ? "+" + value : "x" + value;
         DOTween.defaultAutoKill = false;
     }
 
@@ -72,7 +72,9 @@ public class BallModifier : MonoBehaviour
             } else {
                 ballObj.transform.position = colliderPos.transform.position;
             }
-//            ballObj.transform.SetParent(ballContainer.transform);
+            //            ballObj.transform.SetParent(ballContainer.transform);
+            GameManager.Instance.AddRemainingBalls(1);
+
             spawnedBalls.Add(ballObj.gameObject.GetInstanceID());
             spawnedBalls.Add(colliderPos.gameObject.GetInstanceID());
             ballObj.gameObject.SetActive(true);

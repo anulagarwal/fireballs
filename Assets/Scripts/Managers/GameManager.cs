@@ -74,6 +74,11 @@ public class GameManager : MonoBehaviour {
     {
         ballsRemaining = value;
     }
+    public void AddRemainingBalls(int value)
+    {
+        ballsRemaining += value;
+
+    }
 
     public void ReduceRemainingBalls(int value)
     {

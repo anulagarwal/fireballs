@@ -28,7 +28,6 @@ public class GameManager : MonoBehaviour {
             Destroy(gameObject);
         }
         Instance = this;
-
     }
 
     private void Start()
@@ -44,18 +43,23 @@ public class GameManager : MonoBehaviour {
     {
         isGameOn = true;
         UIManager.Instance.SwitchUIPanel(UIPanelState.Gameplay);
+        TinySauce.OnGameStarted(levelNumber: "" + currentLevel);
     }
 
     public void Lose()
     {
         isGameOn = false;
         Invoke("ShowLoseUI", 2f);
+        TinySauce.OnGameFinished(false, 0);
     }
 
     public void Win()
     {
         isGameOn = false;
         Invoke("ShowWinUI", 2f);
+        confettiObj.SetActive(true);
+        TinySauce.OnGameFinished(true, 0);
+
     }
 
     public void ShowWinUI()

@@ -3,19 +3,18 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 public class GameManager : MonoBehaviour {
 
-
     #region Properties
     public static GameManager Instance = null;
 
     [Header("Components Reference")]
     [SerializeField] private GameObject confettiObj = null;
 
-
     [Header ("Attributes")]
     public int ballsRemaining;
     public bool isGameOn;
     int currentLevel;
     public int numberOfBalls;
+    public int maxLevels;
     List<GameObject> collectedBalls = new List<GameObject>();
 
     #endregion
@@ -33,6 +32,8 @@ public class GameManager : MonoBehaviour {
     private void Start()
     {
         currentLevel = PlayerPrefs.GetInt("level", 1);
+        UIManager.Instance.UpdateLevelText(currentLevel);
+
     }
     #endregion
 
@@ -59,9 +60,21 @@ public class GameManager : MonoBehaviour {
         Invoke("ShowWinUI", 2f);
         confettiObj.SetActive(true);
         TinySauce.OnGameFinished(true, 0);
-
+        currentLevel++;
+        PlayerPrefs.SetInt("level", currentLevel);
     }
 
+    public void ChangeLevel()
+    {
+        if (currentLevel > maxLevels)
+        {
+            SceneManager.LoadScene("Level " + Random.Range(1, maxLevels));
+        }
+        else
+        {
+            SceneManager.LoadScene("Level " + currentLevel);
+        }
+    }
     public void ShowWinUI()
     {
         UIManager.Instance.SwitchUIPanel(UIPanelState.Victory);
@@ -70,11 +83,6 @@ public class GameManager : MonoBehaviour {
     public void ShowLoseUI()
     {
         UIManager.Instance.SwitchUIPanel(UIPanelState.Lose);
-    }
-
-    public void ChangeScene(string s)
-    {
-        SceneManager.LoadScene(s);
     }
 
     public void AddBallToBasket(GameObject g)

@@ -24,6 +24,7 @@ public class Ball : MonoBehaviour
 
     public void Shrink() {
         transform.DOScale(transform.localScale.x - (transform.localScale.x * 0.1f), 0.2f).SetEase(Ease.InOutCubic).OnComplete(() => {
+            GetComponentInChildren<ParticleSystem>().startSize = transform.localScale.x;
             if (transform.localScale.x < 0.1) {
                 Destroy(gameObject);
                 GameManager.Instance.ReduceRemainingBalls(1);

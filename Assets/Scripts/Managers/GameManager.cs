@@ -49,15 +49,23 @@ public class GameManager : MonoBehaviour {
     public void Lose()
     {
         isGameOn = false;
-        UIManager.Instance.SwitchUIPanel(UIPanelState.Lose);
-
+        Invoke("ShowLoseUI", 2f);
     }
 
     public void Win()
     {
         isGameOn = false;
-        UIManager.Instance.SwitchUIPanel(UIPanelState.Victory);
+        Invoke("ShowWinUI", 2f);
+    }
 
+    public void ShowWinUI()
+    {
+        UIManager.Instance.SwitchUIPanel(UIPanelState.Victory);
+    }
+
+    public void ShowLoseUI()
+    {
+        UIManager.Instance.SwitchUIPanel(UIPanelState.Lose);
     }
 
     public void ChangeScene(string s)

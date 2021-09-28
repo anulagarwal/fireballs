@@ -13,6 +13,8 @@ public class BucketCollector : MonoBehaviour
     TextMesh ballsCollectedLabel;
 
     private int ballsCollected = 0;
+
+    [SerializeField] private ParticleSystem vfx; 
     void Start()
     {
         MessageBroker.Default.Receive<GamePlayMessage>()
@@ -33,6 +35,7 @@ public class BucketCollector : MonoBehaviour
             ballsCollectedLabel.text = ballsCollected.ToString();
             Destroy(collision.gameObject);
             GameManager.Instance.AddBallToBasket(collision.gameObject);
+            vfx.Play();
         }
     }
 

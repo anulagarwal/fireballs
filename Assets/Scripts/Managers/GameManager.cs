@@ -3,19 +3,18 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 public class GameManager : MonoBehaviour {
 
-
     #region Properties
     public static GameManager Instance = null;
 
     [Header("Components Reference")]
     [SerializeField] private GameObject confettiObj = null;
 
-
     [Header ("Attributes")]
     public int ballsRemaining;
     public bool isGameOn;
     int currentLevel;
     public int numberOfBalls;
+    public int maxLevels;
     List<GameObject> collectedBalls = new List<GameObject>();
 
     #endregion
@@ -28,12 +27,13 @@ public class GameManager : MonoBehaviour {
             Destroy(gameObject);
         }
         Instance = this;
-
     }
 
     private void Start()
     {
         currentLevel = PlayerPrefs.GetInt("level", 1);
+        UIManager.Instance.UpdateLevelText(currentLevel);
+
     }
     #endregion
 
@@ -44,25 +44,45 @@ public class GameManager : MonoBehaviour {
     {
         isGameOn = true;
         UIManager.Instance.SwitchUIPanel(UIPanelState.Gameplay);
+        TinySauce.OnGameStarted(levelNumber: "" + currentLevel);
     }
 
     public void Lose()
     {
         isGameOn = false;
-        UIManager.Instance.SwitchUIPanel(UIPanelState.Lose);
-
+        Invoke("ShowLoseUI", 2f);
+        TinySauce.OnGameFinished(false, 0);
     }
 
     public void Win()
     {
         isGameOn = false;
-        UIManager.Instance.SwitchUIPanel(UIPanelState.Victory);
-
+        Invoke("ShowWinUI", 2f);
+        confettiObj.SetActive(true);
+        TinySauce.OnGameFinished(true, 0);
+        currentLevel++;
+        PlayerPrefs.SetInt("level", currentLevel);
     }
 
-    public void ChangeScene(string s)
+    public void ChangeLevel()
     {
-        SceneManager.LoadScene(s);
+        if (currentLevel > maxLevels)
+        {
+            SceneManager.LoadScene("Level " + Random.Range(1, maxLevels));
+        }
+        else
+        {
+            SceneManager.LoadScene("Level " + currentLevel);
+        }
+    }
+    public void ShowWinUI()
+    {
+        UIManager.Instance.SwitchUIPanel(UIPanelState.Victory);
+    }
+
+    public void ShowLoseUI()
+    {
+        UIManager.Instance.SwitchUIPanel(UIPanelState.Lose);
     }
 
     public void AddBallToBasket(GameObject g)

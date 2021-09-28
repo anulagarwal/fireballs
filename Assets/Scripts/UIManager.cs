@@ -69,5 +69,13 @@ public class UIManager : MonoBehaviour
                 break;
         }
     }
+
+    public void UpdateLevelText(int value)
+    {
+        foreach(Text t in levelTexts)
+        {
+            t.text = "LEVEL " + value;
+        }
+    }
     #endregion
 }

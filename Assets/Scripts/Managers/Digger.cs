@@ -6,15 +6,12 @@ public class Digger : MonoBehaviour
 {
     [SerializeField]
     float power = 1;
-    private Vector3 offset;
     private MeshFilter mesh;
     private MeshCollider meshCollider;
     private Vector3[] vertices;
 
     private Vector3[] originalVertices;
     Mesh planeMesh;
-
-    public float diggingDelay = 0.25f;
     public float digRadius;
 
     [SerializeField]
@@ -32,14 +29,23 @@ public class Digger : MonoBehaviour
         originalVertices = vertices;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+    }
     private void OnCollisionStay(Collision other) {
         foreach (ContactPoint contact in other.contacts)
         {
-            if (contact.otherCollider.gameObject.CompareTag("Ball")) {
+            if (contact.otherCollider.gameObject.CompareTag("Ball") ) {
                 other.gameObject.GetComponent<Ball>().Shrink();
                 DeformMesh(new Vector3(contact.point.x, contact.point.y, 0), digRadius);
                 break;
             }
+
+        
         }
     }
 

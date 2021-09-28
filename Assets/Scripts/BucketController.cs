@@ -25,6 +25,7 @@ public class BucketController : MonoBehaviour
 
     void Start()
     {
+        numberofBalls = GameManager.Instance.numberOfBalls;
         position = transform.position;      
         ballsRemaining = numberofBalls;
         GameManager.Instance.SetRemainingBalls(ballsRemaining);

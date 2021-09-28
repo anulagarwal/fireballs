@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
     public int ballsRemaining;
     public bool isGameOn;
     int currentLevel;
+    public int numberOfBalls;
     List<GameObject> collectedBalls = new List<GameObject>();
 
     #endregion
@@ -73,6 +74,11 @@ public class GameManager : MonoBehaviour {
     public void SetRemainingBalls(int value)
     {
         ballsRemaining = value;
+    }
+    public void AddRemainingBalls(int value)
+    {
+        ballsRemaining += value;
+
     }
 
     public void ReduceRemainingBalls(int value)

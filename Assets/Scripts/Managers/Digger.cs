@@ -17,6 +17,8 @@ public class Digger : MonoBehaviour
     public float diggingDelay = 0.25f;
     public float digRadius;
 
+    [SerializeField]
+    Vector3 digVector;
     enum SURFACE_TYPE
     {
         PAPER,
@@ -50,7 +52,7 @@ public class Digger : MonoBehaviour
             float distance = (vertices[i] - positionHit).sqrMagnitude;
 
             if (distance < _radius) {
-                vertices[i] -= (Vector3.up * power); 
+                vertices[i] -= (digVector* power); 
                 changed = true;
             }
         }

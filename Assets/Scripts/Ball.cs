@@ -26,6 +26,7 @@ public class Ball : MonoBehaviour
         transform.DOScale(transform.localScale.x - (transform.localScale.x * 0.1f), 0.2f).SetEase(Ease.InOutCubic).OnComplete(() => {
             if (transform.localScale.x < 0.1) {
                 Destroy(gameObject);
+                GameManager.Instance.ReduceRemainingBalls(1);
             }
         });
         // transform.localScale -= transform.localScale * 0.1f;

@@ -6,15 +6,12 @@ public class Digger : MonoBehaviour
 {
     [SerializeField]
     float power = 1;
-    private Vector3 offset;
     private MeshFilter mesh;
     private MeshCollider meshCollider;
     private Vector3[] vertices;
 
     private Vector3[] originalVertices;
     Mesh planeMesh;
-
-    public float diggingDelay = 0.25f;
     public float digRadius;
 
     [SerializeField]

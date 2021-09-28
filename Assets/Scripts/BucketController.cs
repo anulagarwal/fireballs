@@ -23,6 +23,8 @@ public class BucketController : MonoBehaviour
     [SerializeField]
     TextMeshPro leftText;
 
+    Rigidbody currentBody;
+
     void Start()
     {
         numberofBalls = GameManager.Instance.numberOfBalls;
@@ -60,6 +62,7 @@ public class BucketController : MonoBehaviour
                 ballObj.GetComponent<Rigidbody>().useGravity = false;
                 ballObj.transform.SetParent(transform);
                 ballObj.gameObject.SetActive(true);
+                currentBody = ballObj.GetComponent<Rigidbody>();
             }
             if (Input.GetMouseButton(0))
             {
@@ -72,10 +75,13 @@ public class BucketController : MonoBehaviour
 
             if (Input.GetMouseButtonUp(0) && ballsRemaining > 0)
             {
-                GetComponentInChildren<Rigidbody>().useGravity = true;
-                GetComponentInChildren<Rigidbody>().transform.parent = null;
-                ballsRemaining--;
-                leftText.text = ballsRemaining + "";
+                if (currentBody != null) {
+                    currentBody.useGravity = true;
+                    currentBody.transform.parent = null;
+                    currentBody = null;
+                    ballsRemaining--;
+                    leftText.text = ballsRemaining + "";
+                }
             }
         }
     }

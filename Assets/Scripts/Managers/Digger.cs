@@ -16,11 +16,13 @@ public class Digger : MonoBehaviour
 
     [SerializeField]
     Vector3 digVector;
-    enum SURFACE_TYPE
+    public enum SURFACE_TYPE
     {
         PAPER,
-        WOODEN
+        WOODEN,
+        WAX
     }
+    public SURFACE_TYPE currentSurface;
     private void Start() {
         mesh = GetComponent<MeshFilter>();
         planeMesh = mesh.mesh;
@@ -36,11 +38,30 @@ public class Digger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
     }
+
+    private float GetShrinkPercentage() {
+        float shrinkAmount = 10f;
+        switch (currentSurface)
+        {
+            case SURFACE_TYPE.PAPER:
+            shrinkAmount = 5f;
+            break;
+            case SURFACE_TYPE.WAX:
+            shrinkAmount = 10f;
+            break;
+            case SURFACE_TYPE.WOODEN:
+            shrinkAmount = 13f;
+            break;
+            default:
+            break;
+        }
+        return shrinkAmount;
+    }
     private void OnCollisionStay(Collision other) {
         foreach (ContactPoint contact in other.contacts)
         {
             if (contact.otherCollider.gameObject.CompareTag("Ball") ) {
-                other.gameObject.GetComponent<Ball>().Shrink();
+                other.gameObject.GetComponent<Ball>().Shrink(GetShrinkPercentage());
                 DeformMesh(new Vector3(contact.point.x, contact.point.y, 0), digRadius);
                 break;
             }
@@ -58,7 +79,7 @@ public class Digger : MonoBehaviour
             float distance = (vertices[i] - positionHit).sqrMagnitude;
 
             if (distance < _radius) {
-                vertices[i] -= (digVector* power); 
+                vertices[i] -= (digVector * power); 
                 changed = true;
             }
         }

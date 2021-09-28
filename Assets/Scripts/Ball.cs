@@ -22,8 +22,8 @@ public class Ball : MonoBehaviour
         // clipPosition = positionWorldSpace - terrain.GetPositionOffset();
     }
 
-    public void Shrink() {
-        transform.DOScale(transform.localScale.x - (transform.localScale.x * 0.1f), 0.2f).SetEase(Ease.InOutCubic).OnComplete(() => {
+    public void Shrink(float shrinkPercentage = 0.1f) {
+        transform.DOScale(transform.localScale.x - (transform.localScale.x * (shrinkPercentage / 100)), 0.2f).SetEase(Ease.InOutCubic).OnComplete(() => {
             GetComponentInChildren<ParticleSystem>().startSize = transform.localScale.x;
             if (transform.localScale.x < 0.1) {
                 Destroy(gameObject);

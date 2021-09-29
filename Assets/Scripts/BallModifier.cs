@@ -42,8 +42,10 @@ public class BallModifier : MonoBehaviour
                 scaleUpTween = currentValLbl.transform.DOScale(currentValLbl.transform.localScale.x + 0.2f, 0.15f).SetEase(Ease.InOutCubic).OnComplete(() => {
                     currentValLbl.transform.DOScale(currentValLbl.transform.localScale.x - 0.2f, 0.15f).SetEase(Ease.InOutCubic);
                 });
-            } else if (scaleUpTween != null && !scaleUpTween.IsPlaying()) {
+                scaleUpTween.SetAutoKill(false);
                 scaleUpTween.Play();
+            } else if (scaleUpTween != null && !scaleUpTween.IsPlaying()) {
+                scaleUpTween.Restart();
             }
             if (currentModifier == MODIFIER_TYPE.ADDER) {
                 value -= 1;

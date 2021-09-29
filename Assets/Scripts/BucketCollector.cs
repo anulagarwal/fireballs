@@ -35,8 +35,8 @@ public class BucketCollector : MonoBehaviour
             {
                 ballsCollectedLabel.color = Color.green;
             }
-            Destroy(collision.gameObject);
             GameManager.Instance.AddBallToBasket(collision.gameObject);
+            Destroy(collision.gameObject);
             vfx.Play();
         }
     }

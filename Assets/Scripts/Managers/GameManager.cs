@@ -120,8 +120,8 @@ public class GameManager : MonoBehaviour {
     public void ReduceRemainingBalls(int value)
     {
         ballsRemaining -= value;
-        
-        if(ballsRemaining <= 0 && collectedBalls.Count <=0 )
+
+        if (ballsRemaining <= 0 && collectedBalls.Count <=0 )
         {
             Lose();
         }

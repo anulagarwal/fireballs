@@ -26,7 +26,6 @@ public class BucketCollector : MonoBehaviour
         // foreach (var collector in collectorCollider)
     private void OnCollisionEnter(Collision collision)
     {
-
         if (collision.gameObject.CompareTag("Ball"))
         {
             ballsCollected++;

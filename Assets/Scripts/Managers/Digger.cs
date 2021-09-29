@@ -50,7 +50,7 @@ public class Digger : MonoBehaviour
             shrinkAmount = 10f;
             break;
             case SURFACE_TYPE.WOODEN:
-            shrinkAmount = 13f;
+            shrinkAmount = 25f;
             break;
             default:
             break;
@@ -65,8 +65,6 @@ public class Digger : MonoBehaviour
                 DeformMesh(new Vector3(contact.point.x, contact.point.y, 0), digRadius);
                 break;
             }
-
-        
         }
     }
 
@@ -86,7 +84,6 @@ public class Digger : MonoBehaviour
         if (changed) {
             planeMesh.vertices = vertices;
             meshCollider.sharedMesh = planeMesh;
-            
         }
     }
 

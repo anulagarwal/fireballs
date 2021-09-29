@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18383186, g: 0.22853112, b: 0.30053487, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0.99999905, b: 0.99999905, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -984,6 +984,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 420744111852600809, guid: 3c20a87aff9eb44f68c206a51f6985f3, type: 3}
+      propertyPath: currentSurface
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1418327923378151535, guid: 3c20a87aff9eb44f68c206a51f6985f3, type: 3}
       propertyPath: m_Name
       value: Level3
@@ -1036,9 +1040,25 @@ PrefabInstance:
       propertyPath: vfx
       value: 
       objectReference: {fileID: 2049719249}
+    - target: {fileID: 3980239616178644221, guid: 3c20a87aff9eb44f68c206a51f6985f3, type: 3}
+      propertyPath: currentSurface
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3980239616187479345, guid: 3c20a87aff9eb44f68c206a51f6985f3, type: 3}
+      propertyPath: currentSurface
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3980239616210769556, guid: 3c20a87aff9eb44f68c206a51f6985f3, type: 3}
       propertyPath: ballPrefab
       value: 
       objectReference: {fileID: 3976181918312517501, guid: 084be01e69a1e834c8e709d96ae56238, type: 3}
+    - target: {fileID: 3980239616631428001, guid: 3c20a87aff9eb44f68c206a51f6985f3, type: 3}
+      propertyPath: currentSurface
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3980239616846116604, guid: 3c20a87aff9eb44f68c206a51f6985f3, type: 3}
+      propertyPath: currentSurface
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c20a87aff9eb44f68c206a51f6985f3, type: 3}

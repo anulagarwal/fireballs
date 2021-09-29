@@ -10,6 +10,7 @@ public class Ball : MonoBehaviour
     [SerializeField]
     public bool activated = false;
 
+    private bool destroyed = false;
     [SerializeField]
     Material activatedMaterial;
 
@@ -25,14 +26,18 @@ public class Ball : MonoBehaviour
 
     public void Shrink(float shrinkPercentage = 0.1f) {
         transform.DOScale(transform.localScale.x - (transform.localScale.x * (shrinkPercentage / 100)), 0.2f).SetEase(Ease.InOutCubic).OnComplete(() => {
+            if (gameObject == null || destroyed) {
+                return;
+            }
             GetComponentInChildren<ParticleSystem>().startSize = transform.localScale.x;
-            if (transform.localScale.x < 0.1) {
+            if (transform.localScale.x < 0.1f) {
+                destroyed = true;
+
                 Destroy(gameObject);
+                destroyed = true;
                 GameManager.Instance.ReduceRemainingBalls(1);
             }
         });
-        // transform.localScale -= transform.localScale * 0.1f;
-        Vector3.Lerp(transform.localScale, transform.localScale - transform.localScale * 0.5f, Time.deltaTime * 10);
     }
 
   
@@ -43,6 +48,4 @@ public class Ball : MonoBehaviour
         float dy = Mathf.Abs(clipPosition.y - p.y) - radius - size / 2;
         return dx < 0f && dy < 0f;      
     }
-
-
 }

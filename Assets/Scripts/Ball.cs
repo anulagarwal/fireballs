@@ -15,6 +15,7 @@ public class Ball : MonoBehaviour
 
     private float radius = 0.5f;
     private Vector2 clipPosition;
+    public bool isPipeSpawned;
 
     private void Start() {
     

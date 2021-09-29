@@ -119,7 +119,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activated: 0
-  activatedMaterial: {fileID: 2100000, guid: 1290b4c92273937409d3361b04dc88b0, type: 2}
+  shrinkSpeed: 0.05
+  shrinkThreshold: 0.1
+  isPipeSpawned: 0
 --- !u!33 &4754384852716421443
 MeshFilter:
   m_ObjectHideFlags: 0

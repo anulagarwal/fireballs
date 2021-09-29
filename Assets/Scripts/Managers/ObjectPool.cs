@@ -33,4 +33,17 @@ public class ObjectPool : MonoBehaviour {
         }
         return null;
     }
+
+    public int GetActivePooledObjects()
+    {
+        int i = 0;
+        foreach(Ball b in pooledObjects) {
+
+            if (b.gameObject.activeSelf)
+            {
+                i++;
+            }
+        }
+        return i;
+    }
 }

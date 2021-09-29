@@ -10,12 +10,17 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private GameObject confettiObj = null;
 
     [Header ("Attributes")]
-    public int ballsRemaining;
+    [SerializeField] public int numberOfBalls;
+    [SerializeField] public int maxLevels;
+    [SerializeField] public int requiredBalls;
+
+
+    //Internal values
+    [SerializeField] List<GameObject> collectedBalls = new List<GameObject>();
+    [SerializeField] private int ballsRemaining;
+    private int currentLevel;
     public bool isGameOn;
-    int currentLevel;
-    public int numberOfBalls;
-    public int maxLevels;
-    List<GameObject> collectedBalls = new List<GameObject>();
+
 
     #endregion
 
@@ -33,11 +38,20 @@ public class GameManager : MonoBehaviour {
     {
         currentLevel = PlayerPrefs.GetInt("level", 1);
         UIManager.Instance.UpdateLevelText(currentLevel);
-
+        BucketController.Instance.enabled = false;
     }
     #endregion
 
-
+    private void Update()
+    {
+        if (!isGameOn)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                StartLevel();
+            }
+        }
+    }
 
 
     public void StartLevel()
@@ -45,6 +59,9 @@ public class GameManager : MonoBehaviour {
         isGameOn = true;
         UIManager.Instance.SwitchUIPanel(UIPanelState.Gameplay);
         TinySauce.OnGameStarted(levelNumber: "" + currentLevel);
+        BucketController.Instance.enabled = true;
+        BucketController.Instance.SpawnBall();
+
     }
 
     public void Lose()
@@ -98,17 +115,17 @@ public class GameManager : MonoBehaviour {
     public void AddRemainingBalls(int value)
     {
         ballsRemaining += value;
-
     }
 
     public void ReduceRemainingBalls(int value)
     {
         ballsRemaining -= value;
-        if(ballsRemaining <= 0 && collectedBalls.Count <=0)
+        
+        if(ballsRemaining <= 0 && collectedBalls.Count <=0 )
         {
             Lose();
         }
-        else if(ballsRemaining <=0 && collectedBalls.Count >0)
+        else if(ballsRemaining <= 0 && collectedBalls.Count >= 0 )
         {
             Win();
         }

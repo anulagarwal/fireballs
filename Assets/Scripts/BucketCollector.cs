@@ -1,16 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UniRx.Triggers;
+
 using UnityEngine;
 using UniRx;
-using System;
-using UnityEngine.UI;
+using TMPro;
 
 public class BucketCollector : MonoBehaviour
 {
 
     [SerializeField]
-    TextMesh ballsCollectedLabel;
+    TextMeshPro ballsCollectedLabel;
 
     private int ballsCollected = 0;
 
@@ -29,10 +26,15 @@ public class BucketCollector : MonoBehaviour
         // foreach (var collector in collectorCollider)
     private void OnCollisionEnter(Collision collision)
     {
+
         if (collision.gameObject.CompareTag("Ball"))
         {
             ballsCollected++;
-            ballsCollectedLabel.text = ballsCollected.ToString();
+            ballsCollectedLabel.text = ballsCollected.ToString() + "/" + GameManager.Instance.requiredBalls;
+            if (ballsCollected >= GameManager.Instance.requiredBalls)
+            {
+                ballsCollectedLabel.color = Color.green;
+            }
             Destroy(collision.gameObject);
             GameManager.Instance.AddBallToBasket(collision.gameObject);
             vfx.Play();

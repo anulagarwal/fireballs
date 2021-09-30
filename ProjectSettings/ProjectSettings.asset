@@ -133,7 +133,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.42
+  bundleVersion: 0.45
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -157,10 +157,10 @@ PlayerSettings:
     iPhone: com.momo.melt
   buildNumber:
     Standalone: 0
-    iPhone: 6
+    iPhone: 10
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
-  AndroidBundleVersionCode: 2
+  AndroidBundleVersionCode: 3
   AndroidMinSdkVersion: 19
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
@@ -271,7 +271,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 9669aad59f6ed4414bb1a3b140c9d2f7, type: 3}
+      m_Icon: {fileID: 2800000, guid: c6676ea7a70a340d59044125e28ffcbf, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0
@@ -461,7 +461,7 @@ PlayerSettings:
       m_Kind: 2
       m_SubKind: iPad
     - m_Textures:
-      - {fileID: 2800000, guid: 9669aad59f6ed4414bb1a3b140c9d2f7, type: 3}
+      - {fileID: 2800000, guid: c6676ea7a70a340d59044125e28ffcbf, type: 3}
       m_Width: 1024
       m_Height: 1024
       m_Kind: 4
@@ -801,7 +801,7 @@ PlayerSettings:
     7: VS_ATT;FLUVIOFX
   additionalCompilerArguments: {}
   platformArchitecture:
-    iPhone: 1
+    iPhone: 2
   scriptingBackend:
     Android: 1
     Standalone: 1

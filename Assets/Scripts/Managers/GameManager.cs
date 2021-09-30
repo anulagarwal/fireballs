@@ -66,14 +66,14 @@ public class GameManager : MonoBehaviour {
 
     public void Lose()
     {
-        isGameOn = false;
+        //isGameOn = false;
         Invoke("ShowLoseUI", 2f);
         TinySauce.OnGameFinished(false, 0);
     }
 
     public void Win()
     {
-        isGameOn = false;
+        //isGameOn = false;
         Invoke("ShowWinUI", 2f);
         confettiObj.SetActive(true);
         TinySauce.OnGameFinished(true, 0);
@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour {
     {
         if (currentLevel > maxLevels)
         {
-            SceneManager.LoadScene("Level " + Random.Range(1, maxLevels));
+            SceneManager.LoadScene("Level " + Random.Range(1, maxLevels +1));
         }
         else
         {

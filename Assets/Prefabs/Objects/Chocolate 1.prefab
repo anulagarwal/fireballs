@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 8017146523159720425}
   - component: {fileID: 6407914029762641484}
   - component: {fileID: 9154002293164509830}
+  - component: {fileID: 2622245474399437578}
+  - component: {fileID: 4352299864436080787}
   m_Layer: 0
   m_Name: Chocolate 1
   m_TagString: Untagged
@@ -25,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7208416811115686739}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -81,3 +83,33 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &2622245474399437578
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7208416811115686739}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5436221203001573200, guid: 20ca8b1cfb63a4db4bfa109071a79be6, type: 3}
+--- !u!114 &4352299864436080787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7208416811115686739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 900ce6024b45d8042a8bf62349397afd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  power: 1
+  digRadius: 0
+  digVector: {x: 0, y: 0, z: 0}
+  currentSurface: 0

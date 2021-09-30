@@ -19,14 +19,18 @@ public class BucketCollector : MonoBehaviour
         .Subscribe(x => {
             ballsCollected = 0;
             ballsCollectedLabel.text = ballsCollected.ToString(); 
-        });      
+        });
+
+        ballsCollectedLabel.text = ballsCollected.ToString() + "/" + GameManager.Instance.requiredBalls;
+
     }
 
 
-        // foreach (var collector in collectorCollider)
-    private void OnCollisionEnter(Collision collision)
+
+
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Ball"))
+        if (other.gameObject.CompareTag("Ball"))
         {
             ballsCollected++;
             ballsCollectedLabel.text = ballsCollected.ToString() + "/" + GameManager.Instance.requiredBalls;
@@ -34,8 +38,9 @@ public class BucketCollector : MonoBehaviour
             {
                 ballsCollectedLabel.color = Color.green;
             }
-            GameManager.Instance.AddBallToBasket(collision.gameObject);
-            Destroy(collision.gameObject);
+            GameManager.Instance.AddBallToBasket(other.gameObject);
+            other.GetComponent<Ball>().smoke.SetActive(false);
+            // Destroy(collision.gameObject);
             vfx.Play();
         }
     }

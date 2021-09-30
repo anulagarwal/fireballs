@@ -8,6 +8,7 @@ public class BucketController : MonoBehaviour
     public static BucketController Instance = null;
 
     Vector2 position = Vector2.zero;
+    Vector3 origPos;
 
     float bounds = 3.5f;
     private int ballsRemaining = 0;
@@ -42,6 +43,7 @@ public class BucketController : MonoBehaviour
         position = transform.position;
         ballsRemaining = GameManager.Instance.numberOfBalls;
         GameManager.Instance.SetRemainingBalls(ballsRemaining);
+        origPos = transform.position;
       /*  MessageBroker.Default.Receive<GamePlayMessage>()
         .Where(x => x.commandType == GamePlayMessage.COMMAND.RESTART || x.commandType == GamePlayMessage.COMMAND.PLAYING)
         .Subscribe(x => ResetLevel());*/
@@ -100,7 +102,7 @@ public class BucketController : MonoBehaviour
 
     public void PipeDown()
     {
-        if (transform.position.y > pipeDownConstraint)
+        if (transform.position.y > origPos.y+pipeDownConstraint)
         {
             transform.Translate(-Vector3.up * Time.deltaTime * moveSpeed);
         }
@@ -108,7 +110,7 @@ public class BucketController : MonoBehaviour
 
     public void PipeUp()
     {
-        if (transform.position.y < pipeUpConstraint)
+        if (transform.position.y < origPos.y + pipeUpConstraint)
         {
             transform.Translate(Vector3.up * Time.deltaTime * moveSpeed);
         }

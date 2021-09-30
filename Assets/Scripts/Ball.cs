@@ -17,7 +17,7 @@ public class Ball : MonoBehaviour
     private float radius = 0.5f;
     private Vector2 clipPosition;
     public bool isPipeSpawned;
-
+    public GameObject smoke;
     private void Start() {
     
         Vector2 positionWorldSpace = transform.position;

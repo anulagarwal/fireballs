@@ -119,9 +119,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activated: 0
-  shrinkSpeed: 0.05
-  shrinkThreshold: 0.1
+  activatedMaterial: {fileID: 0}
   isPipeSpawned: 0
+  smoke: {fileID: 2806954699785762748}
 --- !u!33 &4754384852716421443
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -215,6 +215,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be951fc7e9aa842e89a530cb5d54759d, type: 3}
+--- !u!1 &2806954699785762748 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6370593180050220525, guid: be951fc7e9aa842e89a530cb5d54759d, type: 3}
+  m_PrefabInstance: {fileID: 9123354772189778513}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2806954699785762737 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6370593180050220512, guid: be951fc7e9aa842e89a530cb5d54759d, type: 3}

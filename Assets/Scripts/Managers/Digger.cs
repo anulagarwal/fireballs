@@ -62,7 +62,9 @@ public class Digger : MonoBehaviour
         {
             if (contact.otherCollider.gameObject.CompareTag("Ball") ) {
                 other.gameObject.GetComponent<Ball>().Shrink(GetShrinkPercentage());
-                DeformMesh(new Vector3(contact.point.x, contact.point.y, 0), digRadius);
+                //DeformMesh(new Vector3(contact.point.x, contact.point.y, 0), digRadius);
+                DeformMesh(new Vector3(contact.point.x, contact.point.y, 0), other.transform.localScale.x);
+
                 break;
             }
         }

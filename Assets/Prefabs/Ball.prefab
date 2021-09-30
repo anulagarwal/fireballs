@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activated: 0
+  destroyed: 0
   activatedMaterial: {fileID: 0}
   isPipeSpawned: 0
   smoke: {fileID: 2806954699785762748}
@@ -196,6 +197,10 @@ PrefabInstance:
     - target: {fileID: 6370593180050220525, guid: be951fc7e9aa842e89a530cb5d54759d, type: 3}
       propertyPath: m_Name
       value: BodySmoke (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6370593180050220525, guid: be951fc7e9aa842e89a530cb5d54759d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6370593180050220527, guid: be951fc7e9aa842e89a530cb5d54759d, type: 3}
       propertyPath: InitialModule.startSize.scalar

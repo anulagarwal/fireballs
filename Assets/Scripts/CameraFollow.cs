@@ -7,7 +7,9 @@ public class CameraFollow : MonoBehaviour
 {
 
     List<Ball> balls;
-
+    
+    [SerializeField]
+    Transform limitTransform;
 
     [SerializeField]
     private Transform farthestBall;
@@ -22,13 +24,17 @@ public class CameraFollow : MonoBehaviour
         followCamera.Follow = farthestBall;
     }
 
-    private void Update() {
+    private void LateUpdate() {
+        if (transform.localPosition.y <= limitTransform.localPosition.y) {
+            followCamera.Follow = null;
+            return;
+        }
         foreach (var ball in BucketController.Instance.ballsSpawned)
         {
             if (ball.destroyed) {
                 continue;
             }
-            if (farthestBall == null) {
+            if (followCamera.Follow == null) {
                 farthestBall = ball.transform;
                 followCamera.Follow = farthestBall;
             }

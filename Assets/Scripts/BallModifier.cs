@@ -79,6 +79,7 @@ public class BallModifier : MonoBehaviour
             spawnedBalls.Add(ballObj.gameObject.GetInstanceID());
             spawnedBalls.Add(colliderPos.gameObject.GetInstanceID());
             ballObj.gameObject.SetActive(true);
+            BucketController.Instance.ballsSpawned.Add(ballObj);
         }
     }
 }

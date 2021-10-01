@@ -2,6 +2,7 @@
 using UnityEngine;
 using TMPro;
 using UniRx;
+using System.Collections.Generic;
 
 public class BucketController : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class BucketController : MonoBehaviour
 
     [SerializeField]
     TextMeshPro leftText;
+
+    public List<Ball> ballsSpawned;
 
     [SerializeField] private float pipeDownConstraint = 0f;
     [SerializeField] private float pipeUpConstraint = 0f;
@@ -40,6 +43,7 @@ public class BucketController : MonoBehaviour
 
     void Start()
     {
+        ballsSpawned = new List<Ball>();
         position = transform.position;
         ballsRemaining = GameManager.Instance.numberOfBalls;
         GameManager.Instance.SetRemainingBalls(ballsRemaining);
@@ -98,6 +102,7 @@ public class BucketController : MonoBehaviour
         ballObj.GetComponent<Ball>().isPipeSpawned = true;
         ballObj.transform.SetParent(transform);
         ballObj.gameObject.SetActive(true);
+        ballsSpawned.Add(ballObj.GetComponent<Ball>());
     }
 
     public void PipeDown()
@@ -115,5 +120,4 @@ public class BucketController : MonoBehaviour
             transform.Translate(Vector3.up * Time.deltaTime * moveSpeed);
         }
     }
-
 }

@@ -22,18 +22,20 @@ public class Ball : MonoBehaviour
             return;
         }
         transform.DOScale(transform.localScale.x - (transform.localScale.x * (shrinkPercentage / 100)), 0.2f).SetEase(Ease.InOutCubic).OnComplete(() => {
+            // GetComponentInChildren<ParticleSystem>().startSize = transform.localScale.x;
 
-            if (gameObject == null || destroyed || !scaling) {
-                return;
-            }
-            scaling = true;
-
-            GetComponentInChildren<ParticleSystem>().startSize = transform.localScale.x;
-            if (transform.localScale.x < 0.15f) {
+            if (transform.localScale.x < 0.15f)
+            {
                 destroyed = true;
                 GameManager.Instance.ReduceRemainingBalls(1);
                 Destroy(gameObject);
             }
+            if (gameObject == null || destroyed || !scaling) {
+                return;
+            }
+            scaling = true;
+           
+           
         });
     }
 }

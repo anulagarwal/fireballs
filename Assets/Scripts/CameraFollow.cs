@@ -28,7 +28,11 @@ public class CameraFollow : MonoBehaviour
             if (ball.destroyed) {
                 continue;
             }
-            if (farthestBall != null || (farthestBall.transform.position.y - ball.transform.position.y > minimumDistance)) {
+            if (farthestBall == null) {
+                farthestBall = ball.transform;
+                followCamera.Follow = farthestBall;
+            }
+            else if (farthestBall != null || (farthestBall.transform.position.y - ball.transform.position.y > minimumDistance)) {
                 farthestBall = ball.transform;
                 followCamera.Follow = farthestBall;
             }

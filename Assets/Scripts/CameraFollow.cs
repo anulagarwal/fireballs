@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-
     List<Ball> balls;
     
     [SerializeField]

@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
+using Unity.Jobs;
 using UnityEngine;
 
 public class Digger : MonoBehaviour
@@ -10,9 +12,16 @@ public class Digger : MonoBehaviour
     private MeshCollider meshCollider;
     private Vector3[] vertices;
 
+    private NativeArray<Vector3> m_Vertices;
+    private Vector3[] modifiedVertices;
+
     private Vector3[] originalVertices;
     Mesh planeMesh;
     public float digRadius;
+
+    MeltJob meltJob;
+
+    JobHandle m_JobHandle;
 
     [SerializeField]
     Vector3 digVector;
@@ -32,6 +41,8 @@ public class Digger : MonoBehaviour
         meshCollider = GetComponent<MeshCollider>();
         originalVertices = vertices;
         shrinkPercentage = GetShrinkPercentage();
+        m_Vertices = new NativeArray<Vector3>(planeMesh.vertices, Allocator.Persistent);
+        modifiedVertices = new Vector3[m_Vertices.Length];
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -74,23 +85,23 @@ public class Digger : MonoBehaviour
     public void DeformMesh(Vector3 positionHit, float _radius = 0) {
         // Debug.LogError(positionHit);
         positionHit = transform.InverseTransformPoint(positionHit);
-        bool changed = false;
-        for (int i = 0; i < vertices.Length; i++)
-        {
-            float distance = (vertices[i] - positionHit).sqrMagnitude;
 
-            if (distance < _radius) {
-                vertices[i] -= (digVector * power); 
-                changed = true;
-            }
-        }
-        if (changed) {
-            planeMesh.vertices = vertices;
-            meshCollider.sharedMesh = planeMesh;
-        }
+        meltJob = new MeltJob() {
+            vertices = m_Vertices,
+            radius = _radius,
+            power = power,
+            digVector = digVector,
+            positionHit = positionHit
+        };
+        m_JobHandle = meltJob.Schedule(m_Vertices.Length, 64);
+        m_JobHandle.Complete();
+        meltJob.vertices.CopyTo(modifiedVertices);
+        planeMesh.vertices = modifiedVertices;
+        meshCollider.sharedMesh = planeMesh;
     }
  
     private void OnDestroy() {
         planeMesh.vertices = originalVertices;
+        m_Vertices.Dispose();
     }
 }

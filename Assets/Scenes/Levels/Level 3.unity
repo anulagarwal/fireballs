@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 1f53ae3ceb9cb40b7a8f2e95693b092e, type: 2}
   m_LightingSettings: {fileID: 220071318}
 --- !u!196 &4
 NavMeshSettings:
@@ -247,7 +247,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3902446187265531050, guid: 021264e4ab26b8d4ba1a15281be8ebc0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3902446187265531050, guid: 021264e4ab26b8d4ba1a15281be8ebc0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -259,7 +259,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3902446187265531050, guid: 021264e4ab26b8d4ba1a15281be8ebc0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ChangeScene
+      value: ChangeLevel
       objectReference: {fileID: 0}
     - target: {fileID: 3902446187265531050, guid: 021264e4ab26b8d4ba1a15281be8ebc0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -363,7 +363,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8804489328798724391, guid: 021264e4ab26b8d4ba1a15281be8ebc0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8804489328798724391, guid: 021264e4ab26b8d4ba1a15281be8ebc0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -375,7 +375,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8804489328798724391, guid: 021264e4ab26b8d4ba1a15281be8ebc0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ChangeScene
+      value: ChangeLevel
       objectReference: {fileID: 0}
     - target: {fileID: 8804489328798724391, guid: 021264e4ab26b8d4ba1a15281be8ebc0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -433,7 +433,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 543450653395658661, guid: 832ee969c0366194e896f8208064436d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.43
+      value: -0.59
       objectReference: {fileID: 0}
     - target: {fileID: 553988075231655248, guid: 832ee969c0366194e896f8208064436d, type: 3}
       propertyPath: digVector.y
@@ -529,7 +529,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3353309388396846717, guid: 832ee969c0366194e896f8208064436d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.43
+      value: -0.59
       objectReference: {fileID: 0}
     - target: {fileID: 3668866195348518863, guid: 832ee969c0366194e896f8208064436d, type: 3}
       propertyPath: digVector.z
@@ -545,15 +545,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3846310616938685397, guid: 832ee969c0366194e896f8208064436d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.43
+      value: -0.59
       objectReference: {fileID: 0}
     - target: {fileID: 3846310617171369465, guid: 832ee969c0366194e896f8208064436d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.43
+      value: -0.59
       objectReference: {fileID: 0}
     - target: {fileID: 3846310617357613832, guid: 832ee969c0366194e896f8208064436d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.43
+      value: -0.59
       objectReference: {fileID: 0}
     - target: {fileID: 4423183535581740283, guid: 832ee969c0366194e896f8208064436d, type: 3}
       propertyPath: m_IsActive
@@ -581,7 +581,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7050847916921299056, guid: 832ee969c0366194e896f8208064436d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.43
+      value: -0.59
       objectReference: {fileID: 0}
     - target: {fileID: 7291157660316714179, guid: 832ee969c0366194e896f8208064436d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -601,11 +601,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7945108661808093280, guid: 832ee969c0366194e896f8208064436d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.43
+      value: -0.59
       objectReference: {fileID: 0}
     - target: {fileID: 8066630473512007211, guid: 832ee969c0366194e896f8208064436d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.43
+      value: -0.59
       objectReference: {fileID: 0}
     - target: {fileID: 8133212903469036003, guid: 832ee969c0366194e896f8208064436d, type: 3}
       propertyPath: digVector.z
@@ -625,7 +625,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8980040376380268423, guid: 832ee969c0366194e896f8208064436d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.43
+      value: -0.59
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 832ee969c0366194e896f8208064436d, type: 3}
@@ -1131,6 +1131,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 245142969, guid: 0f47fc4acfdc09747842e869597e55a7, type: 3}
+      propertyPath: maxLevels
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 245142969, guid: 0f47fc4acfdc09747842e869597e55a7, type: 3}
+      propertyPath: requiredBalls
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3907710903683445515, guid: 0f47fc4acfdc09747842e869597e55a7, type: 3}
       propertyPath: m_Name
       value: --Sound--

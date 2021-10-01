@@ -47,7 +47,7 @@ public class Digger : MonoBehaviour
         switch (currentSurface)
         {
             case SURFACE_TYPE.PAPER:
-            shrinkAmount = 5f;
+            shrinkAmount = 15f;
             break;
             case SURFACE_TYPE.WAX:
             shrinkAmount = 10f;
@@ -65,7 +65,7 @@ public class Digger : MonoBehaviour
         {
             if (contact.otherCollider.gameObject.CompareTag("Ball") ) {
                 other.gameObject.GetComponent<Ball>().Shrink(shrinkPercentage);
-                DeformMesh(new Vector3(contact.point.x, contact.point.y, 0), Mathf.Max(other.transform.localScale.x, 0.25f));
+                DeformMesh(new Vector3(contact.point.x, contact.point.y, 0), Mathf.Max(other.transform.localScale.x, 0.65f));
                 break;
             }
         }

@@ -19,17 +19,17 @@ public class Ball : MonoBehaviour
     public void Shrink(float shrinkPercentage = 0.1f) {
         scaling = false;
         transform.DOScale(transform.localScale.x - (transform.localScale.x * (shrinkPercentage / 100)), 0.2f).SetEase(Ease.InOutCubic).OnComplete(() => {
+
             if (gameObject == null || destroyed || !scaling) {
                 return;
             }
             scaling = true;
-            GetComponentInChildren<ParticleSystem>().startSize = transform.localScale.x;
-            if (transform.localScale.x < 0.1f) {
-                destroyed = true;
 
-                Destroy(gameObject);
+            GetComponentInChildren<ParticleSystem>().startSize = transform.localScale.x;
+            if (transform.localScale.x < 0.15f) {
                 destroyed = true;
                 GameManager.Instance.ReduceRemainingBalls(1);
+                Destroy(gameObject);
             }
         });
     }

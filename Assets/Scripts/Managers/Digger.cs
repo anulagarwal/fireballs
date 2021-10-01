@@ -22,6 +22,8 @@ public class Digger : MonoBehaviour
         WOODEN,
         WAX
     }
+
+    private float shrinkPercentage = 0; 
     public SURFACE_TYPE currentSurface;
     private void Start() {
         mesh = GetComponent<MeshFilter>();
@@ -29,6 +31,7 @@ public class Digger : MonoBehaviour
         vertices = planeMesh.vertices;
         meshCollider = GetComponent<MeshCollider>();
         originalVertices = vertices;
+        shrinkPercentage = GetShrinkPercentage();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -61,10 +64,8 @@ public class Digger : MonoBehaviour
         foreach (ContactPoint contact in other.contacts)
         {
             if (contact.otherCollider.gameObject.CompareTag("Ball") ) {
-                other.gameObject.GetComponent<Ball>().Shrink(GetShrinkPercentage());
-                //DeformMesh(new Vector3(contact.point.x, contact.point.y, 0), digRadius);
+                other.gameObject.GetComponent<Ball>().Shrink(shrinkPercentage);
                 DeformMesh(new Vector3(contact.point.x, contact.point.y, 0), other.transform.localScale.x);
-
                 break;
             }
         }
@@ -88,8 +89,6 @@ public class Digger : MonoBehaviour
             meshCollider.sharedMesh = planeMesh;
         }
     }
-
-
  
     private void OnDestroy() {
         planeMesh.vertices = originalVertices;

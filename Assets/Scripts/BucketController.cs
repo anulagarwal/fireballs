@@ -48,9 +48,11 @@ public class BucketController : MonoBehaviour
         ballsRemaining = GameManager.Instance.numberOfBalls;
         GameManager.Instance.SetRemainingBalls(ballsRemaining);
         origPos = transform.position;
-      /*  MessageBroker.Default.Receive<GamePlayMessage>()
-        .Where(x => x.commandType == GamePlayMessage.COMMAND.RESTART || x.commandType == GamePlayMessage.COMMAND.PLAYING)
-        .Subscribe(x => ResetLevel());*/
+        leftText.text = ballsRemaining + "";
+
+        /*  MessageBroker.Default.Receive<GamePlayMessage>()
+          .Where(x => x.commandType == GamePlayMessage.COMMAND.RESTART || x.commandType == GamePlayMessage.COMMAND.PLAYING)
+          .Subscribe(x => ResetLevel());*/
     }
 
     void ResetLevel() {
@@ -69,7 +71,7 @@ public class BucketController : MonoBehaviour
             if (GameManager.Instance.isGameOn && ballsRemaining > 0 && (transform.position.x <= bounds && Input.mousePosition.x > position.x) || (transform.position.x > bounds && Input.mousePosition.x < position.x) || transform.position.x >= -bounds && transform.position.x <= bounds)
             {
 
-                float x = (Input.mousePosition.x - oldX) / 4;
+                float x = (Input.mousePosition.x - oldX) / 2;
                 oldX = Input.mousePosition.x;
                 transform.Translate(new Vector3(x, 0, 0) * Time.deltaTime);
                 // transform.position -= new Vector3((position.x - Input.mousePosition.x) * dragMultiplier, 0, 0);

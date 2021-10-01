@@ -18,6 +18,9 @@ public class Ball : MonoBehaviour
     private bool scaling = false;
     public void Shrink(float shrinkPercentage = 0.1f) {
         scaling = false;
+        if (destroyed) {
+            return;
+        }
         transform.DOScale(transform.localScale.x - (transform.localScale.x * (shrinkPercentage / 100)), 0.2f).SetEase(Ease.InOutCubic).OnComplete(() => {
 
             if (gameObject == null || destroyed || !scaling) {

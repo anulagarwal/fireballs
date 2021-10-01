@@ -35,6 +35,7 @@ public class BucketCollector : MonoBehaviour
             {
                 ballsCollectedLabel.color = Color.green;
             }
+            other.GetComponent<Ball>().destroyed = true;
             Destroy(other.gameObject, 1f);
             GameManager.Instance.AddBallToBasket(other.gameObject);
             other.GetComponent<Ball>().smoke.SetActive(false);

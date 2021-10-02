@@ -45,9 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   confettiObj: {fileID: 451074635439071990}
+  numberOfBalls: 3
+  maxLevels: 5
+  requiredBalls: 300
+  collectedBalls: []
   ballsRemaining: 0
   isGameOn: 0
-  numberOfBalls: 5
 --- !u!1 &3907710901944493423
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,7 +124,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.802
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -252,6 +255,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sfxSource: {fileID: 3907710902071958978}
   musicSource: {fileID: 3907710903625494432}
+  sounds:
+  - clip: {fileID: 8300000, guid: 95584355bce6a4fa5ba67602fcef4c96, type: 3}
+    type: 0
+  - clip: {fileID: 8300000, guid: a59cc012d7956438a902299b30f77965, type: 3}
+    type: 1
 --- !u!1 &3907710903625494438
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,6 +4,7 @@ using Unity.Jobs;
 using UnityEngine;
 
 [BurstCompile]
+
 struct MeltJob : IJobParallelFor
 {
     public NativeArray<Vector3> vertices;

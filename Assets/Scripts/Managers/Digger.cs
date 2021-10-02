@@ -54,8 +54,8 @@ public class Digger : MonoBehaviour
     }
 
     private float GetShrinkPercentage() {
-        float shrinkAmount = 10f;
-        switch (currentSurface)
+        float shrinkAmount = 7f;
+       /* switch (currentSurface)
         {
             case SURFACE_TYPE.PAPER:
             shrinkAmount = 15f;
@@ -68,7 +68,7 @@ public class Digger : MonoBehaviour
             break;
             default:
             break;
-        }
+        }*/
         return shrinkAmount;
     }
     private void OnCollisionStay(Collision other) {

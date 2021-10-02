@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour {
     {
         if (currentLevel > maxLevels)
         {
-            SceneManager.LoadScene("Level " + Random.Range(1, maxLevels +1));
+            SceneManager.LoadScene("Level " + Random.Range(1, maxLevels+1));
         }
         else
         {

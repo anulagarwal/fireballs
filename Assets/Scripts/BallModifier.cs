@@ -76,6 +76,7 @@ public class BallModifier : MonoBehaviour
             }
             //            ballObj.transform.SetParent(ballContainer.transform);
             GameManager.Instance.AddRemainingBalls(1);
+            SoundHandler.Instance.PlaySound(SoundType.Pop);
             spawnedBalls.Add(ballObj.gameObject.GetInstanceID());
             spawnedBalls.Add(colliderPos.gameObject.GetInstanceID());
             ballObj.gameObject.SetActive(true);

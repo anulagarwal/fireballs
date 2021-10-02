@@ -1133,6 +1133,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 245142969, guid: 0f47fc4acfdc09747842e869597e55a7, type: 3}
       propertyPath: maxLevels
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 245142969, guid: 0f47fc4acfdc09747842e869597e55a7, type: 3}
+      propertyPath: numberOfBalls
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 245142969, guid: 0f47fc4acfdc09747842e869597e55a7, type: 3}

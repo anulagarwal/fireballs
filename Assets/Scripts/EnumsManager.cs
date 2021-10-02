@@ -26,3 +26,9 @@ public enum ObstacleState
     Plus,
     Minus
 };
+
+public enum SoundType
+{
+    Pop,
+    Win
+}

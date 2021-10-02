@@ -842,18 +842,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 245142969, guid: 0f47fc4acfdc09747842e869597e55a7, type: 3}
-      propertyPath: maxLevels
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 245142969, guid: 0f47fc4acfdc09747842e869597e55a7, type: 3}
-      propertyPath: numberOfBalls
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 245142969, guid: 0f47fc4acfdc09747842e869597e55a7, type: 3}
-      propertyPath: requiredBalls
-      value: 300
-      objectReference: {fileID: 0}
     - target: {fileID: 3907710903683445515, guid: 0f47fc4acfdc09747842e869597e55a7, type: 3}
       propertyPath: m_Name
       value: --Sound--
@@ -958,6 +946,14 @@ PrefabInstance:
     - target: {fileID: 313742386908780690, guid: b3361f01a660b4813867fcfbc63c5ff8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1475351625982382471, guid: b3361f01a660b4813867fcfbc63c5ff8, type: 3}
+      propertyPath: value
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7271684399266801433, guid: b3361f01a660b4813867fcfbc63c5ff8, type: 3}
+      propertyPath: m_text
+      value: x4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3361f01a660b4813867fcfbc63c5ff8, type: 3}

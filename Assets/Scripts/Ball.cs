@@ -23,7 +23,6 @@ public class Ball : MonoBehaviour
         }
         transform.DOScale(transform.localScale.x - (transform.localScale.x * (shrinkPercentage / 100)), 0.2f).SetEase(Ease.InOutCubic).OnComplete(() => {
             // GetComponentInChildren<ParticleSystem>().startSize = transform.localScale.x;
-
             if (transform.localScale.x < 0.15f)
             {
                 destroyed = true;
@@ -34,8 +33,6 @@ public class Ball : MonoBehaviour
                 return;
             }
             scaling = true;
-           
-           
         });
     }
 }

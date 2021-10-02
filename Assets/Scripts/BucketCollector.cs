@@ -21,8 +21,7 @@ public class BucketCollector : MonoBehaviour
             ballsCollectedLabel.text = ballsCollected.ToString(); 
         });
 
-        ballsCollectedLabel.text = ballsCollected.ToString() + "/" + GameManager.Instance.requiredBalls;
-
+        ballsCollectedLabel.text = ballsCollected + "/" + GameManager.Instance.requiredBalls;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -30,7 +29,7 @@ public class BucketCollector : MonoBehaviour
         if (other.gameObject.CompareTag("Ball"))
         {
             ballsCollected++;
-            ballsCollectedLabel.text = ballsCollected.ToString() + "/" + GameManager.Instance.requiredBalls;
+            ballsCollectedLabel.text = ballsCollected + "/" + GameManager.Instance.requiredBalls;
             if (ballsCollected >= GameManager.Instance.requiredBalls)
             {
                 ballsCollectedLabel.color = Color.green;

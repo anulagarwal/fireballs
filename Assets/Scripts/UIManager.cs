@@ -34,7 +34,8 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        Application.targetFrameRate = 60;       
+        // Application.targetFrameRate = 60;   
+        QualitySettings.vSyncCount = 0;    
     }
 
 

@@ -3,16 +3,15 @@ using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
 
-[BurstCompile]
+[BurstCompile(FloatPrecision.Low, FloatMode.Fast)]
 struct MeltJob : IJobParallelFor
 {
     public NativeArray<Vector3> vertices;
-    public Vector3 positionHit;
-    public Vector3 digVector;
+    [ReadOnly] public Vector3 positionHit;
+    [ReadOnly] public Vector3 digVector;
 
-    public float power;
-
-    public float radius;
+    [ReadOnly] public float power;
+    [ReadOnly] public float radius;
     public void Execute(int i)
     {
         var vertex = vertices[i];

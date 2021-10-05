@@ -55,11 +55,6 @@ public class BucketController : MonoBehaviour
           .Subscribe(x => ResetLevel());*/
     }
 
-    void ResetLevel() {
-      //  ballsRemaining = numberofBalls;
-      //  leftText.text = ballsRemaining.ToString();
-    }
-
     private void Update()
     {
         if (Input.GetMouseButtonDown(0) && ballsRemaining > 0 && GameManager.Instance.isGameOn)
@@ -87,10 +82,7 @@ public class BucketController : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0) && ballsRemaining > 0 && GameManager.Instance.isGameOn)
         {
-            GetComponentInChildren<Rigidbody>().useGravity = true;
-            GetComponentInChildren<Rigidbody>().transform.parent = null;
-            ballsRemaining--;
-            leftText.text = ballsRemaining + "";
+            ReleaseBall();  
         }
 
     }
@@ -105,6 +97,14 @@ public class BucketController : MonoBehaviour
         ballObj.transform.SetParent(transform);
         ballObj.gameObject.SetActive(true);
         ballsSpawned.Add(ballObj.GetComponent<Ball>());
+    }
+
+    public void ReleaseBall()
+    {
+        GetComponentInChildren<Rigidbody>().useGravity = true;
+        GetComponentInChildren<Rigidbody>().transform.parent = null;
+        ballsRemaining--;
+        leftText.text = ballsRemaining + "";
     }
 
     public void PipeDown()

@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Level text")]
     [SerializeField] List<Text> levelTexts;
+    [SerializeField] Text finalScore;
 
 
     void Start()
@@ -77,6 +78,11 @@ public class UIManager : MonoBehaviour
         {
             t.text = "LEVEL " + value;
         }
+    }
+
+    public void UpdateScore(int value)
+    {
+        finalScore.text = value + " BALLS COLLECTED";
     }
     #endregion
 }

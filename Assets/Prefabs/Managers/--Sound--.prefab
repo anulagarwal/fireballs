@@ -45,12 +45,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   confettiObj: {fileID: 451074635439071990}
-  numberOfBalls: 3
-  maxLevels: 5
-  requiredBalls: 300
+  numberOfBalls: 6
+  maxLevels: 6
+  requiredBalls: 10
   collectedBalls: []
   ballsRemaining: 0
   isGameOn: 0
+  isWon: 0
 --- !u!1 &3907710901944493423
 GameObject:
   m_ObjectHideFlags: 0

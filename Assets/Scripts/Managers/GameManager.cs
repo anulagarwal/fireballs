@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private int ballsRemaining;
     private int currentLevel;
     public bool isGameOn;
+    public bool isWon;
 
 
     #endregion
@@ -39,6 +40,7 @@ public class GameManager : MonoBehaviour {
         currentLevel = PlayerPrefs.GetInt("level", 1);
         UIManager.Instance.UpdateLevelText(currentLevel);
         BucketController.Instance.enabled = false;
+        print(currentLevel);
     }
     #endregion
 
@@ -85,7 +87,12 @@ public class GameManager : MonoBehaviour {
     {
         if (currentLevel > maxLevels)
         {
-            SceneManager.LoadScene("Level " + Random.Range(1, maxLevels+1));
+            int newId = currentLevel % maxLevels;
+            if(newId == 0)
+            {
+                newId = maxLevels;
+            }
+            SceneManager.LoadScene("Level " + (newId));
         }
         else
         {
@@ -95,6 +102,8 @@ public class GameManager : MonoBehaviour {
     public void ShowWinUI()
     {
         UIManager.Instance.SwitchUIPanel(UIPanelState.Victory);
+        UIManager.Instance.UpdateScore(collectedBalls.Count);
+
     }
 
     public void ShowLoseUI()
@@ -121,13 +130,17 @@ public class GameManager : MonoBehaviour {
     {
         ballsRemaining -= value;
 
-        if (ballsRemaining <= 0 && collectedBalls.Count <=0 )
+        if (ballsRemaining <= 0 &&  collectedBalls.Count < requiredBalls)
         {
             Lose();
         }
-        else if(ballsRemaining <= 0 && collectedBalls.Count >= 0 )
+        else if(ballsRemaining <= 0 && collectedBalls.Count >= 0  && collectedBalls.Count > requiredBalls)
         {
-            Win();
+            if (!isWon)
+            {
+                Win();
+                isWon = true;
+            }
         }
     }
 

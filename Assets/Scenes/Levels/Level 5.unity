@@ -286,6 +286,10 @@ PrefabInstance:
       value: --UI--
       objectReference: {fileID: 0}
     - target: {fileID: 3902446187498471874, guid: 021264e4ab26b8d4ba1a15281be8ebc0, type: 3}
+      propertyPath: finalScore
+      value: 
+      objectReference: {fileID: 1154264700}
+    - target: {fileID: 3902446187498471874, guid: 021264e4ab26b8d4ba1a15281be8ebc0, type: 3}
       propertyPath: gameplayUIObj
       value: 
       objectReference: {fileID: 382704917}
@@ -666,6 +670,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65a68c44a4436448ba67fcaa6b084fab, type: 3}
+--- !u!114 &1154264700 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2158525143463279417, guid: 021264e4ab26b8d4ba1a15281be8ebc0, type: 3}
+  m_PrefabInstance: {fileID: 347679792}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1313839276 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3902446188866867691, guid: 021264e4ab26b8d4ba1a15281be8ebc0, type: 3}
@@ -899,6 +914,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 54664735228649626, guid: b3361f01a660b4813867fcfbc63c5ff8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -16.46
+      objectReference: {fileID: 0}
     - target: {fileID: 313742386908780685, guid: b3361f01a660b4813867fcfbc63c5ff8, type: 3}
       propertyPath: m_Name
       value: Level 5

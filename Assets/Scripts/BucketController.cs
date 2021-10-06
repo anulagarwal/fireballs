@@ -27,8 +27,10 @@ public class BucketController : MonoBehaviour
     [SerializeField] private float pipeDownConstraint = 0f;
     [SerializeField] private float pipeUpConstraint = 0f;
     [SerializeField] private float moveSpeed = 0f;
+    [SerializeField] private float launchSpeed= 0.4f;
 
     private float oldX;
+    bool isGameOn;
 
     //public float dragMultiplier = 0.1f;
 
@@ -59,33 +61,58 @@ public class BucketController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && ballsRemaining > 0 && GameManager.Instance.isGameOn)
         {
-            SpawnBall();
+
+            // SpawnBall();
         }
         if (Input.GetMouseButton(0))
         {
+            if (!isGameOn)
+            {
+
+                oldX = Input.mousePosition.x;
+
+                isGameOn = true;
+                Invoke("LaunchBalls", launchSpeed);
+
+
+            }
             if (GameManager.Instance.isGameOn && ballsRemaining > 0 && (transform.position.x <= bounds && Input.mousePosition.x > position.x) || (transform.position.x > bounds && Input.mousePosition.x < position.x) || transform.position.x >= -bounds && transform.position.x <= bounds)
             {
 
-                float x = (Input.mousePosition.x - oldX) / 2;
-                oldX = Input.mousePosition.x;
+                float x = (Input.mousePosition.x - oldX) / 4;
                 transform.Translate(new Vector3(x, 0, 0) * Time.deltaTime);
                 // transform.position -= new Vector3((position.x - Input.mousePosition.x) * dragMultiplier, 0, 0);
                 position = Input.mousePosition;
+                oldX = Input.mousePosition.x;
+
             }
 
-            PipeDown();
+            //PipeDown();
         }
         else
         {
-            PipeUp();
+           // PipeUp();
         }
 
         if (Input.GetMouseButtonUp(0) && ballsRemaining > 0 && GameManager.Instance.isGameOn)
         {
-            ReleaseBall();  
+            //ReleaseBall();  
         }
 
     }
+    public void LaunchBalls()
+    {
+        
+      
+        if (ballsRemaining > 0)
+        {
+            SpawnBall();
+            ReleaseBall();
+            Invoke("LaunchBalls", launchSpeed);
+        }
+           
+   
+}
 
     public void SpawnBall()
     {

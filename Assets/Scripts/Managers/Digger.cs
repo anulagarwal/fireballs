@@ -29,7 +29,10 @@ public class Digger : MonoBehaviour
     {
         PAPER,
         WOODEN,
-        WAX
+        WAX,
+        CHOCOLATE,
+        CANDLE,
+        ICECREAM
     }
 
     private float shrinkPercentage = 0; 
@@ -59,20 +62,23 @@ public class Digger : MonoBehaviour
 
     private float GetShrinkPercentage() {
         float shrinkAmount = 7f;
-       /* switch (currentSurface)
+        switch (currentSurface)
         {
             case SURFACE_TYPE.PAPER:
-            shrinkAmount = 15f;
+            shrinkAmount = 7f;
             break;
             case SURFACE_TYPE.WAX:
             shrinkAmount = 10f;
             break;
+            case SURFACE_TYPE.CHOCOLATE:
+                shrinkAmount = 15f;
+                break;
             case SURFACE_TYPE.WOODEN:
             shrinkAmount = 25f;
             break;
             default:
             break;
-        }*/
+        }
         return shrinkAmount;
     }
     private void OnCollisionStay(Collision other) {

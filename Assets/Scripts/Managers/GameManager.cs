@@ -37,10 +37,10 @@ public class GameManager : MonoBehaviour {
 
     private void Start()
     {
+        maxLevels = 10;
         currentLevel = PlayerPrefs.GetInt("level", 1);
         UIManager.Instance.UpdateLevelText(currentLevel);
-        BucketController.Instance.enabled = false;
-        print(currentLevel);
+        BucketController.Instance.enabled = false;        
     }
     #endregion
 
@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour {
         UIManager.Instance.SwitchUIPanel(UIPanelState.Gameplay);
         TinySauce.OnGameStarted(levelNumber: "" + currentLevel);
         BucketController.Instance.enabled = true;
-        BucketController.Instance.SpawnBall();
+       // BucketController.Instance.SpawnBall();
 
     }
 

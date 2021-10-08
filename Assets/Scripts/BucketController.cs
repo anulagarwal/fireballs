@@ -63,18 +63,17 @@ public class BucketController : MonoBehaviour
         {
 
             // SpawnBall();
+            oldX = Input.mousePosition.x;
+
         }
+
         if (Input.GetMouseButton(0))
         {
             if (!isGameOn)
             {
-
                 oldX = Input.mousePosition.x;
-
                 isGameOn = true;
                 Invoke("LaunchBalls", launchSpeed);
-
-
             }
             if (GameManager.Instance.isGameOn && ballsRemaining > 0 && (transform.position.x <= bounds && Input.mousePosition.x > position.x) || (transform.position.x > bounds && Input.mousePosition.x < position.x) || transform.position.x >= -bounds && transform.position.x <= bounds)
             {

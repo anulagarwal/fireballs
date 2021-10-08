@@ -323,7 +323,7 @@ Camera:
   far clip plane: 1000
   field of view: 76
   orthographic: 1
-  orthographic size: 8.13
+  orthographic size: 9.7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -347,7 +347,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 504201567}
   m_LocalRotation: {x: 0.007189955, y: 0.0110966135, z: 0.000079698264, w: -0.9999126}
-  m_LocalPosition: {x: 0.22091575, y: 10.813676, z: -9.112129}
+  m_LocalPosition: {x: 0.2219003, y: 13.899872, z: -9.156504}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -666,6 +666,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5485053644240195474, guid: 7c2b609d2607045f0861cfeb0e160969, type: 3}
+      propertyPath: moveSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5485053644240195474, guid: 7c2b609d2607045f0861cfeb0e160969, type: 3}
+      propertyPath: pipeUpConstraint
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5485053644240195474, guid: 7c2b609d2607045f0861cfeb0e160969, type: 3}
+      propertyPath: pipeDownConstraint
+      value: -0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 5540343915859228483, guid: 7c2b609d2607045f0861cfeb0e160969, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -721,6 +733,22 @@ PrefabInstance:
     - target: {fileID: 6464678198633496531, guid: 7c2b609d2607045f0861cfeb0e160969, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9017730372642376128, guid: 7c2b609d2607045f0861cfeb0e160969, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.2219003
+      objectReference: {fileID: 0}
+    - target: {fileID: 9017730372642376128, guid: 7c2b609d2607045f0861cfeb0e160969, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 14.756196
+      objectReference: {fileID: 0}
+    - target: {fileID: 9017730372642376128, guid: 7c2b609d2607045f0861cfeb0e160969, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -9.996504
+      objectReference: {fileID: 0}
+    - target: {fileID: 9017730372642376130, guid: 7c2b609d2607045f0861cfeb0e160969, type: 3}
+      propertyPath: m_Lens.OrthographicSize
+      value: 9.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c2b609d2607045f0861cfeb0e160969, type: 3}

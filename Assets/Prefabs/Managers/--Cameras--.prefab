@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1785748248184461475}
   m_LocalRotation: {x: 0.007189955, y: 0.0110966135, z: 0.000079698264, w: -0.9999126}
-  m_LocalPosition: {x: 0.39322853, y: -1.1387839, z: -9.876538}
+  m_LocalPosition: {x: 0.27000004, y: -1.138823, z: -9.879273}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1785748248802502775}
@@ -55,7 +55,7 @@ MonoBehaviour:
   m_Follow: {fileID: 8912774340982331395}
   m_Lens:
     FieldOfView: 76
-    OrthographicSize: 8.82
+    OrthographicSize: 9.48
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -80,6 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f39c4db7b6a4d9b4589d2754f83ab0e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  limitTransform: {fileID: 0}
   farthestBall: {fileID: 8912774340982331395}
   minimumDistance: 2
 --- !u!1 &1785748248802502774

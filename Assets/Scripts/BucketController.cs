@@ -31,6 +31,8 @@ public class BucketController : MonoBehaviour
 
     private float oldX;
     bool isGameOn;
+    bool isPipeUp;
+    bool isPipeDown;
 
     //public float dragMultiplier = 0.1f;
 
@@ -73,7 +75,9 @@ public class BucketController : MonoBehaviour
             {
                 oldX = Input.mousePosition.x;
                 isGameOn = true;
-                Invoke("LaunchBalls", launchSpeed);
+                //Invoke("LaunchBalls", launchSpeed);
+                SpawnBall();
+                PipeDown();
             }
             if (GameManager.Instance.isGameOn && ballsRemaining > 0 && (transform.position.x <= bounds && Input.mousePosition.x > position.x) || (transform.position.x > bounds && Input.mousePosition.x < position.x) || transform.position.x >= -bounds && transform.position.x <= bounds)
             {
@@ -83,7 +87,6 @@ public class BucketController : MonoBehaviour
                 // transform.position -= new Vector3((position.x - Input.mousePosition.x) * dragMultiplier, 0, 0);
                 position = Input.mousePosition;
                 oldX = Input.mousePosition.x;
-
             }
 
             //PipeDown();
@@ -96,6 +99,18 @@ public class BucketController : MonoBehaviour
         if (Input.GetMouseButtonUp(0) && ballsRemaining > 0 && GameManager.Instance.isGameOn)
         {
             //ReleaseBall();  
+        }
+        if (ballsRemaining > 0)
+        {
+            if (isPipeDown && !isPipeUp)
+            {
+                PipeDown();
+            }
+
+            if (isPipeUp && !isPipeDown)
+            {
+                PipeUp();
+            }
         }
 
     }
@@ -138,6 +153,17 @@ public class BucketController : MonoBehaviour
         if (transform.position.y > origPos.y+pipeDownConstraint)
         {
             transform.Translate(-Vector3.up * Time.deltaTime * moveSpeed);
+            isPipeDown = true;
+            isPipeUp = false;
+        }
+        else
+        {
+            //Drop ball
+           
+            isPipeDown = false;
+            isPipeUp = true;
+            ReleaseBall();
+            PipeUp();
         }
     }
 
@@ -146,6 +172,15 @@ public class BucketController : MonoBehaviour
         if (transform.position.y < origPos.y + pipeUpConstraint)
         {
             transform.Translate(Vector3.up * Time.deltaTime * moveSpeed);
+            isPipeUp = true;
+            isPipeDown = false;
+
+        }
+        else
+        {
+            isPipeUp = false;
+            isPipeDown = true;
+            SpawnBall();
         }
     }
 }

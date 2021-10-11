@@ -39,26 +39,28 @@ public class CameraFollow : MonoBehaviour
             {
                 if (ball.destroyed)
                 {
-                    continue;
+                    continue;                    
                 }
-                ballTotal += ball.transform.position.y;
-                totalBalls++;
-                if (followCamera.Follow == null)
-                {
-                    //farthestBall = ball.transform;
-                    followCamera.Follow = farthestBall;
-                }
-                else if (farthestBall != null || (farthestBall.transform.position.y - ball.transform.position.y > minimumDistance))
-                {
-                    //farthestBall = ball.transform;
-                    followCamera.Follow = farthestBall;
-                }
+               
 
+                    ballTotal += ball.transform.position.y;
+                    totalBalls++;
+                    if (followCamera.Follow == null)
+                    {
+                        //farthestBall = ball.transform;
+                        followCamera.Follow = farthestBall;
+                    }
+                    else if (farthestBall != null || (farthestBall.transform.position.y - ball.transform.position.y > minimumDistance))
+                    {
+                        //farthestBall = ball.transform;
+                        followCamera.Follow = farthestBall;
+                    }
+                
             }            
                 yVal = ballTotal / totalBalls;
             if (yVal != 0)
             {
-                farthestBall.transform.position = new Vector3(farthestBall.position.x, yVal, farthestBall.position.z);
+                farthestBall.transform.position = new Vector3(farthestBall.position.x, yVal-2, farthestBall.position.z);
             }
         }
     }

@@ -54,7 +54,7 @@ public class BallModifier : MonoBehaviour
                 }
                 currentValLbl.text = "+" + value;
                 await Task.Delay(TimeSpan.FromSeconds(0.1f));
-                SpawnBall(other);
+                SpawnBall(GetComponent<BoxCollider>());
             } else {
                 for (int i = 0; i < value; i++)
                 {

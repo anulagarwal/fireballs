@@ -23,6 +23,8 @@ public class Digger : MonoBehaviour
 
     JobHandle m_JobHandle;
 
+    [SerializeField] bool fixRadius;
+
     [SerializeField]
     Vector3 digVector;
     public enum SURFACE_TYPE
@@ -86,7 +88,12 @@ public class Digger : MonoBehaviour
         {
             if (contact.otherCollider.CompareTag("Ball") ) {
                 other.gameObject.GetComponent<Ball>().Shrink(shrinkPercentage);
-                DeformMesh(new Vector3(contact.point.x, contact.point.y, 0), Mathf.Max(other.transform.localScale.x, 0.65f));
+                if(!fixRadius)
+                DeformMesh(new Vector3(contact.point.x, contact.point.y, 0), Mathf.Max(other.transform.localScale.x, 0.55f));
+                else
+                {
+                    DeformMesh(new Vector3(contact.point.x, contact.point.y, 0), digRadius);
+                }
                 break;
             }
         }

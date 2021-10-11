@@ -11,28 +11,38 @@ public class BucketCollector : MonoBehaviour
 
     private int ballsCollected = 0;
 
-    [SerializeField] private ParticleSystem vfx; 
+    [SerializeField] private ParticleSystem vfx;
+
+    [SerializeField] bool isEmpty;
     void Start()
     {
-        MessageBroker.Default.Receive<GamePlayMessage>()
+        if (!isEmpty)
+        {
+            MessageBroker.Default.Receive<GamePlayMessage>()
         .Where(x => x.commandType == GamePlayMessage.COMMAND.RESTART || x.commandType == GamePlayMessage.COMMAND.PLAYING)
-        .Subscribe(x => {
+        .Subscribe(x =>
+        {
             ballsCollected = 0;
-            ballsCollectedLabel.text = ballsCollected.ToString(); 
+            ballsCollectedLabel.text = ballsCollected.ToString();
         });
 
-        ballsCollectedLabel.text = ballsCollected + "/" + GameManager.Instance.requiredBalls;
+            ballsCollectedLabel.text = ballsCollected + "/" + GameManager.Instance.requiredBalls;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Ball"))
         {
-            ballsCollected++;
-            ballsCollectedLabel.text = ballsCollected + "/" + GameManager.Instance.requiredBalls;
-            if (ballsCollected >= GameManager.Instance.requiredBalls)
+            if (!isEmpty)
             {
-                ballsCollectedLabel.color = Color.green;
+                ballsCollected++;
+                ballsCollectedLabel.text = ballsCollected + "/" + GameManager.Instance.requiredBalls;
+                if (ballsCollected >= GameManager.Instance.requiredBalls)
+                {
+                    ballsCollectedLabel.color = Color.green;
+                }
+                vfx.Play();
             }
             other.GetComponent<Ball>().destroyed = true;
             Destroy(other.gameObject, 1f);
@@ -41,7 +51,7 @@ public class BucketCollector : MonoBehaviour
             GameManager.Instance.AddBallToBasket(other.gameObject);
             other.GetComponent<Ball>().smoke.SetActive(false);
             // Destroy(collision.gameObject);
-            vfx.Play();
+            
         }
     }
 

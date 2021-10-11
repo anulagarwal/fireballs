@@ -79,10 +79,10 @@ public class BucketController : MonoBehaviour
                 SpawnBall();
                 PipeDown();
             }
-            if (GameManager.Instance.isGameOn && ballsRemaining > 0 && (transform.position.x <= bounds && Input.mousePosition.x > position.x) || (transform.position.x > bounds && Input.mousePosition.x < position.x) || transform.position.x >= -bounds && transform.position.x <= bounds)
+            if (GameManager.Instance.isGameOn && ballsRemaining > 0 && (transform.position.x <= bounds && Input.mousePosition.x > oldX) || (transform.position.x > bounds && Input.mousePosition.x < oldX) || transform.position.x >= -bounds && transform.position.x <= bounds)
             {
 
-                float x = (Input.mousePosition.x - oldX) / 4;
+                float x = (Input.mousePosition.x - oldX) / 2;
                 transform.Translate(new Vector3(x, 0, 0) * Time.deltaTime);
                 // transform.position -= new Vector3((position.x - Input.mousePosition.x) * dragMultiplier, 0, 0);
                 position = Input.mousePosition;
@@ -138,6 +138,7 @@ public class BucketController : MonoBehaviour
         ballObj.transform.SetParent(transform);
         ballObj.gameObject.SetActive(true);
         ballsSpawned.Add(ballObj.GetComponent<Ball>());
+        
     }
 
     public void ReleaseBall()

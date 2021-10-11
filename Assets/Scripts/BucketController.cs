@@ -77,7 +77,8 @@ public class BucketController : MonoBehaviour
                 isGameOn = true;
                 //Invoke("LaunchBalls", launchSpeed);
                 SpawnBall();
-                PipeDown();
+                Invoke("PipeDown", 2f);
+                
             }
             if (GameManager.Instance.isGameOn && ballsRemaining > 0 && (transform.position.x <= bounds && Input.mousePosition.x > oldX) || (transform.position.x > bounds && Input.mousePosition.x < oldX) || transform.position.x >= -bounds && transform.position.x <= bounds)
             {

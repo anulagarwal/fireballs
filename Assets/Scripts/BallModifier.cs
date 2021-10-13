@@ -56,11 +56,16 @@ public class BallModifier : MonoBehaviour
                 await Task.Delay(TimeSpan.FromSeconds(0.1f));
                 SpawnBall(GetComponent<BoxCollider>());
             } else {
+               
                 for (int i = 0; i < value; i++)
                 {
                     await Task.Delay(TimeSpan.FromSeconds(0.1f));
                     SpawnBall(other);
                 }
+            }
+            if (GetComponentInParent<ModifierMovement>() != null)
+            {
+                GetComponentInParent<ModifierMovement>().Stop();
             }
         }
     }

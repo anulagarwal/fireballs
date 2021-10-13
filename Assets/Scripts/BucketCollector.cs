@@ -44,14 +44,15 @@ public class BucketCollector : MonoBehaviour
                 }
                 vfx.Play();
             }
+            UIManager.Instance.SpawnText(other.transform.position);
             other.GetComponent<Ball>().destroyed = true;
-            Destroy(other.gameObject, 1f);
            // Vibration.Vibrate(5);
-
             GameManager.Instance.AddBallToBasket(other.gameObject);
+            BucketController.Instance.ballsSpawned.Remove(other.gameObject.GetComponent<Ball>());
             other.GetComponent<Ball>().smoke.SetActive(false);
-            // Destroy(collision.gameObject);
-            
+            Destroy(other.gameObject);
+
+
         }
     }
 

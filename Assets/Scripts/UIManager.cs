@@ -32,6 +32,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] List<Text> levelTexts;
     [SerializeField] Text finalScore;
 
+    [SerializeField] GameObject awesomeText;
+
+
 
     void Start()
     {
@@ -83,6 +86,11 @@ public class UIManager : MonoBehaviour
     public void UpdateScore(int value)
     {
         finalScore.text = value + " BALLS COLLECTED";
+    }
+
+    public void SpawnText(Vector3 pos)
+    {
+        Instantiate(awesomeText, pos, Quaternion.identity);
     }
     #endregion
 }

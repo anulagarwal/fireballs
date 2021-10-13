@@ -16,6 +16,15 @@ public class Ball : MonoBehaviour
     public bool isPipeSpawned;
     public GameObject smoke;
     private bool scaling = false;
+
+    private void Update()
+    {
+        if(transform.position.y < -22)
+        {
+            destroyed = true;
+            Destroy(gameObject);
+        }
+    }
     public void Shrink(float shrinkPercentage = 0.1f) {
         scaling = false;
         if (destroyed) {
@@ -23,7 +32,7 @@ public class Ball : MonoBehaviour
         }
         transform.DOScale(transform.localScale.x - (transform.localScale.x * (shrinkPercentage / 100)), 0.2f).SetEase(Ease.InOutCubic).OnComplete(() => {
             // GetComponentInChildren<ParticleSystem>().startSize = transform.localScale.x;
-            if (transform.localScale.x < 0.15f)
+            if (transform.localScale.x < 0.23f)
             {
                 destroyed = true;
                 GameManager.Instance.ReduceRemainingBalls(1);
@@ -36,4 +45,6 @@ public class Ball : MonoBehaviour
             scaling = true;
         });
     }
+
+    
 }

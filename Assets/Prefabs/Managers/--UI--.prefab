@@ -1326,6 +1326,7 @@ MonoBehaviour:
   - {fileID: 3902446187724663579}
   - {fileID: 3902446187200127588}
   finalScore: {fileID: 2158525143463279417}
+  awesomeText: {fileID: 8843799617159341129, guid: a148335a1b33e4edc8888345767dc20d, type: 3}
 --- !u!1 &3902446187724663577
 GameObject:
   m_ObjectHideFlags: 0

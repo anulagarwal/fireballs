@@ -73,7 +73,7 @@ public class Digger : MonoBehaviour
             shrinkAmount = 10f;
             break;
             case SURFACE_TYPE.CHOCOLATE:
-                shrinkAmount = 15f;
+                shrinkAmount = 9f;
                 break;
             case SURFACE_TYPE.WOODEN:
             shrinkAmount = 25f;

@@ -1,7 +1,7 @@
 
 using UnityEngine;
 using TMPro;
-using UniRx;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class BucketController : MonoBehaviour
@@ -29,6 +29,12 @@ public class BucketController : MonoBehaviour
     [SerializeField] private float moveSpeed = 0f;
     [SerializeField] private float launchSpeed= 0.4f;
 
+    [SerializeField] Image borderFill;
+    [SerializeField] float fallDelay;
+
+    private float startTime;
+    private bool isFalling;
+
     private float oldX;
     bool isGameOn;
     bool isPipeUp;
@@ -47,6 +53,7 @@ public class BucketController : MonoBehaviour
 
     void Start()
     {
+        fallDelay = 2;
         ballsSpawned = new List<Ball>();
         position = transform.position;
         ballsRemaining = GameManager.Instance.numberOfBalls;
@@ -66,7 +73,9 @@ public class BucketController : MonoBehaviour
 
             // SpawnBall();
             oldX = Input.mousePosition.x;
-
+            startTime = Time.time;
+            if(!isFalling)
+            isFalling = true;
         }
 
         if (Input.GetMouseButton(0))
@@ -74,11 +83,26 @@ public class BucketController : MonoBehaviour
             if (!isGameOn)
             {
                 oldX = Input.mousePosition.x;
-                isGameOn = true;
+                isGameOn = true;             
                 //Invoke("LaunchBalls", launchSpeed);
                 SpawnBall();
-                Invoke("PipeDown", 2f);
-                
+                isFalling = true;
+                startTime = Time.time;
+               // Invoke("PipeDown", 2f);                
+            }
+
+            if (isFalling)
+            {
+                if(startTime + fallDelay <= Time.time)
+                {
+                    PipeDown();
+                    isFalling = false;
+                    borderFill.transform.parent.gameObject.SetActive(false);
+                }
+                else
+                {
+                    borderFill.fillAmount = (Time.time - startTime) / fallDelay;
+                }
             }
             if (GameManager.Instance.isGameOn && ballsRemaining > 0 && (transform.position.x <= bounds && Input.mousePosition.x > oldX) || (transform.position.x > bounds && Input.mousePosition.x < oldX) || transform.position.x >= -bounds && transform.position.x <= bounds)
             {
@@ -99,10 +123,30 @@ public class BucketController : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0) && ballsRemaining > 0 && GameManager.Instance.isGameOn)
         {
-            //ReleaseBall();  
+            if (isFalling)
+            {
+                borderFill.fillAmount = 0;
+            }
+            //ReleaseBall();
+            //if (startTime + fallDelay >= Time.time && isFalling) ;
+            // isFalling = false;
+
         }
+
+       
         if (ballsRemaining > 0)
         {
+            if (isGameOn && !isFalling)
+            {
+               /* if (startTime + fallDelay <= Time.time)
+                {
+                    startTime = Time.time;
+                    PipeDown();
+                    isFalling = false;
+                }
+               */
+                
+            }
             if (isPipeDown && !isPipeUp)
             {
                 PipeDown();

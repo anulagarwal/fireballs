@@ -113,6 +113,7 @@ public class GameManager : MonoBehaviour {
 
     public void AddBallToBasket(GameObject g)
     {
+        if(!collectedBalls.Contains(g))
         collectedBalls.Add(g);
         ReduceRemainingBalls(1);
     }
@@ -129,17 +130,19 @@ public class GameManager : MonoBehaviour {
     public void ReduceRemainingBalls(int value)
     {
         ballsRemaining -= value;
-
-        if (ballsRemaining <= 0 &&  collectedBalls.Count < requiredBalls)
+        if (GameObject.FindGameObjectsWithTag("Ball") != null)
         {
-            Lose();
-        }
-        else if(ballsRemaining <= 0 && collectedBalls.Count >= 0  && collectedBalls.Count > requiredBalls)
-        {
-            if (!isWon)
+            if (GameObject.FindGameObjectsWithTag("Ball").Length <= 1 && collectedBalls.Count < requiredBalls)
             {
-                Win();
-                isWon = true;
+                Lose();
+            }
+            else if (GameObject.FindGameObjectsWithTag("Ball").Length <= 1 && collectedBalls.Count >= 0 && collectedBalls.Count > requiredBalls && LockHandler.Instance==null)
+            {
+                if (!isWon)
+                {
+                    Win();
+                    isWon = true;
+                }
             }
         }
     }

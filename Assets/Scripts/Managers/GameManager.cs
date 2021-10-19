@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] public int numberOfBalls;
     [SerializeField] public int maxLevels;
     [SerializeField] public int requiredBalls;
+    public GameState currentState;
 
 
     //Internal values
@@ -37,10 +38,9 @@ public class GameManager : MonoBehaviour {
 
     private void Start()
     {
-        maxLevels = 10;
-        currentLevel = PlayerPrefs.GetInt("level", 1);
-        UIManager.Instance.UpdateLevelText(currentLevel);
-        BucketController.Instance.enabled = false;        
+        maxLevels = 11;
+        UpdateState(GameState.Main);
+       
     }
     #endregion
 
@@ -59,26 +59,17 @@ public class GameManager : MonoBehaviour {
     public void StartLevel()
     {
         isGameOn = true;
-        UIManager.Instance.SwitchUIPanel(UIPanelState.Gameplay);
-        TinySauce.OnGameStarted(levelNumber: "" + currentLevel);
-        BucketController.Instance.enabled = true;
-       // BucketController.Instance.SpawnBall();
-
+        UpdateState(GameState.Game);
     }
 
     public void Lose()
     {
-        //isGameOn = false;
-        Invoke("ShowLoseUI", 2f);
-        TinySauce.OnGameFinished(false, 0);
+        UpdateState(GameState.Lose);
     }
 
     public void Win()
     {
-        //isGameOn = false;
-        Invoke("ShowWinUI", 2f);
-        confettiObj.SetActive(true);
-        TinySauce.OnGameFinished(true, 0);
+        UpdateState(GameState.Win);
         currentLevel++;
         PlayerPrefs.SetInt("level", currentLevel);
     }
@@ -104,6 +95,44 @@ public class GameManager : MonoBehaviour {
         UIManager.Instance.SwitchUIPanel(UIPanelState.Victory);
         UIManager.Instance.UpdateScore(collectedBalls.Count);
 
+    }
+
+    public void UpdateState(GameState state)
+    {
+        currentState = state;
+        switch (state)
+        {
+            case GameState.Main:
+                currentLevel = PlayerPrefs.GetInt("level", 1);
+                UIManager.Instance.UpdateLevelText(currentLevel);
+                ballsRemaining = numberOfBalls;
+                isGameOn = false;
+                
+                break;
+
+            case GameState.Game:
+                UIManager.Instance.SwitchUIPanel(UIPanelState.Gameplay);
+                TinySauce.OnGameStarted(levelNumber: "" + currentLevel);
+                BucketController.Instance.enabled = true;
+                break;
+            case GameState.Win:
+                confettiObj.SetActive(true);
+                Invoke("ShowWinUI", 2f);
+                TinySauce.OnGameFinished(true, 0);
+
+                break;
+            case GameState.Lose:
+                Invoke("ShowLoseUI", 2f);
+                TinySauce.OnGameFinished(false, 0);
+
+                break;
+
+        }
+    }
+
+    public GameState GetCurrentState()
+    {
+        return currentState;
     }
 
     public void ShowLoseUI()
@@ -132,11 +161,11 @@ public class GameManager : MonoBehaviour {
         ballsRemaining -= value;
         if (GameObject.FindGameObjectsWithTag("Ball") != null)
         {
-            if (GameObject.FindGameObjectsWithTag("Ball").Length <= 1 && collectedBalls.Count < requiredBalls)
+            if (GameObject.FindGameObjectsWithTag("Ball").Length <= 3 && collectedBalls.Count < requiredBalls-2)
             {
                 Lose();
             }
-            else if (GameObject.FindGameObjectsWithTag("Ball").Length <= 1 && collectedBalls.Count >= 0 && collectedBalls.Count > requiredBalls && LockHandler.Instance==null)
+            else if (GameObject.FindGameObjectsWithTag("Ball").Length <= 3 &&  collectedBalls.Count >= requiredBalls && LockHandler.Instance==null)
             {
                 if (!isWon)
                 {

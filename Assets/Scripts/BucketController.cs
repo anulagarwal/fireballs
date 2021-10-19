@@ -57,10 +57,9 @@ public class BucketController : MonoBehaviour
         ballsSpawned = new List<Ball>();
         position = transform.position;
         ballsRemaining = GameManager.Instance.numberOfBalls;
-        GameManager.Instance.SetRemainingBalls(ballsRemaining);
         origPos = transform.position;
         leftText.text = ballsRemaining + "";
-
+        this.enabled = false;
         /*  MessageBroker.Default.Receive<GamePlayMessage>()
           .Where(x => x.commandType == GamePlayMessage.COMMAND.RESTART || x.commandType == GamePlayMessage.COMMAND.PLAYING)
           .Subscribe(x => ResetLevel());*/
@@ -84,11 +83,9 @@ public class BucketController : MonoBehaviour
             {
                 oldX = Input.mousePosition.x;
                 isGameOn = true;             
-                //Invoke("LaunchBalls", launchSpeed);
                 SpawnBall();
                 isFalling = true;
                 startTime = Time.time;
-               // Invoke("PipeDown", 2f);                
             }
 
             if (isFalling)
@@ -104,49 +101,32 @@ public class BucketController : MonoBehaviour
                     borderFill.fillAmount = (Time.time - startTime) / fallDelay;
                 }
             }
-            if (GameManager.Instance.isGameOn && ballsRemaining > 0 && (transform.position.x <= bounds && Input.mousePosition.x > oldX) || (transform.position.x > bounds && Input.mousePosition.x < oldX) || transform.position.x >= -bounds && transform.position.x <= bounds)
+            if (GameManager.Instance.isGameOn && ballsRemaining > 0 )
             {
 
                 float x = (Input.mousePosition.x - oldX) / 2;
                 transform.Translate(new Vector3(x, 0, 0) * Time.deltaTime);
-                // transform.position -= new Vector3((position.x - Input.mousePosition.x) * dragMultiplier, 0, 0);
                 position = Input.mousePosition;
                 oldX = Input.mousePosition.x;
+
+                transform.position = new Vector3(Mathf.Clamp(transform.position.x, -bounds, bounds), transform.position.y, transform.position.z);
             }
 
-            //PipeDown();
         }
-        else
-        {
-           // PipeUp();
-        }
-
+       
         if (Input.GetMouseButtonUp(0) && ballsRemaining > 0 && GameManager.Instance.isGameOn)
         {
             if (isFalling)
             {
                 borderFill.fillAmount = 0;
             }
-            //ReleaseBall();
-            //if (startTime + fallDelay >= Time.time && isFalling) ;
-            // isFalling = false;
-
+         
         }
 
        
         if (ballsRemaining > 0)
         {
-            if (isGameOn && !isFalling)
-            {
-               /* if (startTime + fallDelay <= Time.time)
-                {
-                    startTime = Time.time;
-                    PipeDown();
-                    isFalling = false;
-                }
-               */
-                
-            }
+            
             if (isPipeDown && !isPipeUp)
             {
                 PipeDown();

@@ -32,3 +32,11 @@ public enum SoundType
     Pop,
     Win
 }
+
+public enum GameState
+{
+    Main,
+    Game,
+    Win,
+    Lose
+}

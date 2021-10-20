@@ -29,24 +29,12 @@ public class BucketCollector : MonoBehaviour
             ballsCollected = 0;
             ballsCollectedLabel.text = ballsCollected.ToString();
         });
-
             ballsCollectedLabel.text = ballsCollected + "/" + GameManager.Instance.requiredBalls;
         }
     }
 
     private void Update()
     {
-        if(isCheckOn && checkDelayStartTime + checkDelay < Time.time)
-        {
-            if(GameManager.Instance.GetCurrentState() == GameState.Game)
-            {
-              //  GameManager.Instance.Lose();
-              //  this.enabled = false;
-            }
-            //Check if game win or lose already called or not
-            //Call lose 
-
-        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -63,11 +51,11 @@ public class BucketCollector : MonoBehaviour
                 }
                 vfx.Play();
                 checkDelayStartTime = Time.time;
-
             }
             UIManager.Instance.SpawnText(other.transform.position);
             other.GetComponent<Ball>().destroyed = true;
-           // Vibration.Vibrate(5);
+            Vibration.Vibrate(2);
+            SoundHandler.Instance.PlaySound(SoundType.Pop);
             GameManager.Instance.AddBallToBasket(other.gameObject);
             BucketController.Instance.ballsSpawned.Remove(other.gameObject.GetComponent<Ball>());
             other.GetComponent<Ball>().smoke.SetActive(false);

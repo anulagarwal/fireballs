@@ -30,7 +30,8 @@ public enum ObstacleState
 public enum SoundType
 {
     Pop,
-    Win
+    Win,
+    Shatter
 }
 
 public enum GameState

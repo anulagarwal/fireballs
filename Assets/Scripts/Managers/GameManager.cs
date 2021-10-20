@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour {
     [SerializeField] public int numberOfBalls;
     [SerializeField] public int maxLevels;
     [SerializeField] public int requiredBalls;
+    [SerializeField] public int bestScore;
+
     public GameState currentState;
 
 
@@ -92,8 +94,8 @@ public class GameManager : MonoBehaviour {
     }
     public void ShowWinUI()
     {
-        UIManager.Instance.SwitchUIPanel(UIPanelState.Victory);
-        UIManager.Instance.UpdateScore(collectedBalls.Count);
+        UIManager.Instance.SwitchUIPanel(UIPanelState.Victory);       
+        UIManager.Instance.StartScoreFill(collectedBalls.Count, bestScore);
 
     }
 

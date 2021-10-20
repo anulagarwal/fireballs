@@ -172,6 +172,9 @@ public class BucketController : MonoBehaviour
         GetComponentInChildren<Rigidbody>().transform.parent = null;
         ballsRemaining--;
         leftText.text = ballsRemaining + "";
+        Vibration.Vibrate(2);
+        SoundHandler.Instance.PlaySound(SoundType.Pop);
+
     }
 
     public void PipeDown()

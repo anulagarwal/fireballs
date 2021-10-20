@@ -42,10 +42,13 @@ public class LockHandler : MonoBehaviour
                 BucketController.Instance.ballsSpawned.Remove(other.gameObject.GetComponent<Ball>());            
             Destroy(other.gameObject);
             healthText.text = lockHealth + "";
+            SoundHandler.Instance.PlaySound(SoundType.Pop);
+
             if (lockHealth < 1)
             {
                 //Play VFX
                 //Destroy Chain
+                SoundHandler.Instance.PlaySound(SoundType.Shatter);
                 Destroy(walls);
                 Destroy(gameObject);
             }

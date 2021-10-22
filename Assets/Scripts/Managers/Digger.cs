@@ -34,7 +34,8 @@ public class Digger : MonoBehaviour
         WAX,
         CHOCOLATE,
         CANDLE,
-        ICECREAM
+        ICECREAM,
+        GOLD
     }
 
     private float shrinkPercentage = 0; 
@@ -77,7 +78,11 @@ public class Digger : MonoBehaviour
                 break;
             case SURFACE_TYPE.WOODEN:
             shrinkAmount = 25f;
-            break;
+                break;
+
+            case SURFACE_TYPE.GOLD:
+                shrinkAmount = 16f;
+                break;
             default:
             break;
         }

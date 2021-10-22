@@ -10,7 +10,7 @@ public class SceneChanger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        maxLevels = 11;
+        maxLevels = 19;
         currentLevel = PlayerPrefs.GetInt("level", 1);
         if (currentLevel > maxLevels)
         {

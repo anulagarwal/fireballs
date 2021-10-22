@@ -60,7 +60,7 @@ public class CameraFollow : MonoBehaviour
                 yVal = ballTotal / totalBalls;
             if (yVal != 0)
             {
-                farthestBall.transform.position = new Vector3(farthestBall.position.x, yVal-2, farthestBall.position.z);
+                farthestBall.transform.position = new Vector3(farthestBall.position.x, yVal-3, farthestBall.position.z);
             }
         }
     }

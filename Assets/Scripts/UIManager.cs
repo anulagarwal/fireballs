@@ -35,11 +35,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject awesomeText;
 
     [Header("Win Bar")]
-    [SerializeField] Image barFill;
+    [SerializeField] Image inGameBarFill;
+    [SerializeField] GameObject rankSystem;
+
+
     [SerializeField] float countdownSpeed;
     [SerializeField] GameObject continueButton;
-    [SerializeField] Text betterThan;
+    [SerializeField] Text inGameBetter;
 
+    [SerializeField] GameObject betterText;
 
 
 
@@ -108,37 +112,26 @@ public class UIManager : MonoBehaviour
     //Stop when final score reaches
     //Simultanerously fill bar
 
-    public void StartScoreFill(int value, int bscore)
-    {
-        tempScore = 0;
-        targetScore = value;
-        bestScore = bscore;
-        UpdateScoreCountdown();
-    }
+ 
+  
 
-    public void UpdateScoreCountdown()
+    public void EnableInGameRank()
     {
-        if (tempScore < targetScore)
-        {
-            tempScore++;
-            UpdateScore(tempScore);
-            UpdateBarValue((float)tempScore / (float)bestScore);
-            Invoke("UpdateScoreCountdown", countdownSpeed);
-        }
-        else
-        {
-            continueButton.SetActive(true);
-        }
+        rankSystem.SetActive(true);
+        inGameBarFill.gameObject.SetActive(true);
+        inGameBetter.gameObject.SetActive(true);
+    }
+    public void UpdateRankScore(float val)
+    {
+        float value = val / GameManager.Instance.bestScore;
+        inGameBarFill.fillAmount = value;
+        inGameBetter.text = Mathf.Min(Mathf.RoundToInt(value * 100), 99) + "%";
     }
     public void SpawnText(Vector3 pos)
     {
         Instantiate(awesomeText, pos, Quaternion.identity);
     }
 
-    public void UpdateBarValue(float value)
-    {
-        barFill.fillAmount = value;
-        betterThan.text = Mathf.Min(Mathf.RoundToInt(value*100), 99) + "%";
-    }
+ 
     #endregion
 }

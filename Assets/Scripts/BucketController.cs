@@ -30,7 +30,7 @@ public class BucketController : MonoBehaviour
     [SerializeField] private float launchSpeed= 0.4f;
 
     [SerializeField] Image borderFill;
-    [SerializeField] float fallDelay;
+    [SerializeField] float fallDelay = 1f;
 
     private float startTime;
     private bool isFalling;
@@ -53,7 +53,7 @@ public class BucketController : MonoBehaviour
 
     void Start()
     {
-        fallDelay = 2;
+        fallDelay = 1f;
         ballsSpawned = new List<Ball>();
         position = transform.position;
         ballsRemaining = GameManager.Instance.numberOfBalls;

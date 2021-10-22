@@ -37,6 +37,7 @@ public class Ball : MonoBehaviour
                 destroyed = true;
                 GameManager.Instance.ReduceRemainingBalls(1);
                 BucketController.Instance.ballsSpawned.Remove(this);
+                GameManager.Instance.SpawnDeathParticle(transform.position);
                 Destroy(gameObject);
             }
             if (gameObject == null || destroyed || !scaling) {

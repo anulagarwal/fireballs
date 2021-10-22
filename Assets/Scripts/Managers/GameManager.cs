@@ -8,12 +8,14 @@ public class GameManager : MonoBehaviour {
 
     [Header("Components Reference")]
     [SerializeField] private GameObject confettiObj = null;
+    [SerializeField] private GameObject ballDeathParticle;
+
 
     [Header ("Attributes")]
     [SerializeField] public int numberOfBalls;
     [SerializeField] public int maxLevels;
     [SerializeField] public int requiredBalls;
-    [SerializeField] public int bestScore;
+    [SerializeField] public float bestScore;
 
     public GameState currentState;
 
@@ -40,7 +42,7 @@ public class GameManager : MonoBehaviour {
 
     private void Start()
     {
-        maxLevels = 11;
+        maxLevels = 19;
         UpdateState(GameState.Main);
        
     }
@@ -94,8 +96,9 @@ public class GameManager : MonoBehaviour {
     }
     public void ShowWinUI()
     {
-        UIManager.Instance.SwitchUIPanel(UIPanelState.Victory);       
-        UIManager.Instance.StartScoreFill(collectedBalls.Count, bestScore);
+        UIManager.Instance.SwitchUIPanel(UIPanelState.Victory);
+        UIManager.Instance.UpdateScore(collectedBalls.Count);
+        //UIManager.Instance.StartScoreFill(collectedBalls.Count, bestScore);
 
     }
 
@@ -136,7 +139,10 @@ public class GameManager : MonoBehaviour {
     {
         return currentState;
     }
-
+    public void SpawnDeathParticle(Vector3 pos)
+    {
+        //Destroy(Instantiate(ballDeathParticle,new Vector3(pos.x, pos.y, -0.192f), Quaternion.identity), 0.5f);
+    }
     public void ShowLoseUI()
     {
         UIManager.Instance.SwitchUIPanel(UIPanelState.Lose);
@@ -144,9 +150,18 @@ public class GameManager : MonoBehaviour {
 
     public void AddBallToBasket(GameObject g)
     {
-        if(!collectedBalls.Contains(g))
+
+        Vibration.Vibrate(1);
+
+        if ((float)collectedBalls.Count/(float)requiredBalls > 0.05f)
+            UIManager.Instance.EnableInGameRank();
+        
+        if (!collectedBalls.Contains(g))
         collectedBalls.Add(g);
         ReduceRemainingBalls(1);
+
+        UIManager.Instance.UpdateRankScore(collectedBalls.Count);
+
     }
 
     public void SetRemainingBalls(int value)

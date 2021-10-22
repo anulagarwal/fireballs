@@ -54,7 +54,6 @@ public class BucketCollector : MonoBehaviour
             }
             UIManager.Instance.SpawnText(other.transform.position);
             other.GetComponent<Ball>().destroyed = true;
-            Vibration.Vibrate(2);
             SoundHandler.Instance.PlaySound(SoundType.Pop);
             GameManager.Instance.AddBallToBasket(other.gameObject);
             BucketController.Instance.ballsSpawned.Remove(other.gameObject.GetComponent<Ball>());

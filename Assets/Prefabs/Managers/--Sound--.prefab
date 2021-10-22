@@ -45,9 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   confettiObj: {fileID: 451074635439071990}
+  ballDeathParticle: {fileID: 0}
   numberOfBalls: 6
   maxLevels: 6
   requiredBalls: 10
+  bestScore: 0
+  currentState: 0
   collectedBalls: []
   ballsRemaining: 0
   isGameOn: 0
@@ -261,6 +264,8 @@ MonoBehaviour:
     type: 0
   - clip: {fileID: 8300000, guid: a59cc012d7956438a902299b30f77965, type: 3}
     type: 1
+  - clip: {fileID: 8300000, guid: e847bb69c04dc4d27a5b24d40f8b0a91, type: 3}
+    type: 2
 --- !u!1 &3907710903625494438
 GameObject:
   m_ObjectHideFlags: 0

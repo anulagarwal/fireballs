@@ -50,7 +50,7 @@ public class BallModifier : MonoBehaviour
             if (currentModifier == MODIFIER_TYPE.ADDER) {
                 value -= 1;
                 if (value <= 0) {
-                    Destroy(currentValLbl.gameObject);
+                    Destroy(transform.parent.gameObject);
                 }
                 currentValLbl.text = "+" + value;
                 await Task.Delay(TimeSpan.FromSeconds(0.1f));

@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 900ce6024b45d8042a8bf62349397afd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 0.05
+  power: 0.04
   digRadius: 0.9
   fixRadius: 0
   digVector: {x: 0, y: -1, z: -0.3}

@@ -48,6 +48,8 @@ public class LockHandler : MonoBehaviour
             {
                 //Play VFX
                 //Destroy Chain
+                UIManager.Instance.EnableInGameRank();
+
                 SoundHandler.Instance.PlaySound(SoundType.Shatter);
                 Destroy(walls);
                 Destroy(gameObject);

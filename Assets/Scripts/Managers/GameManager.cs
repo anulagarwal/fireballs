@@ -97,7 +97,6 @@ public class GameManager : MonoBehaviour {
     public void ShowWinUI()
     {
         UIManager.Instance.SwitchUIPanel(UIPanelState.Victory);
-        UIManager.Instance.UpdateScore(collectedBalls.Count);
         //UIManager.Instance.StartScoreFill(collectedBalls.Count, bestScore);
 
     }
@@ -153,14 +152,14 @@ public class GameManager : MonoBehaviour {
 
         Vibration.Vibrate(1);
 
-        if ((float)collectedBalls.Count/(float)requiredBalls > 0.05f)
-            UIManager.Instance.EnableInGameRank();
+     
         
         if (!collectedBalls.Contains(g))
         collectedBalls.Add(g);
         ReduceRemainingBalls(1);
 
         UIManager.Instance.UpdateRankScore(collectedBalls.Count);
+
 
     }
 
@@ -178,11 +177,11 @@ public class GameManager : MonoBehaviour {
         ballsRemaining -= value;
         if (GameObject.FindGameObjectsWithTag("Ball") != null)
         {
-            if (GameObject.FindGameObjectsWithTag("Ball").Length <= 3 && collectedBalls.Count < requiredBalls-2)
+            if (GameObject.FindGameObjectsWithTag("Ball").Length <= 5 && LockHandler.Instance!=null)
             {
                 Lose();
             }
-            else if (GameObject.FindGameObjectsWithTag("Ball").Length <= 3 &&  collectedBalls.Count >= requiredBalls && LockHandler.Instance==null)
+            else if (GameObject.FindGameObjectsWithTag("Ball").Length <= 5 &&  collectedBalls.Count >= requiredBalls && LockHandler.Instance==null)
             {
                 if (!isWon)
                 {

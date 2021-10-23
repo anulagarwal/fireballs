@@ -35,27 +35,22 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject awesomeText;
 
     [Header("Win Bar")]
-    [SerializeField] Image inGameBarFill;
     [SerializeField] GameObject rankSystem;
 
 
-    [SerializeField] float countdownSpeed;
     [SerializeField] GameObject continueButton;
     [SerializeField] Text inGameBetter;
+    [SerializeField] Text ballsCollected;
+    [SerializeField] GameObject ballsCollectedParent;
 
-    [SerializeField] GameObject betterText;
-
-
-
-    private int tempScore;
-    private int targetScore;
-    private int bestScore;
 
 
     void Start()
     {
         // Application.targetFrameRate = 60;   
-        QualitySettings.vSyncCount = 0;    
+        QualitySettings.vSyncCount = 0;
+        ballsCollectedParent.SetActive(false);
+
     }
 
     private void Update()
@@ -104,27 +99,21 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void UpdateScore(int value)
-    {
-        finalScore.text = value + " BALLS COLLECTED";
-    }
-    //Start Score Countdown
-    //Stop when final score reaches
-    //Simultanerously fill bar
 
  
   
 
     public void EnableInGameRank()
     {
-        rankSystem.SetActive(true);
-        inGameBarFill.gameObject.SetActive(true);
-        inGameBetter.gameObject.SetActive(true);
+        ballsCollectedParent.SetActive(true);
     }
     public void UpdateRankScore(float val)
     {
+        ballsCollected.text = val + " BALLS";
+        finalScore.text = val + " BALLS COLLECTED";
+
         float value = val / GameManager.Instance.bestScore;
-        inGameBarFill.fillAmount = value;
+        
         inGameBetter.text = Mathf.Min(Mathf.RoundToInt(value * 100), 99) + "%";
     }
     public void SpawnText(Vector3 pos)

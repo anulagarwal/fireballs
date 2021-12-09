@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using MoreMountains.NiceVibrations;
+
 public class GameManager : MonoBehaviour {
 
     #region Properties
@@ -16,7 +18,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] public int maxLevels;
     [SerializeField] public int requiredBalls;
     [SerializeField] public float bestScore;
-
+    
     public GameState currentState;
 
 
@@ -54,7 +56,7 @@ public class GameManager : MonoBehaviour {
         {
             if (Input.GetMouseButtonDown(0))
             {
-                StartLevel();
+             //  StartLevel();
             }
         }
     }
@@ -111,7 +113,6 @@ public class GameManager : MonoBehaviour {
                 UIManager.Instance.UpdateLevelText(currentLevel);
                 ballsRemaining = numberOfBalls;
                 isGameOn = false;
-                
                 break;
 
             case GameState.Game:
@@ -140,7 +141,8 @@ public class GameManager : MonoBehaviour {
     }
     public void SpawnDeathParticle(Vector3 pos)
     {
-        //Destroy(Instantiate(ballDeathParticle,new Vector3(pos.x, pos.y, -0.192f), Quaternion.identity), 0.5f);
+        
+      //  Destroy(Instantiate(ballDeathParticle,new Vector3(pos.x, pos.y, 0), Quaternion.identity), 0.5f);
     }
     public void ShowLoseUI()
     {
@@ -150,17 +152,11 @@ public class GameManager : MonoBehaviour {
     public void AddBallToBasket(GameObject g)
     {
 
-        Vibration.Vibrate(1);
-
-     
-        
+        MMVibrationManager.Haptic(HapticTypes.MediumImpact);
         if (!collectedBalls.Contains(g))
         collectedBalls.Add(g);
         ReduceRemainingBalls(1);
-
         UIManager.Instance.UpdateRankScore(collectedBalls.Count);
-
-
     }
 
     public void SetRemainingBalls(int value)
@@ -177,11 +173,11 @@ public class GameManager : MonoBehaviour {
         ballsRemaining -= value;
         if (GameObject.FindGameObjectsWithTag("Ball") != null)
         {
-            if (GameObject.FindGameObjectsWithTag("Ball").Length <= 5 && LockHandler.Instance!=null)
+            if (GameObject.FindGameObjectsWithTag("Ball").Length <= 4 && LockHandler.Instance!=null && LockHandler.Instance.lockHealth < LockHandler.Instance.origHealth)
             {
                 Lose();
             }
-            else if (GameObject.FindGameObjectsWithTag("Ball").Length <= 5 &&  collectedBalls.Count >= requiredBalls && LockHandler.Instance==null)
+            else if (GameObject.FindGameObjectsWithTag("Ball").Length <= 4 &&  collectedBalls.Count >= requiredBalls && LockHandler.Instance==null)
             {
                 if (!isWon)
                 {

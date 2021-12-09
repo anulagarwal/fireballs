@@ -8,11 +8,11 @@ public class LockHandler : MonoBehaviour
 
     public static LockHandler Instance = null;
 
-    [SerializeField] int lockHealth;
+    [SerializeField] public int lockHealth;
     [SerializeField] TextMeshPro healthText;
     [SerializeField] GameObject walls;
     [SerializeField] float eatCount;
-    [SerializeField] float origHealth;
+    [SerializeField] public float origHealth;
     [SerializeField] float lerpSpeed;
     private void Awake()
     {

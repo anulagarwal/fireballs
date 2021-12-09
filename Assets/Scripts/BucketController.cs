@@ -3,7 +3,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections.Generic;
-
+using MoreMountains.NiceVibrations;
 public class BucketController : MonoBehaviour
 {
     public static BucketController Instance = null;
@@ -172,7 +172,8 @@ public class BucketController : MonoBehaviour
         GetComponentInChildren<Rigidbody>().transform.parent = null;
         ballsRemaining--;
         leftText.text = ballsRemaining + "";
-        Vibration.Vibrate(2);
+        //Vibration.Vibrate(2);
+        MMVibrationManager.Haptic(HapticTypes.MediumImpact);
         SoundHandler.Instance.PlaySound(SoundType.Pop);
 
     }

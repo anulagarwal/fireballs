@@ -91,6 +91,31 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void OpenSocialLinks(string s)
+    {
+        switch (s)
+        {
+            case "instagram":
+                Application.OpenURL("http://instagram.com/momo.games_");
+                break;
+
+            case "linkedin":
+                Application.OpenURL("http://linkedin.com/company/momo-games");
+
+                break;
+
+            case "twitter":
+                Application.OpenURL("https://twitter.com/AnulAgarwal");
+                break;
+
+        }
+    }
+
+
+    public void PlayButton()
+    {
+        GameManager.Instance.StartLevel();
+    }
     public void UpdateLevelText(int value)
     {
         foreach(Text t in levelTexts)

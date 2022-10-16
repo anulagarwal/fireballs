@@ -1,11 +1,15 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using System.Timers;
+using Voodoo.Sauce.Internal;
+using Voodoo.Sauce.Internal.EnvironmentSettings;
 
+// ReSharper disable once CheckNamespace
 namespace Voodoo.Analytics
 {
     internal class Tracker
@@ -23,11 +27,9 @@ namespace Voodoo.Analytics
         private IConfig _config;
 
         private static Tracker _instance;
-        public static Tracker Instance {
-            get { return _instance ?? (_instance = new Tracker()); }
-        }
+        public static Tracker Instance => _instance ?? (_instance = new Tracker());
 
-        internal async void Init(IConfig config)
+        internal void Init(IConfig config, string proxyServer)
         {
             _config = config;
 
@@ -38,10 +40,31 @@ namespace Voodoo.Analytics
                 rootFolder.Create();
             }
 
-            while (Application.isPlaying) {
-                RetrieveAndSendEvents();
-                await Task.Delay(config.GetSenderWaitIntervalSeconds() * 1000);
-            }
+            // GetURL relies on UnityEngine.PlayerPrefs.GetInt 
+            // This cannot be run outside the main thread 
+            // So it needs to be called here 
+            AnalyticsApi.SetAnalyticsGatewayUrl(
+                EnvironmentSettings.GetURL("https://vs-api.voodoo-{0}.io/push-analytics",
+                    EnvironmentSettings.Api.Analytics));
+            AnalyticsApi.ProxyServer = proxyServer;
+
+            var flushEventsTimer = new Timer(config.GetSenderWaitIntervalSeconds() * 1000);
+            flushEventsTimer.Elapsed += (sender, args) => {
+                try {
+                    OnTimedEvent();
+                } catch (Exception exception) {
+                    // Unfortunately C# Timers catch every exception and make them silent.
+                    // That's why I am catching and logging here any exceptions. We shouldn't miss them.
+                    VoodooLog.LogE("ANALYTICS", exception.Message);
+                }
+            };
+            flushEventsTimer.AutoReset = true;
+            flushEventsTimer.Enabled = true;
+        }
+
+        private void OnTimedEvent()
+        {
+            RetrieveAndSendEvents();
         }
 
         private void UpdateCurrentEventsFileName()
@@ -56,7 +79,16 @@ namespace Voodoo.Analytics
             AnalyticsLog.Log(TAG, "Retrieve events");
 
             var info = new DirectoryInfo(PersistenceFolder);
-            FileInfo[] files = info.GetFiles().OrderBy(p => p.CreationTimeUtc).ToArray();
+            FileInfo[] files;
+            try
+            {
+                files = info.GetFiles().OrderBy(p => p.CreationTimeUtc).ToArray();
+            }
+            catch (UnauthorizedAccessException)
+            {
+                VoodooLog.LogE("ANALYTICS", "The user doesn't have access to " + PersistenceFolder);
+                return;
+            }
 
             if (files.Length > 0) {
                 UpdateCurrentEventsFileName();
@@ -70,10 +102,20 @@ namespace Voodoo.Analytics
                 var events = new List<string>();
                 lock (FileAccess) {
                     AnalyticsLog.Log(TAG, "Found '" + file.Name + "' File");
-                    using (StreamReader streamReader = File.OpenText(file.FullName)) {
-                        string jsonString = streamReader.ReadToEnd();
-                        string[] jsonStringArray = jsonString.Split('\n');
-                        events.AddRange(jsonStringArray.Where(value => value != ""));
+                    try {
+                        using (StreamReader streamReader = File.OpenText(file.FullName)) {
+                            string jsonString = streamReader.ReadToEnd();
+                            string[] jsonStringArray = jsonString.Split('\n');
+                            events.AddRange(jsonStringArray.Where(value => value != ""));
+                        }
+                        
+                    } 
+                    catch (Exception e) {
+                        //Only log in crashlytics if its not FileNotFoundException
+                        if (!(e is FileNotFoundException || e is IOException || e is UnauthorizedAccessException)) {
+                        }
+
+                        VoodooLog.LogE("ANALYTICS", $"Error when reading file: {e.Message}");
                     }
                 }
 
@@ -83,24 +125,22 @@ namespace Voodoo.Analytics
 
         private bool SaveFileToSend(FileSystemInfo file)
         {
-            FileProcessInfo fileProcessInfo = null;
-
-            // the file is being processed or has been processed
-            if (_queue.ContainsKey(FilePrefix + file.Name)) {
-                fileProcessInfo = _queue[FilePrefix + file.Name];
-            }
-
-            // the file is new
-            if (fileProcessInfo == null) {
+            if (!_queue.TryGetValue(FilePrefix + file.Name, out FileProcessInfo fileProcessInfo)) {
+                // The file is new.
                 fileProcessInfo = new FileProcessInfo {
                     Status = FileProcessStatus.InProcess,
                     NumberOfTries = 0
                 };
-                _queue.TryAdd(FilePrefix + file.Name, fileProcessInfo);
-            } else if (fileProcessInfo.Status == FileProcessStatus.InProcess) {
+                return _queue.TryAdd(FilePrefix + file.Name, fileProcessInfo);
+            }
+            
+            // The file is already present in the queue.
+            
+            if (fileProcessInfo.Status == FileProcessStatus.InProcess) {
                 AnalyticsLog.Log(TAG, "The file '" + file.Name + "' is being processed");
                 return false;
-            } else if (fileProcessInfo.NextProcessDate != null && fileProcessInfo.NextProcessDate > DateTime.Now) {
+            }
+            if (fileProcessInfo.NextProcessDate != null && fileProcessInfo.NextProcessDate > DateTime.Now) {
                 AnalyticsLog.Log(TAG, "Too early to reprocess the file '" + file.Name + "'");
                 return false;
             }
@@ -122,8 +162,7 @@ namespace Voodoo.Analytics
                         AnalyticsLog.Log(TAG, "Delete file: '" + file.Name + "' File");
 
                         if (_queue.ContainsKey(FilePrefix + file.Name)) {
-                            FileProcessInfo info;
-                            _queue.TryRemove(FilePrefix + file.Name, out info);
+                            _queue.TryRemove(FilePrefix + file.Name, out _);
                         }
 
                         file.Delete();
@@ -147,23 +186,44 @@ namespace Voodoo.Analytics
         internal async Task TrackEvent(Event e)
         {
             string[] enabledEvents = _config.EnabledEvents();
-            if (enabledEvents.Length > 0 && !enabledEvents.Contains(e.GetName())) {
+            if (enabledEvents.Length > 0 && !enabledEvents.Contains(e.GetName()))
+            {
+                AnalyticsLog.Log(TAG, $"Event ignored: {e.GetName()}");
                 return;
             }
 
-            AnalyticsLog.Log(TAG, "Track event: " + e);
-            await Task.Run(() => {
-                lock (FileAccess) {
+            await Task.Run(() =>
+            {
+                lock (FileAccess)
+                {
                     string jsonString = e.ToJson();
                     AnalyticsLog.Log(TAG, "Track event: " + jsonString);
-                    using (StreamWriter streamWriter = File.AppendText(_lastFilePath)) {
-                        streamWriter.Write(jsonString + "\n");
+                    try
+                    {
+                        using (StreamWriter streamWriter = File.AppendText(_lastFilePath))
+                        {
+                            streamWriter.Write(jsonString + "\n");
+                        }
+
+                        _eventNumberInFile++;
+
+                        if (_eventNumberInFile > _config.GetMaxNumberOfEventsPerFile())
+                        {
+                            UpdateCurrentEventsFileName();
+                        }
                     }
+                    catch (Exception ex)
+                    {
+                        if (!(ex is UnauthorizedAccessException || ex is DirectoryNotFoundException || ex is IOException))
+                        {
+                        }
+                        else if (ex is UnauthorizedAccessException)
+                        {
+                            // Since this file access is locked, let's try to write the next events on another file.
+                            UpdateCurrentEventsFileName();
+                        }
 
-                    _eventNumberInFile++;
-
-                    if (_eventNumberInFile > _config.GetMaxNumberOfEventsPerFile()) {
-                        UpdateCurrentEventsFileName();
+                        VoodooLog.LogE("ANALYTICS", ex.Message);
                     }
                 }
             });

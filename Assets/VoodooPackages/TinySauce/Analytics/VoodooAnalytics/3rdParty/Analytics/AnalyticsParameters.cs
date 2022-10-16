@@ -7,6 +7,11 @@ namespace Voodoo.Analytics
         AbTestUuid,
         AbTestCohortUuid,
         EditorIdfa,
-        AbTestVersionUuid
+        AbTestVersionUuid,
+        AppBundleId,
+        AppVersion,
+        Mediation,
+        InstallStore,
+        FirstAppLaunchDate
     }
 }

@@ -30,6 +30,8 @@ namespace Voodoo.Sauce.Internal
         [Header("Facebook")]
         [Tooltip("The Facebook App Id of your game")]
         public string facebookAppId;
+        [Tooltip("The Facebook Client Token of your game")]
+        public string facebookClientToken;
 
         [Header("Adjust")]
         [Tooltip("The IOS Adjust App token of your game")]

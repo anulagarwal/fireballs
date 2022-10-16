@@ -2,6 +2,8 @@
 using Voodoo.Sauce.Internal;
 using Voodoo.Sauce.Internal.Analytics;
 using System.Collections.Generic;
+using UnityEngine;
+
 //using UnityEditor.Build;
 //using UnityEditor.Build.Reporting;
 
@@ -9,7 +11,10 @@ using System.Collections.Generic;
 public static class TinySauce
 { 
 
-    public const string Version = "5.0.3";
+    public const string Version = "6.2.0";
+    
+    private const string ABCohortKey = "ABCohort";
+    private const string DebugCohortKey = "DebugCohortKey";
 
     public static string token = "";
     /// <summary>
@@ -80,6 +85,18 @@ public static class TinySauce
                                         List<AnalyticsProvider> analyticsProviders = null)
     {
         AnalyticsManager.TrackCustomEvent(eventName, eventProperties, type, analyticsProviders);
+    }
+
+    public static string GetABTestCohort()
+    {
+        
+#if UNITY_EDITOR
+        if (!string.IsNullOrEmpty(PlayerPrefs.GetString(DebugCohortKey)))
+        {
+            return PlayerPrefs.GetString(DebugCohortKey);
+        }
+#endif
+        return PlayerPrefs.GetString(ABCohortKey);
     }
 
     public static string UpdateAdjustToken(TinySauceSettings settings)

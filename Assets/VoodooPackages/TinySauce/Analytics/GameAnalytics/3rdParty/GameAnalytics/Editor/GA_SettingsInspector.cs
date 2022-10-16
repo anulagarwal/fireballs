@@ -36,7 +36,6 @@ namespace GameAnalyticsSDK.Editor
         private GUIContent _infoLogBuild = new GUIContent("Info Log Build", "Show info messages from GA in builds (f.x. Xcode for iOS).");
         private GUIContent _verboseLogBuild = new GUIContent("Verbose Log Build", "Show full info messages from GA in builds (f.x. Xcode for iOS). Noet that this option includes long JSON messages sent to the server.");
         private GUIContent _useManualSessionHandling = new GUIContent("Use manual session handling", "Manually choose when to end and start a new session. Note initializing of the SDK will automatically start the first session.");
-        private GUIContent _useIMEI = new GUIContent("Use IMEI (android only)", "When Google Ad Id is not available try to use IMEI id as user is. REMEMBER to add READ_PHONE_STATE permission.");
 #if UNITY_5_6_OR_NEWER
         private GUIContent _usePlayerSettingsBunldeVersionForBuild = new GUIContent("Send Version* (Android, iOS) as build number", "The SDK will automatically fetch the version* number on Android and iOS and send it as the GameAnalytics build number.");
 #else
@@ -55,6 +54,7 @@ namespace GameAnalyticsSDK.Editor
         private GUIContent _gaFpsCritical = new GUIContent("Submit Critical FPS", "Submit a message whenever the frames per second falls below a certain threshold. The location of the Track Target will be used for critical FPS events.");
         private GUIContent _gaFpsCriticalThreshold = new GUIContent("FPS <", "Frames per second threshold.");
         private GUIContent _gaSubmitErrors = new GUIContent("Submit Errors", "Submit error and exception messages to the GameAnalytics server. Useful for getting relevant data when the game crashes, etc.");
+        private GUIContent _gaNativeErrorReporting = new GUIContent("Native error reporting (Android, iOS)", "Submit error and exception messages from native errors and exceptions to the GameAnalytics server. Useful for getting relevant data when the game crashes, etc. from native code.");
 
         private GUIContent _gameSetupIcon;
         private bool _gameSetupIconOpen = false;
@@ -779,6 +779,7 @@ namespace GameAnalyticsSDK.Editor
                                         {
                                             ga.SelectedGame[i] = 0;
                                         }
+
                                         int tmpSelectedGame = ga.SelectedGame[i];
                                         ga.SelectedGame[i] = EditorGUILayout.Popup("", ga.SelectedGame[i], gameNames);
                                         GUILayout.EndHorizontal();
@@ -1419,6 +1420,14 @@ namespace GameAnalyticsSDK.Editor
 
                     GUILayout.BeginHorizontal();
                     GUILayout.Label("", GUILayout.Width(-18));
+                    ga.NativeErrorReporting = EditorGUILayout.Toggle("", ga.NativeErrorReporting, GUILayout.Width(35));
+                    GUILayout.Label(_gaNativeErrorReporting);
+                    GUILayout.EndHorizontal();
+
+                    EditorGUILayout.Space();
+
+                    GUILayout.BeginHorizontal();
+                    GUILayout.Label("", GUILayout.Width(-18));
                     ga.SubmitFpsAverage = EditorGUILayout.Toggle("", ga.SubmitFpsAverage, GUILayout.Width(35));
                     GUILayout.Label(_gaFpsAverage);
                     GUILayout.EndHorizontal();
@@ -1513,21 +1522,6 @@ namespace GameAnalyticsSDK.Editor
 
                     EditorGUILayout.Space();
                     EditorGUILayout.Space();
-                    EditorGUILayout.Space();
-
-                    GUILayout.BeginVertical();
-                    GUILayout.Space(-4);
-                    GUILayout.Label("IMEI", EditorStyles.largeLabel);
-                    GUILayout.EndVertical();
-
-                    EditorGUILayout.Space();
-
-                    GUILayout.BeginHorizontal();
-                    GUILayout.Label("", GUILayout.Width(-18));
-                    ga.UseIMEI = EditorGUILayout.Toggle("", ga.UseIMEI, GUILayout.Width(35));
-                    GUILayout.Label(_useIMEI);
-                    GUILayout.EndHorizontal();
-
                     EditorGUILayout.Space();
                 }
                 #endregion // Settings.InspectorStates.Pref

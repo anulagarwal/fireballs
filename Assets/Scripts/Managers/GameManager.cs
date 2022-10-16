@@ -45,8 +45,7 @@ public class GameManager : MonoBehaviour {
     private void Start()
     {
         maxLevels = 19;
-        UpdateState(GameState.Main);
-       
+        UpdateState(GameState.Main);       
     }
     #endregion
 
@@ -71,6 +70,7 @@ public class GameManager : MonoBehaviour {
     public void Lose()
     {
         UpdateState(GameState.Lose);
+
     }
 
     public void Win()

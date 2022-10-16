@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedAppIndex: 0
   clientTokens:
-  - 
+  - 382965920619067
   appIds:
-  - 1079515956195514
+  - 382965920619067
   appLabels:
-  - Hot Balls 3D
+  - Fire Balls 3D
   cookie: 1
   logging: 1
   status: 1

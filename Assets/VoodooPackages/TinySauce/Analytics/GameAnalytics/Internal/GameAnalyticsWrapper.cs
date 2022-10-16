@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using GameAnalyticsSDK;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Voodoo.Sauce.Internal.Analytics
 {
@@ -65,6 +68,20 @@ namespace Voodoo.Sauce.Internal.Analytics
             }
         }
         
+        private static void SetBuildVersion(string buildVersion)
+        {
+            int platformIndex = -1;
+#if UNITY_ANDROID
+            platformIndex = GameAnalytics.SettingsGA.Platforms.IndexOf(RuntimePlatform.Android);
+#elif UNITY_IOS
+            platformIndex = GameAnalytics.SettingsGA.Platforms.IndexOf(RuntimePlatform.IPhonePlayer);
+#endif
+            if (platformIndex >= 0)
+            {
+                GameAnalytics.SettingsGA.Build[platformIndex] = buildVersion;
+            }
+        }
+        
 
         private static void InstantiateGameAnalytics()
         {
@@ -76,8 +93,38 @@ namespace Voodoo.Sauce.Internal.Analytics
             } else {
                 gameAnalyticsComponent.gameObject.name = "GameAnalytics";
             }
+            Debug.Log("INSTANTIATE GA");
 
+            string appVersionName = Application.version;
+            
+            if (Type.GetType("Voodoo.Sauce.Internal.Ads.TSAdsManager") != null)
+                if ((bool) Type.GetType("Voodoo.Sauce.Internal.Ads.TSAdsManager").GetField("_areAdsEnabled", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null))
+                    appVersionName += "-Ads";
+            
+
+            if (!string.IsNullOrEmpty(TinySauce.GetABTestCohort()))
+            {
+                SetBuildVersion($"{appVersionName}-ABCohort:{TinySauce.GetABTestCohort() ?? "Default"}");
+            }
+            else
+            {
+                SetBuildVersion($"{appVersionName}");
+            }
+            
+            SetCustomFields();
+            
             GameAnalytics.Initialize();
+        }
+
+        private static void SetCustomFields()
+        {
+            Dictionary<string, object> customFields = new Dictionary<string, object>();
+            if (!string.IsNullOrEmpty(TinySauce.GetABTestCohort()))
+            {
+                customFields.Add("ABCohort", TinySauce.GetABTestCohort());
+            }
+            customFields.Add("TSVersion", TinySauce.Version);
+            GameAnalytics.SetGlobalCustomEventFields(customFields);
         }
 
         private static void Disable()

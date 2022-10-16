@@ -29,6 +29,8 @@ namespace GameAnalyticsSDK.Events
 
         private static int _criticalFpsCount = 0;
 
+        private static int _fpsWaitTimeMultiplier = 1;
+
         #endregion
 
         #region unity derived methods
@@ -43,7 +45,9 @@ namespace GameAnalyticsSDK.Events
         {
             while(Application.isPlaying && GameAnalytics.SettingsGA != null &&  GameAnalytics.SettingsGA.SubmitFpsAverage)
             {
-                yield return new WaitForSeconds(30);
+                int waitingTime = 30 * _fpsWaitTimeMultiplier;
+                yield return new WaitForSecondsRealtime(waitingTime);
+                _fpsWaitTimeMultiplier *= 2;
                 SubmitFPS();
             }
         }
@@ -52,7 +56,7 @@ namespace GameAnalyticsSDK.Events
         {
             while(Application.isPlaying && GameAnalytics.SettingsGA != null &&  GameAnalytics.SettingsGA.SubmitFpsCritical)
             {
-                yield return new WaitForSeconds(GameAnalytics.SettingsGA.FpsCirticalSubmitInterval);
+                yield return new WaitForSecondsRealtime(GameAnalytics.SettingsGA.FpsCirticalSubmitInterval);
                 CheckCriticalFPS();
             }
         }

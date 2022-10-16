@@ -8,7 +8,7 @@ namespace Voodoo.Sauce.Internal.Editor
 {
     public class TinySaucePrebuildiOS : IPreprocessBuildWithReport
     {
-        private const float MinIosVersion = 9.0f;
+        private const float MinIosVersion = 11.0f;
 
         public int callbackOrder => 0;
 

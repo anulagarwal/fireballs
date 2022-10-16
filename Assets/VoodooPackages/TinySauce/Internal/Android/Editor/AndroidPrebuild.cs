@@ -50,8 +50,8 @@ namespace Voodoo.Sauce.Internal.Editor
             PlayerSettings.SetScriptingBackend(EditorUserBuildSettings.selectedBuildTargetGroup, ScriptingImplementation.IL2CPP);
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7 | AndroidArchitecture.ARM64;
             // Set Android min version
-            if (PlayerSettings.Android.minSdkVersion < AndroidSdkVersions.AndroidApiLevel19) {
-                PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel19;
+            if (PlayerSettings.Android.minSdkVersion < AndroidSdkVersions.AndroidApiLevel22) {
+                PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel22;
             }
         }
 

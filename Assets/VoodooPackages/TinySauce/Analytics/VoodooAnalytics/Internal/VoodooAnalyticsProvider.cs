@@ -1,41 +1,44 @@
+using System;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Scripting;
 using Voodoo.Analytics;
-//using Voodoo.Sauce.Internal.Ads;
-//using Voodoo.Sauce.Internal.RemoteConfig;
+using Voodoo.Sauce.Common.Utils;
+using VAC = Voodoo.Sauce.Internal.Analytics.VoodooAnalyticsConstants;
 
 namespace Voodoo.Sauce.Internal.Analytics
 {
+    [Preserve]
     internal class VoodooAnalyticsProvider : IAnalyticsProvider
     {
         private readonly VoodooAnalyticsParameters _parameters;
 
+        // Needed for the VoodooGDPRAnalytics class. Do not call it directly.
+        public VoodooAnalyticsProvider() { }
+
         internal VoodooAnalyticsProvider(VoodooAnalyticsParameters parameters)
         {
-            
             _parameters = parameters;
-            
             if (!_parameters.UseVoodooAnalytics) return;
             RegisterEvents();
         }
 
-        public void Initialize(bool consent)
+        public void Instantiate(string mediation)
         {
             if (!_parameters.UseVoodooAnalytics) return;
-            AnalyticsConfig analyticsConfig = new AnalyticsConfig();
-
-            bool useRemoteConfig = _parameters.UseRemoteConfig;
-            VoodooAnalyticsManager.AddSessionParameters(new Dictionary<AnalyticParameters, object> {
-               {AnalyticParameters.VoodooSauceVersion, TinySauce.Version+"_TS"},
-                {AnalyticParameters.SegmentationUuid, useRemoteConfig ? "" : null},
-                {AnalyticParameters.AbTestUuid, useRemoteConfig ? "" : null},
-                {AnalyticParameters.AbTestCohortUuid, useRemoteConfig ? "" : ""},
-                {AnalyticParameters.AbTestVersionUuid, useRemoteConfig ? "" : null}
-#if UNITY_EDITOR
-                , {AnalyticParameters.EditorIdfa, _parameters.EditorIdfa}
-#endif
-            });
+           
             
-            VoodooAnalyticsManager.Init(analyticsConfig);
+            VoodooAnalyticsWrapper.Instantiate(VoodooAnalyticsConfig.AnalyticsConfig ?? new AnalyticsConfig(),
+                _parameters.UseVoodooTune,
+                _parameters.LegacyABTestName,
+                mediation,
+                _parameters.ProxyServer,
+                _parameters.EditorIdfa);
+        }
+
+        public void Initialize(bool consent)
+        {
+            Instantiate("");
         }
 
         private static void RegisterEvents()
@@ -45,175 +48,171 @@ namespace Voodoo.Sauce.Internal.Analytics
             AnalyticsManager.OnGameStartedEvent += OnGameStarted;
             AnalyticsManager.OnGameFinishedEvent += OnGameFinished;
             AnalyticsManager.OnTrackCustomEvent += TrackCustomEvent;
-            //AnalyticsManager.OnRewardedVideoButtonShownEvent += OnRewardedVideoButtonShownEvent;
-            // Activate this line if we want to track purchase without partner verification
-            //VoodooAnalytics.OnTrackPurchaseEvent += OnTrackPurchaseEvent;
-            //AnalyticsManager.OnTrackPurchaseVerificationEvent += OnTrackPurchaseVerificationEvent;
-            //AnalyticsManager.OnNoAdsClickEvent += OnNoAdsClickEvent;
-
-            //AnalyticsManager.OnCrossPromoShownEvent += OnCrossPromoShownEvent;
-            //AnalyticsManager.OnCrossPromoClickEvent += OnCrossPromoClickEvent;
-
-            //AnalyticsManager.OnBannerShownEvent += (adUnit, height) => VoodooAnalyticsManager.TrackEvent(EventName.banner_shown);
-            //AnalyticsManager.OnBannerClickedEvent += adUnit => VoodooAnalyticsManager.TrackEvent(EventName.banner_click);
-            //AnalyticsManager.OnInterstitialClickedEvent += OnInterstitialClickedEvent;
-            //AnalyticsManager.OnInterstitialDismissedEvent += OnInterstitialDismissedEvent;
-            //AnalyticsManager.OnShowInterstitialEvent += OnShowInterstitialEvent;
-           // AnalyticsManager.OnRewardedVideoClickedEvent += OnRewardedVideoClickedEvent;
-            //AnalyticsManager.OnRewardedVideoClosedEvent += OnRewardedVideoClosedEvent;
-            //AnalyticsManager.OnShowRewardedVideoEvent += OnShowRewardedVideoEvent;
-            //AnalyticsManager.OnImpressionTrackedEvent +=
-                //(adUnit, impressionData) => VoodooAnalyticsManager.TrackEvent(EventName.ad_revenue, impressionData);
+            AnalyticsManager.OnTrackPerformanceMetricsEvent += TrackPerformanceMetrics;
+            
+            AnalyticsManager.OnInterstitialShowEvent += OnInterstitialShowEvent;
+            AnalyticsManager.OnInterstitialClickedEvent += OnInterstitialClickedEvent;
+            AnalyticsManager.OnRewardedShowEvent += OnRewardedShowEvent;
+            AnalyticsManager.OnRewardedClickedEvent += OnRewardedClickedEvent;
         }
 
-        //private static void OnNoAdsClickEvent()
-        //{
-        //    VoodooAnalyticsManager.TrackEvent(EventName.noads_click);
-        //}
-
-        //private static void OnInterstitialClickedEvent(string interstitialType, string adUnit)
-        //{
-        //    var data = new Dictionary<string, object> {
-        //        {VoodooAnalyticsConstants.INTERSTITIAL_TYPE, interstitialType},
-        //        {VoodooAnalyticsConstants.GAME_COUNT, AnalyticsStorageHelper.GetGameCount()}
-        //    };
-        //    VoodooAnalyticsManager.TrackEvent(EventName.fs_click, data);
-        //}
-
-        //private static void OnShowInterstitialEvent(string interstitialType, int rvCount)
-        //{
-        //    var data = new Dictionary<string, object> {
-        //        {VoodooAnalyticsConstants.INTERSTITIAL_TYPE, interstitialType},
-        //        {VoodooAnalyticsConstants.GAME_COUNT, AnalyticsStorageHelper.GetGameCount()}
-        //    };
-        //    VoodooAnalyticsManager.TrackEvent(EventName.fs_shown, data);
-        //}
-
-        //private static void OnInterstitialDismissedEvent(string interstitialType, string adUnits)
-        //{
-        //    var data = new Dictionary<string, object> {
-        //        {VoodooAnalyticsConstants.INTERSTITIAL_TYPE, interstitialType},
-        //        {VoodooAnalyticsConstants.GAME_COUNT, AnalyticsStorageHelper.GetGameCount()}
-        //    };
-        //    VoodooAnalyticsManager.TrackEvent(EventName.fs_watched, data);
-        //}
-
-        //private static void OnRewardedVideoClickedEvent(string rewardedType, string adUnit)
-        //{
-        //    var data = new Dictionary<string, object> {
-        //        {VoodooAnalyticsConstants.REWARDED_TYPE, rewardedType},
-        //        {VoodooAnalyticsConstants.GAME_COUNT, AnalyticsStorageHelper.GetGameCount()}
-        //    };
-        //    VoodooAnalyticsManager.TrackEvent(EventName.rv_click, data);
-        //}
-
-        //private static void OnShowRewardedVideoEvent(string rewardedType, int rvCount)
-        //{
-        //    var data = new Dictionary<string, object> {
-        //        {VoodooAnalyticsConstants.REWARDED_TYPE, rewardedType},
-        //        {VoodooAnalyticsConstants.GAME_COUNT, AnalyticsStorageHelper.GetGameCount()}
-        //    };
-        //    VoodooAnalyticsManager.TrackEvent(EventName.rv_shown, data);
-        //}
-
-        //private static void OnRewardedVideoClosedEvent(string rewardedType, string adUnits)
-        //{
-        //    var data = new Dictionary<string, object> {
-        //        {VoodooAnalyticsConstants.REWARDED_TYPE, rewardedType},
-        //        {VoodooAnalyticsConstants.GAME_COUNT, AnalyticsStorageHelper.GetGameCount()}
-        //    };
-        //    VoodooAnalyticsManager.TrackEvent(EventName.rv_watched, data);
-        //}
-
-        //private static void OnRewardedVideoButtonShownEvent(string rewardedType)
-        //{
-        //    var data = new Dictionary<string, object> {
-        //        {VoodooAnalyticsConstants.REWARDED_TYPE, rewardedType},
-        //        {VoodooAnalyticsConstants.REWARDED_LOADED, Voodoo.Sauce.Internal.Ads.AdsManager.IsRewardedVideoAvailable()},
-        //        {VoodooAnalyticsConstants.GAME_COUNT, AnalyticsStorageHelper.GetGameCount()}
-        //    };
-
-        //    VoodooAnalyticsManager.TrackEvent(EventName.rv_trigger, data);
-        //}
-
-        //private static void OnCrossPromoShownEvent(CrossPromoAnalyticsInfo crossPromoInfo)
-        //{
-        //    var data = new Dictionary<string, object> {
-        //        {VoodooAnalyticsConstants.BUNDLE_ID, crossPromoInfo.gameBundleId},
-        //        {VoodooAnalyticsConstants.FILE_PATH, crossPromoInfo.assetPath}
-        //    };
-        //    VoodooAnalyticsManager.TrackEvent(EventName.cp_impression, data);
-        //}
-
-        //private static void OnCrossPromoClickEvent(CrossPromoAnalyticsInfo crossPromoInfo)
-        //{
-        //    var data = new Dictionary<string, object> {
-        //        {VoodooAnalyticsConstants.BUNDLE_ID, crossPromoInfo.gameBundleId},
-        //        {VoodooAnalyticsConstants.FILE_PATH, crossPromoInfo.assetPath}
-        //    };
-        //    VoodooAnalyticsManager.TrackEvent(EventName.cp_click, data);
-        //}
+    #region Application Launch Events
 
         private static void OnApplicationFirstLaunch()
         {
-            VoodooAnalyticsManager.TrackEvent(EventName.app_install);
+            var data = new Dictionary<string, object> {{VAC.TOTAL_MEMORY_MBYTE, SystemInfo.systemMemorySize}};
+
+            VoodooAnalyticsWrapper.TrackEvent(EventName.app_install, data);
         }
 
         private static void OnApplicationLaunchEvent()
         {
-            VoodooAnalyticsManager.TrackEvent(EventName.app_open);
+            VoodooAnalyticsWrapper.TrackEvent(EventName.app_open);
         }
+        
 
-        /*private static void OnTrackPurchaseEvent(AnalyticsPurchaseInfo purchaseInfo)
+    #endregion
+
+    #region Progression Events
+
+        
+        private static void OnGameStarted(GameStartedParameters parameters)
         {
             var data = new Dictionary<string, object> {
-                {VoodooAnalyticsConstants.IAP_ID, purchaseInfo.productId},
-                {VoodooAnalyticsConstants.PRICE, (float) purchaseInfo.localizedPrice},
-                {VoodooAnalyticsConstants.CURRENCY, purchaseInfo.isoCurrencyCode},
+                {VAC.LEVEL, parameters.level},
+                {VAC.GAME_COUNT, AnalyticsStorageHelper.GetGameCount()},
+                {VAC.HIGHEST_SCORE, AnalyticsStorageHelper.GetGameHighestScore()},
+                {VAC.GAME_ROUND_ID, AnalyticsStorageHelper.CreateRoundId()},
+                {VAC.ORDINAL, parameters.ordinal},
+                {VAC.LOOP, parameters.loop},
+                {VAC.LEVEL_MOVES, parameters.levelMoves},
+                {VAC.ADDITIONAL_MOVES_GRANTED, parameters.additionalMovesGranted},
             };
-            VoodooAnalyticsManager.TrackEvent(EventName.iap, data);
-        }*/
-
-        //private static void OnTrackPurchaseVerificationEvent(PurchaseAnalyticsInfo purchaseInfo, bool validated)
-        //{
-        //    var data = new Dictionary<string, object> {
-        //        {VoodooAnalyticsConstants.IAP_ID, purchaseInfo.productId},
-        //        {VoodooAnalyticsConstants.PRICE, (float) purchaseInfo.localizedPrice},
-        //        {VoodooAnalyticsConstants.CURRENCY, purchaseInfo.isoCurrencyCode},
-        //        {VoodooAnalyticsConstants.VALIDATED, validated}
-        //    };
-        //    VoodooAnalyticsManager.TrackEvent(EventName.iap, data);
-        //}
-
-        private static void OnGameStarted(string level, Dictionary<string, object> eventProperties)
-        {
-            var data = new Dictionary<string, object> {
-                {VoodooAnalyticsConstants.LEVEL, level},
-                {VoodooAnalyticsConstants.GAME_COUNT, AnalyticsStorageHelper.GetGameCount()},
-                {VoodooAnalyticsConstants.HIGHEST_SCORE, AnalyticsStorageHelper.GetGameHighestScore()}
-            };
-            VoodooAnalyticsManager.TrackEvent(EventName.game_start, data, null, eventProperties);
+            
+            VoodooAnalyticsWrapper.TrackEvent(EventName.game_start, data, null, parameters.eventProperties);
         }
 
-        private static void OnGameFinished(bool levelComplete, float score, string level, Dictionary<string, object> eventProperties)
+        private static void OnGameFinished(GameFinishedParameters parameters)
         {
             var data = new Dictionary<string, object> {
-                {VoodooAnalyticsConstants.LEVEL, level},
-                {VoodooAnalyticsConstants.GAME_COUNT, AnalyticsStorageHelper.GetGameCount()},
-                {VoodooAnalyticsConstants.STATUS, levelComplete},
-                {VoodooAnalyticsConstants.SCORE, score}
+                {VAC.LEVEL, parameters.level},
+                {VAC.GAME_COUNT, AnalyticsStorageHelper.GetGameCount()},
+                {VAC.GAME_LENGTH, parameters.gameDuration},
+                {VAC.STATUS, parameters.status},
+                {VAC.SCORE, parameters.score},
+                {VAC.SOFT_CURRENCY_USED, parameters.softCurrencyUsed},
+                {VAC.HARD_CURRENCY_USED, parameters.hardCurrencyUsed},
+                {VAC.EGPS_USED, parameters.egpsUsed},
+                {VAC.EGPS_RV_USED, parameters.egpsRvUsed},
             };
-            VoodooAnalyticsManager.TrackEvent(EventName.game_finish, data, null, eventProperties);
+
+            AnalyticsUtil.AddParameterEnum(ref data, VAC.GAME_END_REASON, parameters.gameEndReason, "other");
+
+            AnalyticsUtil.AddParameterString(ref data, VAC.LEVEL_DEFINITION_ID, parameters.levelDefinitionID);
+
+            AnalyticsUtil.AddParameterNullable(ref data, VAC.NB_STARS, parameters.nbStars);
+            AnalyticsUtil.AddParameterNullable(ref data, VAC.MOVES_USED, parameters.movesUsed);
+            AnalyticsUtil.AddParameterNullable(ref data, VAC.MOVES_LEFT, parameters.movesLeft);
+            AnalyticsUtil.AddParameterNullable(ref data, VAC.OBJECTIVES_LEFT, parameters.objectivesLeft);
+
+            VoodooAnalyticsWrapper.TrackEvent(EventName.game_finish, data, null, parameters.eventProperties,
+                parameters.eventContextProperties);
         }
 
-        private static void TrackCustomEvent(string eventName,
+    #endregion
+
+    #region Custom Event
+    
+        private static void  TrackCustomEvent(string eventName,
                                              Dictionary<string, object> customVariables,
                                              string eventType,
                                              List<TinySauce.AnalyticsProvider> analyticsProviders)
         {
             if (analyticsProviders.Contains(TinySauce.AnalyticsProvider.VoodooAnalytics)) {
-                VoodooAnalyticsManager.TrackCustomEvent(eventName, customVariables, eventType);
+                VoodooAnalyticsWrapper.TrackCustomEvent(eventName, customVariables, eventType);
             }
         }
+
+    #endregion
+
+    #region Performance Event
+
+        private static void TrackPerformanceMetrics(PerformanceMetricsAnalyticsInfo performanceMetrics)
+        {
+            var data = new Dictionary<string, object> {
+                {VAC.BATTERY_LEVEL, performanceMetrics.GetBatteryLevelAsString()},
+                {VAC.MIN + VAC.SEPARATOR_SYMBOL + VAC.FPS, (int) performanceMetrics.Fps.Min},
+                {VAC.MAX + VAC.SEPARATOR_SYMBOL + VAC.FPS, (int) performanceMetrics.Fps.Max},
+                {VAC.AVERAGE + VAC.SEPARATOR_SYMBOL + VAC.FPS, (int) performanceMetrics.Fps.Average},
+                {VAC.MIN + VAC.SEPARATOR_SYMBOL + VAC.MEMORY_USAGE, ConvertUtils.ByteToMegaByte(performanceMetrics.MemoryUsage.Min)},
+                {VAC.MAX + VAC.SEPARATOR_SYMBOL + VAC.MEMORY_USAGE, ConvertUtils.ByteToMegaByte(performanceMetrics.MemoryUsage.Max)},
+                {VAC.AVERAGE + VAC.SEPARATOR_SYMBOL + VAC.MEMORY_USAGE, ConvertUtils.ByteToMegaByte(performanceMetrics.MemoryUsage.Average)},
+                {VAC.AVERAGE + VAC.SEPARATOR_SYMBOL + VAC.MEMORY_USAGE_PERCENTAGE, performanceMetrics.AverageMemoryUsagePercentage},
+                {VAC.BAD_FRAMES, performanceMetrics.BadFrames},
+                {VAC.TERRIBLE_FRAMES, performanceMetrics.TerribleFrames}
+            };
+
+            VoodooAnalyticsWrapper.TrackEvent(EventName.performance_metrics, data);
+        }
+
+        #endregion
+
+    #region Interstitial Events
+
+        private static void OnInterstitialShowEvent(AdShownEventAnalyticsInfo adAnalyticsInfo)
+        {
+            var data = new Dictionary<string, object> {
+                {VAC.INTERSTITIAL_TYPE, adAnalyticsInfo.AdTag},
+                {VAC.GAME_COUNT, adAnalyticsInfo.GameCount},
+                {VAC.AD_COUNT, adAnalyticsInfo.AdCount},
+                {VAC.NETWORK_NAME, adAnalyticsInfo.AdNetworkName},
+                {VAC.AD_LOADING_TIME, adAnalyticsInfo.AdLoadingTime}
+            };
+            VoodooAnalyticsWrapper.TrackEvent(EventName.fs_shown, data);
+        }
+        
+        private static void OnInterstitialClickedEvent(AdClickEventAnalyticsInfo adAnalyticsInfo)
+        {
+            var data = new Dictionary<string, object> {
+                {VAC.INTERSTITIAL_TYPE, adAnalyticsInfo.AdTag},
+                {VAC.GAME_COUNT, adAnalyticsInfo.GameCount},
+                {VAC.AD_COUNT, adAnalyticsInfo.AdCount},
+                {VAC.NETWORK_NAME, adAnalyticsInfo.AdNetworkName},
+                {VAC.AD_LOADING_TIME, adAnalyticsInfo.AdLoadingTime}
+            };
+            VoodooAnalyticsWrapper.TrackEvent(EventName.fs_click, data);
+        }
+
+    #endregion   
+    
+    #region Rewarded Events
+
+        private static void OnRewardedShowEvent(AdShownEventAnalyticsInfo adAnalyticsInfo)
+        {
+            var data = new Dictionary<string, object> {
+                {VAC.REWARDED_TYPE, adAnalyticsInfo.AdTag},
+                {VAC.GAME_COUNT, adAnalyticsInfo.GameCount},
+                {VAC.AD_COUNT, adAnalyticsInfo.AdCount},
+                {VAC.NETWORK_NAME, adAnalyticsInfo.AdNetworkName},
+                {VAC.AD_LOADING_TIME, adAnalyticsInfo.AdLoadingTime}
+            };
+            VoodooAnalyticsWrapper.TrackEvent(EventName.rv_shown, data);
+        }
+        
+        private static void OnRewardedClickedEvent(AdClickEventAnalyticsInfo adAnalyticsInfo)
+        {
+            var data = new Dictionary<string, object> {
+                {VAC.REWARDED_TYPE, adAnalyticsInfo.AdTag},
+                {VAC.GAME_COUNT, adAnalyticsInfo.GameCount},
+                {VAC.AD_COUNT, adAnalyticsInfo.AdCount},
+                {VAC.NETWORK_NAME, adAnalyticsInfo.AdNetworkName},
+                {VAC.AD_LOADING_TIME, adAnalyticsInfo.AdLoadingTime}
+            };
+            VoodooAnalyticsWrapper.TrackEvent(EventName.rv_click, data);
+        }
+
+    #endregion
+
+        
     }
 }

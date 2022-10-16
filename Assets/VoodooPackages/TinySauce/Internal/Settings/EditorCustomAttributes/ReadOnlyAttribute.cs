@@ -1,3 +1,8 @@
 ﻿using UnityEngine;
 
-public class ReadOnlyAttribute : PropertyAttribute { }
+namespace Voodoo.Sauce.Internal
+{
+    public class ReadOnlyAttribute : PropertyAttribute
+    {
+    }
+}

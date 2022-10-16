@@ -1,32 +1,31 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Voodoo.Sauce.Internal;
 
 namespace com.adjust.sdk
 {
     public class Adjust : MonoBehaviour
     {
-        private const string errorMsgEditor = "[Adjust]: SDK can not be used in Editor.";
+        private const string errorMsgEditor= "[Adjust]: SDK can not be used in Editor.";
         private const string errorMsgStart = "[Adjust]: SDK not started. Start it manually using the 'start' method.";
         private const string errorMsgPlatform = "[Adjust]: SDK can only be used in Android, iOS, Windows Phone 8.1, Windows Store or Universal Windows apps.";
 
         [HideInInspector]
-        public bool startManually = false;
+        public bool startManually= false;
 
         [HideInInspector]
-        public bool eventBuffering = false;
+        public bool eventBuffering= false;
 
         [HideInInspector]
-        public bool sendInBackground = false;
+        public bool sendInBackground= false;
 
         [HideInInspector]
-        public bool launchDeferredDeeplink = true;
+        public bool launchDeferredDeeplink= true;
         [HideInInspector]
-        public string appToken = "{Your App Token}";
+        public string appToken= "{Your App Token}";
 
-        public AdjustLogLevel logLevel = AdjustLogLevel.Info;
-        public AdjustEnvironment environment = AdjustEnvironment.Production;
+        public AdjustLogLevel logLevel= AdjustLogLevel.Info;
+        public AdjustEnvironment environment= AdjustEnvironment.Production;
 
 #if UNITY_IOS
         // Delegate references for iOS callback triggering
@@ -37,12 +36,12 @@ namespace com.adjust.sdk
         private static Action<AdjustSessionSuccess> sessionSuccessDelegate = null;
         private static Action<AdjustSessionFailure> sessionFailureDelegate = null;
         private static Action<AdjustAttribution> attributionChangedDelegate = null;
+        private static Action<int> conversionValueUpdatedDelegate = null;
 #endif
 
-        void Awake()
+        public void InitAdjust()
         {
             appToken = TinySauce.getToken();
-            
 
             if(appToken == "")
             {
@@ -50,6 +49,7 @@ namespace com.adjust.sdk
                 Debug.Break();
                 return;
             }
+            
             if (IsEditor()) 
             {
                 return;
@@ -120,6 +120,7 @@ namespace com.adjust.sdk
                 Adjust.sessionFailureDelegate = adjustConfig.getSessionFailureDelegate();
                 Adjust.deferredDeeplinkDelegate = adjustConfig.getDeferredDeeplinkDelegate();
                 Adjust.attributionChangedDelegate = adjustConfig.getAttributionChangedDelegate();
+                Adjust.conversionValueUpdatedDelegate = adjustConfig.getConversionValueUpdatedDelegate();
                 AdjustiOS.Start(adjustConfig);
 #elif UNITY_ANDROID
                 AdjustAndroid.Start(adjustConfig);
@@ -417,6 +418,24 @@ namespace com.adjust.sdk
             AdjustiOS.TrackAdRevenue(source, payload);
 #elif UNITY_ANDROID
             AdjustAndroid.TrackAdRevenue(source, payload);
+#elif (UNITY_WSA || UNITY_WP8)
+            Debug.Log("[Adjust]: Ad revenue tracking is only supported for Android and iOS platforms.");
+#else
+            Debug.Log(errorMsgPlatform);
+#endif
+        }
+
+        public static void trackAdRevenue(AdjustAdRevenue adRevenue)
+        {
+            if (IsEditor()) 
+            {
+                return;
+            }
+
+#if UNITY_IOS
+            AdjustiOS.TrackAdRevenue(adRevenue);
+#elif UNITY_ANDROID
+            AdjustAndroid.TrackAdRevenue(adRevenue);
 #elif (UNITY_WSA || UNITY_WP8)
             Debug.Log("[Adjust]: Ad revenue tracking is only supported for Android and iOS platforms.");
 #else
@@ -817,6 +836,29 @@ namespace com.adjust.sdk
             }
 
             Adjust.deferredDeeplinkDelegate(deeplinkURL);
+        }
+
+        public void GetNativeConversionValueUpdated(string conversionValue)
+        {
+            if (IsEditor()) 
+            {
+                return;
+            }
+
+            if (Adjust.conversionValueUpdatedDelegate == null)
+            {
+                Debug.Log("[Adjust]: Conversion value updated delegate was not set.");
+                return;
+            }
+
+            int cv = -1;
+            if (Int32.TryParse(conversionValue, out cv))
+            {
+                if (cv != -1)
+                {
+                    Adjust.conversionValueUpdatedDelegate(cv);
+                }
+            }
         }
 
         public void GetAuthorizationStatus(string authorizationStatus)

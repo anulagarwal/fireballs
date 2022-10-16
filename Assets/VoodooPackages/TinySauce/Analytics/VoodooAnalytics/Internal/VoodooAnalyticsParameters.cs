@@ -2,15 +2,18 @@ namespace Voodoo.Sauce.Internal.Analytics
 {
     public class VoodooAnalyticsParameters
     {
-        public readonly bool UseRemoteConfig;
-        public readonly bool UseVoodooAnalytics;
-        public readonly string EditorIdfa;
+        public bool UseVoodooTune { get;}
+        public bool UseVoodooAnalytics { get;}
+        public string LegacyABTestName { get; }
+        public string EditorIdfa { get;}
+        public string ProxyServer { get;}
 
-        public VoodooAnalyticsParameters(bool useRemoteConfig, bool useVoodooAnalytics, string editorIdfa)
+        public VoodooAnalyticsParameters(bool useVoodooTune, bool useVoodooAnalytics, string legacyAbTestName, string proxyServer = "")
         {
-            UseRemoteConfig = useRemoteConfig;
+            UseVoodooTune = useVoodooTune;
             UseVoodooAnalytics = useVoodooAnalytics;
-            EditorIdfa = editorIdfa;
+            LegacyABTestName = legacyAbTestName;
+            ProxyServer = proxyServer;
         }
     }
 }

@@ -4,7 +4,10 @@ namespace Voodoo.Analytics
     {
         app_install,
         app_open,
+        rs_config_status,
+        ab_test_assignment,
         fs_shown,
+        fs_trigger,
         fs_watched,
         fs_click,
         rv_shown,
@@ -19,6 +22,11 @@ namespace Voodoo.Analytics
         game_finish,
         noads_click,
         cp_impression,
-        cp_click
+        cp_click,
+        cp_response_status,
+        performance_metrics,
+        item_transaction,
+        funnel,
+        attribution_changed
     }
 }

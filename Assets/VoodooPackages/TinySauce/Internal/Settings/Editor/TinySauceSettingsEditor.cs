@@ -11,7 +11,7 @@ namespace Voodoo.Sauce.Internal.Editor
         private const string EditorPrefEditorIDFA = "EditorIDFA";
         private TinySauceSettings SauceSettings => target as TinySauceSettings;
 
-        [MenuItem("TinySauce/TinySauce Settings/Edit Settings")]
+        [MenuItem("TinySauce/TinySauce Settings/Edit Settings", false, 100)]
         private static void EditSettings()
         {
             Selection.activeObject = CreateTinySauceSettings();
@@ -26,7 +26,7 @@ namespace Voodoo.Sauce.Internal.Editor
                 if (!AssetDatabase.IsValidFolder("Assets/Resources"))
                     AssetDatabase.CreateFolder("Assets", "Resources");
 
-                if (!AssetDatabase.IsValidFolder("Assets/Resources/TinySauceSettings"))
+                if (!AssetDatabase.IsValidFolder("Assets/Resources/TinySauce"))
                     AssetDatabase.CreateFolder("Assets/Resources", "TinySauce");
                 //create TinySauceSettings file
                 AssetDatabase.CreateAsset(settings, "Assets/Resources/TinySauce/Settings.asset");
@@ -43,6 +43,7 @@ namespace Voodoo.Sauce.Internal.Editor
 
 #if UNITY_IOS || UNITY_ANDROID      
             if (GUILayout.Button(Environment.NewLine + "Check and Sync Settings" + Environment.NewLine)) {
+                TrimAllFields(SauceSettings);
                 CheckAndUpdateSdkSettings(SauceSettings);
             }
 #else
@@ -59,6 +60,21 @@ namespace Voodoo.Sauce.Internal.Editor
             SauceSettings.EditorIdfa = editorIdfa;
         }
 
+        private static void TrimAllFields(TinySauceSettings sauceSettings)
+        {
+            if (sauceSettings == null) return;
+            sauceSettings.gameAnalyticsAndroidGameKey = sauceSettings.gameAnalyticsAndroidGameKey.Trim();
+            sauceSettings.gameAnalyticsAndroidSecretKey = sauceSettings.gameAnalyticsAndroidSecretKey.Trim();
+            sauceSettings.gameAnalyticsIosGameKey = sauceSettings.gameAnalyticsIosGameKey.Trim();
+            sauceSettings.gameAnalyticsIosSecretKey = sauceSettings.gameAnalyticsIosSecretKey.Trim();
+            
+            sauceSettings.facebookAppId = sauceSettings.facebookAppId.Trim();
+            sauceSettings.facebookClientToken = sauceSettings.facebookClientToken.Trim();
+
+            sauceSettings.adjustAndroidToken = sauceSettings.adjustAndroidToken.Trim();
+            sauceSettings.adjustIOSToken = sauceSettings.adjustIOSToken.Trim();
+        }
+
         private static void CheckAndUpdateSdkSettings(TinySauceSettings sauceSettings)
         {
             Console.Clear();
@@ -67,9 +83,8 @@ namespace Voodoo.Sauce.Internal.Editor
             FacebookPreBuild.CheckAndUpdateFacebookSettings(sauceSettings);
             AdjustBuildPrebuild.CheckAndUpdateAdjustSettings(sauceSettings);       
             TinySauce.UpdateAdjustToken(sauceSettings);
-           
             
-
+            Debug.Log("ANDROID GA SECRET:" + sauceSettings.gameAnalyticsAndroidSecretKey);
         }
     }
 }

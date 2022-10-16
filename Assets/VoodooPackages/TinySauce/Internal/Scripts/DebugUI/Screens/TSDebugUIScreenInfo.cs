@@ -21,6 +21,7 @@ namespace Voodoo.Sauce.Internal
         [Space(4)]
         [SerializeField] private Text fbTitle;
         [SerializeField] private Text fbAppID;
+        [SerializeField] private Text fbClientToken;
         [Space(4)]
         [SerializeField] private Text adjustTitle;
         [SerializeField] private Text adjustIosToken;
@@ -55,6 +56,7 @@ namespace Voodoo.Sauce.Internal
 
             fbTitle.text = "Facebook - v. " + Facebook.Unity.FacebookSdkVersion.Build;
             fbAppID.text = TSSettings.facebookAppId;
+            fbClientToken.text = TSSettings.facebookClientToken;
 
             adjustTitle.text = (Adjust.getSdkVersion() == null || Adjust.getSdkVersion() == "") ? "Adjust" : "Adjust - v. " + Adjust.getSdkVersion().Split("@"[0])[1]; //get Adjust version and remove useless info before the "@"
             adjustIosToken.text = TSSettings.adjustIOSToken;

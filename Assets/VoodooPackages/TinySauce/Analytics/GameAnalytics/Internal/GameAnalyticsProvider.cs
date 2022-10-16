@@ -23,26 +23,34 @@ namespace Voodoo.Sauce.Internal.Analytics
         {
             AnalyticsManager.OnGameStartedEvent += OnGameStarted;
             AnalyticsManager.OnGameFinishedEvent += OnGameFinished;
-            //AnalyticsManager.OnTrackCustomValueEvent += TrackCustomEvent;
             AnalyticsManager.OnTrackCustomEvent += TrackCustomEvent;
+            AnalyticsManager.OnInterstitialShowEvent += OnInterstitialShowEvent;
+            AnalyticsManager.OnInterstitialClickedEvent += OnInterstitialClickedEvent;
+            AnalyticsManager.OnRewardedShowEvent += OnRewardedShowEvent;
+            AnalyticsManager.OnRewardedClickedEvent += OnRewardedClickedEvent;
         }
 
         private static void UnregisterEvents()
         {
             AnalyticsManager.OnGameStartedEvent -= OnGameStarted;
             AnalyticsManager.OnGameFinishedEvent -= OnGameFinished;
-            //AnalyticsManager.OnTrackCustomValueEvent -= TrackCustomEvent;
             AnalyticsManager.OnTrackCustomEvent -= TrackCustomEvent;
+            AnalyticsManager.OnInterstitialShowEvent -= OnInterstitialShowEvent;
+            AnalyticsManager.OnInterstitialClickedEvent -= OnInterstitialClickedEvent;
+            AnalyticsManager.OnRewardedShowEvent -= OnRewardedShowEvent;
+            AnalyticsManager.OnRewardedClickedEvent -= OnRewardedClickedEvent;
         }
         
-        private static void OnGameStarted(string level, Dictionary<string, object> eventProperties)
+        
+        
+        private static void OnGameStarted(GameStartedParameters parameters)
         {
-            GameAnalyticsWrapper.TrackProgressEvent(GAProgressionStatus.Start, level, null);
+            GameAnalyticsWrapper.TrackProgressEvent(GAProgressionStatus.Start, parameters.level, null);
         }
 
-        private static void OnGameFinished(bool levelComplete, float score, string levelNumber, Dictionary<string, object> eventProperties)
+        private static void OnGameFinished(GameFinishedParameters parameters)
         {
-            GameAnalyticsWrapper.TrackProgressEvent(levelComplete ? GAProgressionStatus.Complete : GAProgressionStatus.Fail, levelNumber, (int) score);
+            GameAnalyticsWrapper.TrackProgressEvent(parameters.status ? GAProgressionStatus.Complete : GAProgressionStatus.Fail, parameters.level, (int) parameters.score);
         }
 
         private static void TrackCustomEvent(string eventName,
@@ -56,6 +64,28 @@ namespace Voodoo.Sauce.Internal.Analytics
             }
         }
         
+        
+        
+        private static void OnInterstitialShowEvent(AdShownEventAnalyticsInfo adAnalyticsInfo)
+        {
+            GameAnalytics.NewAdEvent(GAAdAction.Show, GAAdType.Interstitial, adAnalyticsInfo.AdNetworkName, adAnalyticsInfo.adPlacement);
+        }
+
+        private static void OnInterstitialClickedEvent(AdClickEventAnalyticsInfo adAnalyticsInfo)
+        {
+            GameAnalytics.NewAdEvent(GAAdAction.Clicked, GAAdType.Interstitial, adAnalyticsInfo.AdNetworkName, adAnalyticsInfo.adPlacement);
+        }
+        
+        
+        private static void OnRewardedShowEvent(AdShownEventAnalyticsInfo adAnalyticsInfo)
+        {
+            GameAnalytics.NewAdEvent(GAAdAction.Show, GAAdType.RewardedVideo, adAnalyticsInfo.AdNetworkName, adAnalyticsInfo.adPlacement);
+        }
+
+        private static void OnRewardedClickedEvent(AdClickEventAnalyticsInfo adAnalyticsInfo)
+        {
+            GameAnalytics.NewAdEvent(GAAdAction.Clicked, GAAdType.RewardedVideo, adAnalyticsInfo.AdNetworkName, adAnalyticsInfo.adPlacement);
+        }
         
     }
 }

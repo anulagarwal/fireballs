@@ -21,12 +21,19 @@ namespace Voodoo.Sauce.Internal.Analytics.Editor
         {
 #if UNITY_ANDROID || UNITY_IOS
 
-      if (sauceSettings == null || string.IsNullOrEmpty(sauceSettings.facebookAppId))
+            if (sauceSettings == null || string.IsNullOrEmpty(sauceSettings.facebookAppId))
+            {
                 BuildErrorWindow.LogBuildError(BuildErrorConfig.ErrorID.SettingsNoFacebookAppID);
+            }
+            else if (string.IsNullOrEmpty(sauceSettings.facebookClientToken))
+            {
+                BuildErrorWindow.LogBuildError(BuildErrorConfig.ErrorID.NoFacebookClientToken);
+            }
             else
             {
                 FacebookSettings.AppIds = new List<string> {sauceSettings.facebookAppId};
                 FacebookSettings.AppLabels = new List<string> {Application.productName};
+                FacebookSettings.ClientTokens = new List<string> {sauceSettings.facebookClientToken};
                 EditorUtility.SetDirty(FacebookSettings.Instance);
             }      
 #endif

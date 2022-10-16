@@ -12,6 +12,9 @@ namespace Voodoo.Sauce.Internal.Analytics
         private const string HighestScorePrefKey = "VoodooSauce_HighScore";
         private const string FSShownCountPrefKey = "VoodooSauce_FSShownCount";
         private const string RVShownCountPrefKey = "VoodooSauce_RVShownCount";
+        
+        
+        private static string _currentRoundId;
 
         internal static int GetGameCount() => PlayerPrefs.GetInt(GameCountPrefKey, 0);
 
@@ -104,6 +107,12 @@ namespace Voodoo.Sauce.Internal.Analytics
             int adCount = GetRewardedVideoShownCount() + 1;
             PlayerPrefs.SetInt(RVShownCountPrefKey, adCount);
             return adCount;
+        }
+        
+        internal static string CreateRoundId()
+        {
+            _currentRoundId = Guid.NewGuid().ToString();
+            return _currentRoundId;
         }
     }
 }
